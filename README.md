@@ -34,11 +34,8 @@
  * - Filtering functionality is implemented in filters.js and filters.css
  * - Testing utilities are available in development mode by adding ?testing=true to the URL
  * 
- * Browser Compatibility:
- * - Chrome 88+
- * - Firefox 85+
- * - Safari 14+
- * - Edge 88+
+ * Browser Compatibility: Chrome, Edge are preferred. 
+ * 
  * 
  * Created for Galala University, 2025 By Hisham_Abdelaal
 
