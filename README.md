@@ -1,7 +1,7 @@
 # GU-PT-plan
 
-* This project creates an interactive hierarchical visualization of the Physical Therapy program
- * study plan at Galala University. It shows course prerequisites in a tree structure with smooth
+* This project creates an interactive hierarchical visualization of the Physical Therapy program study plan at Galala University. 
+* It shows course prerequisites in a tree structure with smooth
  * transitions and animations.
  * 
  * Features:
