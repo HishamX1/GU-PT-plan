@@ -37,7 +37,7 @@
  * Browser Compatibility: Chrome, Edge are preferred. 
  * 
  * 
- * Created for Galala University, 2025 By Hisham_Abdelaal
+ * Created for Galala University, 2025 developed By Hisham_Abdelaal
  * #H_X
 
 
