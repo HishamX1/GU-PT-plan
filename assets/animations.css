@@ -89,11 +89,6 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* ===== Progress Bar Animation ===== */
-@keyframes progressFill {
-    from { width: 0; }
-    to { width: var(--progress-width); }
-}
 
 .progress-bar div {
     animation: progressFill 1.2s var(--transition-function) forwards;
