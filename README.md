@@ -1,7 +1,8 @@
-# GU-PT-plan
-
-* This project creates an interactive hierarchical visualization of the Physical Therapy program study plan at Galala University. 
-* It shows course prerequisites in a tree structure with smooth
+/**
+ * README - Physical Therapy Program Study Plan Website
+ * 
+ * This project creates an interactive hierarchical visualization of the Physical Therapy program
+ * study plan at Galala University. It shows course prerequisites in a tree structure with smooth
  * transitions and animations.
  * 
  * Features:
@@ -34,11 +35,7 @@
  * - Filtering functionality is implemented in filters.js and filters.css
  * - Testing utilities are available in development mode by adding ?testing=true to the URL
  * 
- * Browser Compatibility: Chrome, Edge are preferred. 
- * 
- * 
- * Created for Galala University, 2025 developed By Hisham_Abdelaal
- * #H_X
+ * Browser Compatibility: Chrome, Edge
 
-
-
+ * Created for Galala University, 2025 Created By Hisham_Abdelaal
+ #H_X
