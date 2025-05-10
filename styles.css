@@ -1,0 +1,1047 @@
+/* Galala University Theme Colors */
+:root {
+    --gu-primary: #002147;      /* Oxford Blue - Primary University Color */
+    --gu-secondary: #8C1D40;    /* Burgundy - Secondary University Color */
+    --gu-accent: #FFD700;       /* Gold - Accent Color */
+    --gu-light: #F8F9FA;        /* Light Gray - Background Color */
+    --gu-dark: #191919;         /* Dark Gray - Text Color */
+    --gu-gray: #6c757d;         /* Medium Gray - Secondary Text Color */
+    --gu-border: #dee2e6;       /* Light Border Color */
+    --gu-success: #28a745;      /* Green - Success Color */
+    --gu-warning: #ffc107;      /* Amber - Warning Color */
+    --gu-danger: #dc3545;       /* Red - Danger Color */
+    --gu-info: #17a2b8;         /* Teal - Info Color */
+    
+    /* Gradients */
+    --gu-primary-gradient: linear-gradient(135deg, var(--gu-primary) 0%, #003a70 100%);
+    --gu-secondary-gradient: linear-gradient(135deg, var(--gu-secondary) 0%, #a52a2a 100%);
+    
+    /* Shadows */
+    --gu-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --gu-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --gu-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+    
+    /* Transitions */
+    --transition-speed-fast: 0.2s;
+    --transition-speed: 0.4s;
+    --transition-speed-slow: 0.6s;
+    --transition-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+    
+    /* Typography */
+    --gu-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --gu-font-size-sm: 0.875rem;
+    --gu-font-size: 1rem;
+    --gu-font-size-lg: 1.25rem;
+    --gu-font-size-xl: 1.5rem;
+    --gu-font-size-xxl: 2rem;
+    
+    /* Spacing */
+    --gu-spacing-xs: 0.25rem;
+    --gu-spacing-sm: 0.5rem;
+    --gu-spacing: 1rem;
+    --gu-spacing-md: 1.5rem;
+    --gu-spacing-lg: 2rem;
+    --gu-spacing-xl: 3rem;
+    
+    /* Border Radius */
+    --gu-border-radius-sm: 4px;
+    --gu-border-radius: 8px;
+    --gu-border-radius-lg: 12px;
+    --gu-border-radius-xl: 20px;
+    --gu-border-radius-circle: 50%;
+}
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--gu-font-family);
+}
+
+body {
+    background-color: #f5f5f7;
+    color: var(--gu-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--gu-primary);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+h1 {
+    font-size: var(--gu-font-size-xxl);
+}
+
+h2 {
+    font-size: var(--gu-font-size-xl);
+    margin-bottom: var(--gu-spacing);
+}
+
+h3 {
+    font-size: var(--gu-font-size-lg);
+    margin-bottom: var(--gu-spacing-sm);
+}
+
+p {
+    margin-bottom: var(--gu-spacing);
+}
+
+a {
+    color: var(--gu-primary);
+    text-decoration: none;
+    transition: color var(--transition-speed-fast) var(--transition-function);
+}
+
+a:hover {
+    color: var(--gu-secondary);
+}
+
+/* Header Styles */
+.gu-header {
+    background: var(--gu-primary-gradient);
+    color: white;
+    padding: var(--gu-spacing) var(--gu-spacing-lg);
+    box-shadow: var(--gu-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: var(--gu-spacing);
+}
+
+.gu-logo {
+    height: 50px;
+    transition: transform var(--transition-speed) var(--transition-function);
+}
+
+.gu-logo:hover {
+    transform: scale(1.05);
+}
+
+.gu-header h1 {
+    font-size: var(--gu-font-size-xl);
+    font-weight: 600;
+    margin: 0;
+    color: white;
+}
+
+.search-container {
+    flex: 0 0 300px;
+}
+
+.search-box {
+    display: flex;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: var(--gu-border-radius-xl);
+    padding: var(--gu-spacing-sm);
+    transition: all var(--transition-speed) var(--transition-function);
+}
+
+.search-box:focus-within {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 0 2px var(--gu-accent);
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: var(--gu-spacing-sm) var(--gu-spacing);
+    width: 100%;
+    outline: none;
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-box button {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0 var(--gu-spacing-sm);
+}
+
+/* Main Container */
+.gu-main-container {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--gu-spacing-md);
+    gap: var(--gu-spacing-md);
+}
+
+/* Sidebar */
+.sidebar {
+    flex: 0 0 280px;
+    background: white;
+    border-radius: var(--gu-border-radius-lg);
+    box-shadow: var(--gu-shadow);
+    padding: var(--gu-spacing-md);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+/* Original */
+@media (max-width: 1024px) {
+    .gu-main-container {
+      flex-direction: column;
+    }
+    
+    .sidebar {
+      flex: none;
+      width: 100%;
+      position: static;
+    }
+  }
+  
+  /* Replace with */
+  @media (max-width: 1024px) {
+    .gu-main-container {
+      flex-direction: column;
+      padding: var(--gu-spacing-sm);
+      gap: var(--gu-spacing);
+    }
+    
+    .sidebar {
+      flex: none;
+      width: 100%;
+      position: static;
+      padding: var(--gu-spacing);
+      border-radius: var(--gu-border-radius);
+    }
+    
+    .filter-group {
+      margin-bottom: var(--gu-spacing);
+    }
+  }
+
+.filter-section h3, 
+.navigation-history h3 {
+    color: var(--gu-primary);
+    margin-bottom: var(--gu-spacing);
+    font-size: var(--gu-font-size-lg);
+    border-bottom: 2px solid var(--gu-accent);
+    padding-bottom: var(--gu-spacing-sm);
+}
+
+.filter-group {
+    margin-bottom: var(--gu-spacing-md);
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: var(--gu-spacing-sm);
+    font-weight: 500;
+    color: var(--gu-gray);
+}
+
+.toggle-container {
+    display: flex;
+    gap: var(--gu-spacing-sm);
+}
+
+.filter-btn {
+    background: var(--gu-light);
+    border: 1px solid var(--gu-border);
+    border-radius: var(--gu-border-radius-xl);
+    padding: var(--gu-spacing-sm) var(--gu-spacing);
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-function);
+    flex: 1;
+    font-size: var(--gu-font-size-sm);
+}
+
+.filter-btn.active {
+    background: var(--gu-primary);
+    color: white;
+    border-color: var(--gu-primary);
+}
+
+select {
+    width: 100%;
+    padding: var(--gu-spacing-sm);
+    border: 1px solid var(--gu-border);
+    border-radius: var(--gu-border-radius-sm);
+    background-color: white;
+    outline: none;
+}
+
+.range-slider {
+    position: relative;
+    padding-top: var(--gu-spacing);
+    padding-bottom: var(--gu-spacing-md);
+}
+
+.slider {
+    width: 100%;
+    margin-bottom: var(--gu-spacing-sm);
+}
+
+.range-values {
+    text-align: center;
+    font-size: var(--gu-font-size-sm);
+    color: var(--gu-gray);
+}
+
+.navigation-history {
+    margin-top: var(--gu-spacing-lg);
+}
+
+#history-list {
+    list-style: none;
+}
+
+#history-list li {
+    padding: var(--gu-spacing-sm) 0;
+    border-bottom: 1px solid var(--gu-border);
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-function);
+    display: flex;
+    align-items: center;
+}
+
+#history-list li:hover {
+    color: var(--gu-secondary);
+}
+
+#history-list li:before {
+    content: '•';
+    margin-right: var(--gu-spacing-sm);
+    color: var(--gu-accent);
+}
+
+/* Content Area */
+.content-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.breadcrumb {
+    background: white;
+    border-radius: var(--gu-border-radius);
+    padding: var(--gu-spacing-sm) var(--gu-spacing);
+    margin-bottom: var(--gu-spacing);
+    box-shadow: var(--gu-shadow-sm);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gu-spacing-sm);
+}
+
+.breadcrumb-item {
+    color: var(--gu-gray);
+    cursor: pointer;
+}
+
+.breadcrumb-item:not(:last-child):after {
+    content: '/';
+    margin-left: var(--gu-spacing-sm);
+    color: var(--gu-border);
+}
+
+.breadcrumb-item.active {
+    color: var(--gu-primary);
+    font-weight: 500;
+}
+
+.visualization-container {
+    background: white;
+    border-radius: var(--gu-border-radius-lg);
+    box-shadow: var(--gu-shadow);
+    padding: var(--gu-spacing-lg);
+    min-height: 70vh;
+    position: relative;
+    margin-left: -300px;
+  width: calc(100% + 220px);
+}
+
+
+/* Semester Grid Styles */
+.semester-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--gu-spacing-md);
+    animation: fadeIn 0.5s var(--transition-function);
+}
+
+.semester-card {
+    background: white;
+    border: 3px solid var(--gu-secondary);
+    border-radius: var(--gu-border-radius-lg);
+    padding: var(--gu-spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-function);
+    box-shadow: var(--gu-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.semester-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gu-primary);
+    box-shadow: var(--gu-shadow-lg);
+}
+
+.semester-card h3 {
+    color: var(--gu-primary);
+    margin: 0 0 var(--gu-spacing) 0;
+    position: relative;
+}
+
+.semester-card h3:after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--gu-accent);
+    transition: width var(--transition-speed) var(--transition-function);
+}
+
+.semester-card:hover h3:after {
+    width: 100px;
+}
+
+.semester-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--gu-spacing);
+}
+
+.progress-bar {
+    height: 8px;
+    background: var(--gu-light);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: var(--gu-spacing-sm);
+    width: 100%;
+}
+
+.progress-bar div {
+    height: 100%;
+    background: var(--gu-accent);
+    transition: width 0.6s var(--transition-function);
+}
+.progress-bar div {
+    animation: progressFill 1.2s var(--transition-function) forwards !important;
+    transform-origin: left !important;
+}
+
+@keyframes progressFill {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+.course-codes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gu-spacing-sm);
+    margin-top: var(--gu-spacing);
+}
+
+.course-code-tag {
+    background: var(--gu-light);
+    padding: var(--gu-spacing-xs) var(--gu-spacing-sm);
+    border-radius: var(--gu-border-radius-xl);
+    font-size: var(--gu-font-size-sm);
+    color: var(--gu-primary);
+    border: 1px solid var(--gu-primary);
+    transition: all var(--transition-speed) var(--transition-function);
+}
+
+.semester-card:hover .course-code-tag {
+    background: rgba(0, 33, 71, 0.1);
+}
+
+.more-courses {
+    color: var(--gu-secondary);
+    font-weight: 500;
+    margin-top: var(--gu-spacing-sm);
+}
+
+/* Course List Styles */
+.course-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--gu-spacing-md);
+    animation: fadeIn 0.5s var(--transition-function);
+}
+
+.course-card {
+    background: white;
+    border: 2px solid var(--gu-primary);
+    border-radius: var(--gu-border-radius-lg);
+    padding: var(--gu-spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-function);
+    box-shadow: var(--gu-shadow);
+    position: relative;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--gu-shadow-lg);
+    border-color: var(--gu-accent);
+}
+
+.course-code {
+    display: inline-block;
+    background: var(--gu-primary);
+    color: white;
+    padding: var(--gu-spacing-xs) var(--gu-spacing-sm);
+    border-radius: var(--gu-border-radius-xl);
+    font-size: var(--gu-font-size-sm);
+    margin-bottom: var(--gu-spacing-sm);
+}
+
+.course-card h4 {
+    margin: var(--gu-spacing-sm) 0;
+    color: var(--gu-dark);
+    transition: color var(--transition-speed) var(--transition-function);
+}
+
+.course-card:hover h4 {
+    color: var(--gu-secondary);
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--gu-spacing);
+    font-size: var(--gu-font-size-sm);
+    color: var(--gu-gray);
+}
+
+/* Hierarchy View Styles */
+.hierarchy-view {
+    position: relative;
+    min-height: 70vh;
+    margin: var(--gu-spacing) 0;
+    padding: var(--gu-spacing);
+    transition: all 0.5s var(--transition-function);
+}
+
+.tree-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 600px;
+}
+
+.core-node {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    transition: all 0.6s var(--transition-function);
+}
+
+.tree-node {
+    background: white;
+    border: 3px solid var(--gu-primary);
+    border-radius: var(--gu-border-radius-lg);
+    padding: var(--gu-spacing-md);
+    width: 280px;
+    text-align: center;
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    animation: nodeEntrance 0.6s var(--transition-function) forwards;
+    transition: all var(--transition-speed) var(--transition-function);
+    box-shadow: var(--gu-shadow);
+    z-index: 5;
+}
+
+.tree-node:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--gu-shadow-lg);
+    border-color: var(--gu-accent);
+    z-index: 20;
+}
+
+.tree-node.prerequisite-node {
+    border-color: var(--gu-secondary);
+}
+
+.tree-node.required-node {
+    border-color: var(--gu-success);
+}
+
+.tree-node.core-node {
+    border-color: var(--gu-accent);
+    border-width: 4px;
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3), var(--gu-shadow-lg);
+}
+
+/* Node Connection Lines */
+.node-connection {
+    position: absolute;
+    background: var(--gu-primary);
+    transform-origin: top left;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s var(--transition-function);
+}
+
+.node-connection.visible {
+    opacity: 1;
+}
+
+.node-connection.prerequisite-connection {
+    background: var(--gu-secondary);
+}
+
+.node-connection.required-connection {
+    background: var(--gu-success);
+}
+
+/* Back Button */
+.back-btn {
+    background: var(--gu-primary);
+    color: white;
+    border: none;
+    border-radius: var(--gu-border-radius-xl);
+    padding: var(--gu-spacing-sm) var(--gu-spacing-md);
+    cursor: pointer;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: var(--gu-spacing);
+    transition: all var(--transition-speed) var(--transition-function);
+    box-shadow: var(--gu-shadow-sm);
+}
+
+.back-btn:hover {
+    background: var(--gu-secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--gu-shadow);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity var(--transition-speed) var(--transition-function);
+}
+
+.modal.show {
+    display: flex;
+    animation: fadeIn 0.3s forwards;
+}
+
+.modal-content {
+    background: white;
+    border-radius: var(--gu-border-radius-lg);
+    padding: var(--gu-spacing-lg);
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: var(--gu-shadow-lg);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp 0.4s 0.1s var(--transition-function) forwards;
+}
+
+.close-modal {
+    position: absolute;
+    top: var(--gu-spacing);
+    right: var(--gu-spacing);
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gu-gray);
+    transition: color var(--transition-speed) var(--transition-function);
+}
+
+.close-modal:hover {
+    color: var(--gu-secondary);
+}
+
+/* Course Details in Modal */
+.course-details {
+    padding: var(--gu-spacing-sm);
+}
+
+.course-header {
+    margin-bottom: var(--gu-spacing);
+    border-bottom: 2px solid var(--gu-accent);
+    padding-bottom: var(--gu-spacing-sm);
+}
+
+.course-info {
+    margin-bottom: var(--gu-spacing);
+}
+
+.info-item {
+    margin-bottom: var(--gu-spacing-sm);
+}
+
+.info-item .label {
+    font-weight: 500;
+    color: var(--gu-primary);
+    display: block;
+    margin-bottom: var(--gu-spacing-xs);
+}
+
+.prereq-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gu-spacing-xs);
+    margin-top: var(--gu-spacing-xs);
+}
+
+.prereq-tag {
+    background: var(--gu-light);
+    padding: var(--gu-spacing-xs) var(--gu-spacing-sm);
+    border-radius: var(--gu-border-radius-xl);
+    font-size: var(--gu-font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-speed-fast) var(--transition-function);
+}
+
+.prereq-tag:hover {
+    background: rgba(0, 33, 71, 0.1);
+    transform: translateY(-2px);
+}
+
+.none-text {
+    color: var(--gu-gray);
+    font-style: italic;
+}
+
+.course-actions {
+    margin-top: var(--gu-spacing);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.view-hierarchy-btn {
+    background: var(--gu-primary);
+    color: white;
+    border: none;
+    border-radius: var(--gu-border-radius-xl);
+    padding: var(--gu-spacing-sm) var(--gu-spacing);
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-function);
+}
+
+.view-hierarchy-btn:hover {
+    background: var(--gu-secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--gu-shadow);
+}
+
+/* Footer Styles */
+.gu-footer {
+    background: var(--gu-primary-gradient);
+    color: white;
+    padding: var(--gu-spacing-lg);
+    margin-top: var(--gu-spacing-lg);
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-section h3 {
+    color: var(--gu-accent);
+    margin-bottom: var(--gu-spacing-sm);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .gu-main-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        flex: none;
+        width: 100%;
+        position: static;
+    }
+    
+    .filter-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--gu-spacing);
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: var(--gu-spacing);
+    }
+    
+    .search-container {
+        width: 100%;
+        flex: none;
+    }
+    
+    .filter-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .semester-grid,
+    .course-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--gu-spacing);
+    }
+}
+
+/* Loading Animation */
+.loading-spinner {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(0, 33, 71, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--gu-primary);
+    animation: spin 1s ease-in-out infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: var(--gu-spacing-sm) var(--gu-spacing);
+    border-radius: var(--gu-border-radius-sm);
+    font-size: var(--gu-font-size-sm);
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-speed) var(--transition-function);
+    max-width: 200px;
+    text-align: center;
+}
+
+.tooltip.show {
+    opacity: 1;
+}
+
+/* Animation Keyframes */
+@keyframes nodeEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    70% {
+        opacity: 1;
+        transform: translateY(-5px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@media (max-width: 480px) {
+    .semester-grid,
+    .course-list {
+      grid-template-columns: 1fr;
+    }
+    
+    .semester-card,
+    .course-card {
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+  @media (max-width: 768px) {
+    .tree-node {
+      width: 240px;
+      padding: var(--gu-spacing);
+      font-size: var(--gu-font-size-sm);
+    }
+    
+    .core-node {
+      top: 30% !important;
+    }
+    
+    .node-connection {
+      display: none;
+    }
+  }
+  .visualization-container {
+    margin-left: -50px;
+    width: calc(100% + 60px);
+  }
+  
+  .centered-content {
+    padding-left: 50px;
+  }
+ 
+
+
+/* Galala University Branding Elements */
+.gu-brand-accent {
+    color: var(--gu-accent);
+}
+
+.gu-brand-primary {
+    color: var(--gu-primary);
+}
+
+.gu-brand-secondary {
+    color: var(--gu-secondary);
+}
+
+.gu-brand-badge {
+    display: inline-block;
+    background: var(--gu-primary);
+    color: white;
+    padding: var(--gu-spacing-xs) var(--gu-spacing-sm);
+    border-radius: var(--gu-border-radius-xl);
+    font-size: var(--gu-font-size-sm);
+    font-weight: 500;
+}
+
+.gu-brand-badge.secondary {
+    background: var(--gu-secondary);
+}
+
+.gu-brand-badge.accent {
+    background: var(--gu-accent);
+    color: var(--gu-primary);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gu-light);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gu-primary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gu-secondary);
+}
+
+
+
+/* Enhanced Path Highlighting */
+.tree-node.highlight-prereq-path {
+    border-color: var(--gu-warning) !important;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5), var(--gu-shadow-lg) !important;
+    opacity: 1 !important;
+    transform: scale(1.03) !important;
+}
+
+.tree-node.highlight-successor-path {
+    border-color: var(--gu-info) !important;
+    box-shadow: 0 0 15px rgba(23, 162, 184, 0.5), var(--gu-shadow-lg) !important;
+    opacity: 1 !important;
+    transform: scale(1.03) !important;
+}
+
+.tree-node:not(.highlight-prereq-path):not(.highlight-successor-path).dimmed-for-highlight {
+    opacity: 0.5 !important;
+    transform: scale(0.95) !important;
+}
+
+.node-connection.highlight-prereq-path {
+    background: var(--gu-warning) !important;
+    height: 3px !important;
+    opacity: 1 !important;
+    z-index: 25 !important;
+}
+
+.node-connection.highlight-successor-path {
+    background: var(--gu-info) !important;
+    height: 3px !important;
+    opacity: 1 !important;
+    z-index: 25 !important;
+}
+
+.node-connection:not(.highlight-prereq-path):not(.highlight-successor-path).dimmed-for-highlight {
+    opacity: 0.2 !important;
+}
+/* End of Enhanced Path Highlighting */
+
+
+
+
+/* Focus Mode Styling */
+.tree-node.focus-mode-dimmed {
+    opacity: 0.3 !important;
+    filter: grayscale(80%);
+    transform: scale(0.9) !important;
+}
+
+.node-connection.focus-mode-dimmed {
+    opacity: 0.1 !important;
+}
+/* End of Focus Mode Styling */
+
