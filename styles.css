@@ -369,7 +369,10 @@ select {
     padding: var(--gu-spacing-lg);
     min-height: 70vh;
     position: relative;
+    margin-left: -300px;
+  width: calc(100% + 220px);
 }
+
 
 /* Semester Grid Styles */
 .semester-grid {
@@ -438,6 +441,15 @@ select {
     height: 100%;
     background: var(--gu-accent);
     transition: width 0.6s var(--transition-function);
+}
+.progress-bar div {
+    animation: progressFill 1.2s var(--transition-function) forwards !important;
+    transform-origin: left !important;
+}
+
+@keyframes progressFill {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
 }
 
 .course-codes {
@@ -916,6 +928,16 @@ select {
       display: none;
     }
   }
+  .visualization-container {
+    margin-left: -50px;
+    width: calc(100% + 60px);
+  }
+  
+  .centered-content {
+    padding-left: 50px;
+  }
+ 
+
 
 /* Galala University Branding Elements */
 .gu-brand-accent {
@@ -966,3 +988,60 @@ select {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--gu-secondary);
 }
+
+
+
+/* Enhanced Path Highlighting */
+.tree-node.highlight-prereq-path {
+    border-color: var(--gu-warning) !important;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5), var(--gu-shadow-lg) !important;
+    opacity: 1 !important;
+    transform: scale(1.03) !important;
+}
+
+.tree-node.highlight-successor-path {
+    border-color: var(--gu-info) !important;
+    box-shadow: 0 0 15px rgba(23, 162, 184, 0.5), var(--gu-shadow-lg) !important;
+    opacity: 1 !important;
+    transform: scale(1.03) !important;
+}
+
+.tree-node:not(.highlight-prereq-path):not(.highlight-successor-path).dimmed-for-highlight {
+    opacity: 0.5 !important;
+    transform: scale(0.95) !important;
+}
+
+.node-connection.highlight-prereq-path {
+    background: var(--gu-warning) !important;
+    height: 3px !important;
+    opacity: 1 !important;
+    z-index: 25 !important;
+}
+
+.node-connection.highlight-successor-path {
+    background: var(--gu-info) !important;
+    height: 3px !important;
+    opacity: 1 !important;
+    z-index: 25 !important;
+}
+
+.node-connection:not(.highlight-prereq-path):not(.highlight-successor-path).dimmed-for-highlight {
+    opacity: 0.2 !important;
+}
+/* End of Enhanced Path Highlighting */
+
+
+
+
+/* Focus Mode Styling */
+.tree-node.focus-mode-dimmed {
+    opacity: 0.3 !important;
+    filter: grayscale(80%);
+    transform: scale(0.9) !important;
+}
+
+.node-connection.focus-mode-dimmed {
+    opacity: 0.1 !important;
+}
+/* End of Focus Mode Styling */
+

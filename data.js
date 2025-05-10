@@ -598,3 +598,8 @@ function getRecentPrerequisites(course) {
 
 // Process relationships when the data is loaded
 processCourseRelationships();
+courses.forEach(course => {
+    // Add this property
+    course.tags = []; // Initialize tags array
+    course.totalSemesters = Math.max(...courses.map(c => c.semester));
+});

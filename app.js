@@ -41,6 +41,63 @@ document.addEventListener('DOMContentLoaded', () => {
         modalContent: document.getElementById('modal-course-content')
     };
 
+// Personalized Progress Tracking Functions
+function getCourseStatus(courseCode) {
+    const statuses = JSON.parse(localStorage.getItem('courseStatuses')) || {};
+    return statuses[courseCode] || 'none';
+}
+
+function setCourseStatus(courseCode, status) {
+    const statuses = JSON.parse(localStorage.getItem('courseStatuses')) || {};
+    if (status === 'none' || !status) {
+        delete statuses[courseCode];
+    } else {
+        statuses[courseCode] = status;
+    }
+    localStorage.setItem('courseStatuses', JSON.stringify(statuses));
+
+    if (window.ptFilters && typeof window.ptFilters.applyFilters === 'function') {
+        window.ptFilters.applyFilters();
+    } else {
+        const navStack = state.navigationStack;
+        if (navStack && navStack.length > 0) {
+            renderPreviousView(); // Re-renders the current view based on stack
+        } else {
+            renderSemesters(); // Default to home if stack is empty
+        }
+    }
+}
+
+function createStatusDropdownHTML(courseCode) {
+    const currentStatus = getCourseStatus(courseCode);
+    const statuses = [
+        { value: 'none', label: 'Status...' },
+        { value: 'planned', label: 'Planned' },
+        { value: 'in-progress', label: 'In Progress' },
+        { value: 'completed', label: 'Completed' }
+    ];
+    let optionsHTML = statuses.map(s =>
+        `<option value="${s.value}" ${currentStatus === s.value ? 'selected' : ''}>${s.label}</option>`
+    ).join('');
+
+    return `
+        <div class="course-status-selector">
+            <select data-course-code="${courseCode}" onchange="handleStatusChange(event, this)">
+                ${optionsHTML}
+            </select>
+        </div>
+    `;
+}
+
+window.handleStatusChange = function(event, selectElement) {
+    event.stopPropagation(); // Prevent card click when changing status
+    const courseCode = selectElement.dataset.courseCode;
+    const newStatus = selectElement.value;
+    setCourseStatus(courseCode, newStatus);
+};
+// End of Personalized Progress Tracking Functions
+
+
     /**
      * Initialize the application
      */
@@ -54,7 +111,32 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Set up all event listeners
      */
-    function setupEventListeners() {
+    
+    /**
+     * Handle clicks in the main visualization container
+     */
+    function handleContainerClick(event) {
+        const target = event.target;
+        // Go back in navigation
+        if (target.matches('.back-btn')) {
+            handleNavigationBack();
+            return;
+        }
+        // Semester card clicked
+        const semesterCard = target.closest('.semester-card');
+        if (semesterCard) {
+            handleSemesterNavigation(semesterCard);
+            return;
+        }
+        // Course card clicked
+        const courseCard = target.closest('.course-card');
+        if (courseCard) {
+            handleCourseNavigation(courseCard);
+            return;
+        }
+    }
+
+function setupEventListeners() {
         // Main container click delegation
         elements.visualizationContainer.addEventListener('click', handleContainerClick);
         
@@ -169,7 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Perform search based on the search input
-     */
     function performSearch() {
         const query = elements.courseSearch.value.trim().toLowerCase();
         if (!query) return;
@@ -179,35 +260,26 @@ document.addEventListener('DOMContentLoaded', () => {
             course.name.toLowerCase().includes(query)
         );
         
-        if (state.searchResults.length > 0) {
-            renderSearchResults();
-            addToNavigationStack({ type: 'search', id: query });
-            updateBreadcrumbs();
-            updateHistoryList();
+        // Tag filtering is now handled by filters.js, so we call its search/filter mechanism
+        if (window.ptFilters) {
+            window.ptFilters.performSearch(); // This will internally filter and render
         } else {
-            // Show no results message
-            elements.semesterContainer.innerHTML = `
-                <div class="no-results">
-                    <h3>No courses found matching "${query}"</h3>
-                    <button class="back-btn">← Back</button>
-                </div>
-            `;
+            // Fallback if filters.js is not loaded, though it should be
+            if (state.searchResults.length > 0) {
+                renderSearchResults(); // This is app.js's original search result rendering
+                addToNavigationStack({ type: 'search', id: query });
+                updateBreadcrumbs();
+                updateHistoryList();
+            } else {
+                elements.semesterContainer.innerHTML = `
+                    <div class="no-results">
+                        <h3>No courses found matching "${query}"</h3>
+                        <button class="back-btn">← Back</button>
+                    </div>
+                `;
+            }
         }
-    }
-
-    /**
-     * Handle clicks on the main container
-     */
-    function handleContainerClick(e) {
-        const target = e.target;
-        
-        // Back button
-        if (target.closest('.back-btn')) {
-            handleNavigationBack();
-            return;
-        }
-        
-        // Semester card
+    }   // Semester card
         if (target.closest('.semester-card')) {
             const card = target.closest('.semester-card');
             handleSemesterNavigation(card);
@@ -634,13 +706,10 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function renderSearchResults() {
         const container = elements.semesterContainer;
-        
         // Start transition
         container.classList.add('view-exit');
-        
         setTimeout(() => {
             const filteredResults = filterCourses(state.searchResults);
-            
             container.innerHTML = `
                 <button class="back-btn">← Back</button>
                 <h2>Search Results (${filteredResults.length})</h2>
@@ -653,18 +722,17 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <span>Semester ${course.semester}</span>
                                 <span>${course.credits} Credits</span>
                             </div>
+                            ${createStatusDropdownHTML(course.code)}
                         </div>
                     `).join('')}
-                </div>`;
-            
+                </div>
+            `;
             // Animate entrance
             container.classList.remove('view-exit');
             container.classList.add('view-enter');
-            
             setTimeout(() => container.classList.remove('view-enter'), 300);
         }, 300);
     }
-
     /**
      * Render the course hierarchy visualization
      */
@@ -724,14 +792,11 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(coreNode);
         
         // Add tooltip
-        coreNode.addEventListener('mouseenter', () => {
-            showTooltip(coreNode, `${course.code}: ${course.name}<br>Semester ${course.semester}, ${course.credits} Credits`);
-        });
-        
-        coreNode.addEventListener('mouseleave', hideTooltip);
-    }
-
-    /**
+       coreNode.addEventListener('mouseleave', hideTooltip);
+    coreNode.addEventListener('mouseenter', () => handleNodeInteraction(coreNode, course, 'enter'));
+    coreNode.addEventListener('mouseleave', () => handleNodeInteraction(coreNode, course, 'leave'));
+    // coreNode.addEventListener('click', () => handleNodeInteraction(coreNode, course, 'click')); // Click can still show details or toggle focus
+}   /**
      * Render child nodes (prerequisites and required courses)
      */
     function renderChildNodes(container, course) {
@@ -751,7 +816,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (state.activeFilters.prerequisites && course.recentPrerequisites.length > 0) {
             const prereqCount = course.recentPrerequisites.length;
             const angleStep = Math.PI / (prereqCount + 1);
-            const radius = Math.min(containerRect.width, containerRect.height) * 0.35;
+            const radius = Math.min(containerRect.width, containerRect.height) * 0.45; // Increased radius for separation
             
             course.recentPrerequisites.forEach((prereq, i) => {
                 // Calculate position in a semi-circle above the core node
@@ -768,7 +833,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (state.activeFilters.requiredFor && course.requiredFor.length > 0) {
             const requiredCount = course.requiredFor.length;
             const angleStep = Math.PI / (requiredCount + 1);
-            const radius = Math.min(containerRect.width, containerRect.height) * 0.35;
+            const radius = Math.min(containerRect.width, containerRect.height) * 0.45; // Increased radius for separation
             
             course.requiredFor.forEach((required, i) => {
                 // Calculate position in a semi-circle below the core node
@@ -907,3 +972,183 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize the application
     initialize();
 });
+// In app.js, add to initialize():
+function initialize() {
+    // ... existing code ...
+    setupAnimationObservers(); // Add this line
+}
+
+// Add new method:
+function setupAnimationObservers() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.semester-card, .course-card').forEach(el => {
+        observer.observe(el);
+    });
+}
+// In app.js, after line 450 (original renderCourseHierarchy)
+function renderCourseHierarchy(code) {
+    // ... original code ...
+
+    // Add these lines:
+    setTimeout(() => {
+        enhanceNodeSpacing(); 
+        addSemesterLabels();
+    }, 200);
+}
+// In app.js, modify performSearch():
+function performSearch() {
+    // ... original code ...
+
+    // Add tag filtering
+    state.searchResults = state.searchResults.filter(course => {
+        return state.activeTagFilters.every(tag => 
+            course.tags.includes(tag)
+        );
+    });
+}
+
+
+
+
+// Enhanced Path Highlighting and Focus Mode Logic
+function getAllPrerequisites(courseCode, allCourses, path = new Set()) {
+    const course = allCourses.find(c => c.code === courseCode);
+    if (!course || path.has(courseCode)) return path;
+    path.add(courseCode);
+    if (course.prerequisites) {
+        course.prerequisites.forEach(prereqCode => {
+            getAllPrerequisites(prereqCode, allCourses, path);
+        });
+    }
+    return path;
+}
+
+function getAllSuccessors(courseCode, allCourses, path = new Set()) {
+    const course = allCourses.find(c => c.code === courseCode);
+    if (!course || path.has(courseCode)) return path;
+    path.add(courseCode);
+    if (course.requiredFor) {
+        course.requiredFor.forEach(successorCourse => {
+            getAllSuccessors(successorCourse.code, allCourses, path);
+        });
+    }
+    return path;
+}
+
+let activeFocusMode = false;
+let focusedCourseSet = new Set();
+
+
+// Tooltip show/hide functions (injected by ChatGPT)
+function showTooltip(event) {
+    const tooltip = document.getElementById('tooltip');
+    if (tooltip) {
+        tooltip.style.display = 'block';
+        tooltip.textContent = event.target.getAttribute('data-tooltip') || '';
+        tooltip.style.left = (event.pageX + 10) + 'px';
+        tooltip.style.top = (event.pageY + 10) + 'px';
+    }
+}
+
+function hideTooltip(event) {
+    const tooltip = document.getElementById('tooltip');
+    if (tooltip) {
+        tooltip.style.display = 'none';
+    }
+}
+
+// End tooltip functions
+function handleNodeInteraction(nodeElement, course, eventType) {
+    const allNodes = document.querySelectorAll(".tree-node");
+    const allConnections = document.querySelectorAll(".node-connection");
+
+    if (eventType === "enter") {
+        showTooltip(nodeElement, `${course.code}: ${course.name}<br>Semester ${course.semester}, ${course.credits} Credits`);
+        if (!activeFocusMode) {
+            const prereqPath = getAllPrerequisites(course.code, courses);
+            const successorPath = getAllSuccessors(course.code, courses);
+
+            allNodes.forEach(n => {
+                const code = n.dataset.code;
+                if (prereqPath.has(code) && code !== course.code) {
+                    n.classList.add("highlight-prereq-path");
+                } else if (successorPath.has(code) && code !== course.code) {
+                    n.classList.add("highlight-successor-path");
+                } else if (code !== course.code) {
+                    n.classList.add("dimmed-for-highlight");
+                }
+            });
+            allConnections.forEach(c => {
+                const from = c.dataset.from;
+                const to = c.dataset.to;
+                if (prereqPath.has(from) && prereqPath.has(to)) {
+                    c.classList.add("highlight-prereq-path");
+                } else if (successorPath.has(from) && successorPath.has(to)) {
+                    c.classList.add("highlight-successor-path");
+                } else {
+                    c.classList.add("dimmed-for-highlight");
+                }
+            });
+        }
+    } else if (eventType === "leave") {
+        hideTooltip();
+        if (!activeFocusMode) {
+            allNodes.forEach(n => n.classList.remove("highlight-prereq-path", "highlight-successor-path", "dimmed-for-highlight"));
+            allConnections.forEach(c => c.classList.remove("highlight-prereq-path", "highlight-successor-path", "dimmed-for-highlight"));
+        }
+    } else if (eventType === "click") {
+        // Toggle Focus Mode
+        activeFocusMode = !activeFocusMode;
+        if (activeFocusMode) {
+            focusedCourseSet = new Set([...getAllPrerequisites(course.code, courses), ...getAllSuccessors(course.code, courses)]);
+            allNodes.forEach(n => {
+                if (!focusedCourseSet.has(n.dataset.code)) {
+                    n.classList.add("focus-mode-dimmed");
+                } else {
+                    n.classList.remove("focus-mode-dimmed");
+                }
+            });
+            allConnections.forEach(c => {
+                 const from = c.dataset.from;
+                 const to = c.dataset.to;
+                if (!(focusedCourseSet.has(from) && focusedCourseSet.has(to))) {
+                    c.classList.add("focus-mode-dimmed");
+                } else {
+                    c.classList.remove("focus-mode-dimmed");
+                }
+            });
+            nodeElement.classList.remove("dimmed-for-highlight"); // Ensure the clicked node is not dimmed
+        } else {
+            focusedCourseSet.clear();
+            allNodes.forEach(n => n.classList.remove("focus-mode-dimmed"));
+            allConnections.forEach(c => c.classList.remove("focus-mode-dimmed"));
+            // Re-apply hover highlights if mouse is still over a node
+            const hoveredNode = document.querySelector(".tree-node:hover");
+            if (hoveredNode) {
+                const hoveredCourse = courses.find(c => c.code === hoveredNode.dataset.code);
+                if (hoveredCourse) handleNodeInteraction(hoveredNode, hoveredCourse, "enter");
+            }
+        }
+    }
+}
+
+// Modify renderChildNodes to add these event listeners to child nodes as well
+// And ensure connections have data-from and data-to attributes
+
+// Example modification in renderChildNodes for a prerequisite node:
+// childNode.addEventListener("mouseenter", () => handleNodeInteraction(childNode, prereqCourse, "enter"));
+// childNode.addEventListener("mouseleave", () => handleNodeInteraction(childNode, prereqCourse, "leave"));
+// childNode.addEventListener("click", () => handleNodeInteraction(childNode, prereqCourse, "click"));
+
+// When creating connections:
+// connection.dataset.from = source.code;
+// connection.dataset.to = target.code;
+
+// End of Enhanced Path Highlighting and Focus Mode Logic
