@@ -1152,31 +1152,3 @@ function handleNodeInteraction(nodeElement, course, eventType) {
 // connection.dataset.to = target.code;
 
 // End of Enhanced Path Highlighting and Focus Mode Logic
-
-// Animations: fade-in cards
-function animateCards(selector) {
-    const cards = document.querySelectorAll(selector);
-    cards.forEach((card, i) => {
-        setTimeout(() => card.classList.add('show'), i * 50);
-    });
-}
-
-// Toggle filter panel
-const filterToggleBtn = document.getElementById('filter-toggle-btn');
-if (filterToggleBtn) {
-    filterToggleBtn.addEventListener('click', () => {
-        const panel = document.getElementById('filter-panel');
-        if (panel) panel.classList.toggle('collapsed');
-    });
-}
-
-// Enhance click interactions for course cards
-const origHandleContainerClick = window.handleContainerClick;
-window.handleContainerClick = function(event) {
-    const targetCard = event.target.closest('.course-card');
-    if (targetCard) {
-        targetCard.classList.add('clicked');
-        setTimeout(() => targetCard.classList.remove('clicked'), 200);
-    }
-    return origHandleContainerClick(event);
-};

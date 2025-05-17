@@ -145,3 +145,19 @@
 .semester-arrow.visible {
     opacity: 1;
 }
+
+/* Mobile stacking override */
+@media (max-width: 768px) {
+    .tree-container {
+        display: block !important;
+    }
+    .tree-node {
+        position: static !important;
+        transform: none !important;
+        margin: 0 0 20px 0 !important;
+        width: auto !important;
+    }
+    .node-connection {
+        display: none !important;
+    }
+}
