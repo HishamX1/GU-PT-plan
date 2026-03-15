@@ -1,0 +1,495 @@
+{
+  "extractedAt": "2026-03-15T17:25:59.270Z",
+  "college": {
+    "name": "Galala University",
+    "programs": [
+      {
+        "name": "Physical Therapy Program",
+        "years": [
+          {
+            "yearNumber": 1,
+            "semesters": [
+              {
+                "semesterNumber": 1,
+                "subjects": [
+                  {
+                    "subjectName": "Anatomy 1 (for physiotherapy)",
+                    "subjectCode": "BMS115",
+                    "credits": 3,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Histology 1 (for physiotherapy)",
+                    "subjectCode": "BMS124",
+                    "credits": 2,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Physiology 1 (for physiotherapy)",
+                    "subjectCode": "BMS136",
+                    "credits": 3,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Biochemistry (for physiotherapy)",
+                    "subjectCode": "BMS149",
+                    "credits": 4,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Ethics and Laws",
+                    "subjectCode": "BPT111",
+                    "credits": 1,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Biophysics (for Physiotherapy)",
+                    "subjectCode": "PHY112",
+                    "credits": 3,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "University Requirement (1)",
+                    "subjectCode": "UC1",
+                    "credits": 2,
+                    "notes": null
+                  }
+                ]
+              },
+              {
+                "semesterNumber": 2,
+                "subjects": [
+                  {
+                    "subjectName": "Anatomy 2 (for physiotherapy)",
+                    "subjectCode": "BMS116",
+                    "credits": 3,
+                    "notes": "Prerequisites: BMS115"
+                  },
+                  {
+                    "subjectName": "Histology 2 (for physiotherapy)",
+                    "subjectCode": "BMS125",
+                    "credits": 2,
+                    "notes": "Prerequisites: BMS124"
+                  },
+                  {
+                    "subjectName": "Physiology 2 (for physiotherapy)",
+                    "subjectCode": "BMS137",
+                    "credits": 3,
+                    "notes": "Prerequisites: BMS136"
+                  },
+                  {
+                    "subjectName": "Kinesiology 1",
+                    "subjectCode": "BPT112",
+                    "credits": 3,
+                    "notes": "Prerequisites: BMS115"
+                  },
+                  {
+                    "subjectName": "Tests and Measurements 1",
+                    "subjectCode": "BPT113",
+                    "credits": 3,
+                    "notes": "Prerequisites: BMS115"
+                  },
+                  {
+                    "subjectName": "University Requirement (2)",
+                    "subjectCode": "UC2",
+                    "credits": 2,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "University Requirement (3)",
+                    "subjectCode": "UC3",
+                    "credits": 2,
+                    "notes": null
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "yearNumber": 2,
+            "semesters": [
+              {
+                "semesterNumber": 1,
+                "subjects": [
+                  {
+                    "subjectName": "Neuroanatomy (for physiotherapy)",
+                    "subjectCode": "BMS211",
+                    "credits": 3,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Neurophysiology 1 (for physiotherapy)",
+                    "subjectCode": "BMS234",
+                    "credits": 3,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Clinical Biochemistry (for physiotherapy)",
+                    "subjectCode": "BMS244",
+                    "credits": 4,
+                    "notes": "Prerequisites: BMS149"
+                  },
+                  {
+                    "subjectName": "Kinesiology 2",
+                    "subjectCode": "BPT214",
+                    "credits": 3,
+                    "notes": "Prerequisites: BMS115, BMS116, BPT112"
+                  },
+                  {
+                    "subjectName": "Tests and Measurements 2",
+                    "subjectCode": "BPT215",
+                    "credits": 3,
+                    "notes": "Prerequisites: BPT113, BMS115, BMS116"
+                  },
+                  {
+                    "subjectName": "Growth and Development and Human Genetics",
+                    "subjectCode": "PTH241",
+                    "credits": 2,
+                    "notes": null
+                  }
+                ]
+              },
+              {
+                "semesterNumber": 2,
+                "subjects": [
+                  {
+                    "subjectName": "Anatomy 3 (for physiotherapy)",
+                    "subjectCode": "BMS212",
+                    "credits": 3,
+                    "notes": "Prerequisites: BMS115, BMS116"
+                  },
+                  {
+                    "subjectName": "Neurophysiology 2 (for physiotherapy)",
+                    "subjectCode": "BMS235",
+                    "credits": 3,
+                    "notes": "Prerequisites: BMS234"
+                  },
+                  {
+                    "subjectName": "Biomechanics 1",
+                    "subjectCode": "BPT216",
+                    "credits": 3,
+                    "notes": "Prerequisites: BMS115, BMS116, BPT112, BPT214"
+                  },
+                  {
+                    "subjectName": "Therapeutic Modalities",
+                    "subjectCode": "BPT217",
+                    "credits": 6,
+                    "notes": "Prerequisites: PHY112, BMS115, BMS116, BPT113, BPT215"
+                  },
+                  {
+                    "subjectName": "Exercise Physiology",
+                    "subjectCode": "BPT218",
+                    "credits": 2,
+                    "notes": "Prerequisites: BMS136, BMS137"
+                  },
+                  {
+                    "subjectName": "University Requirement (4)",
+                    "subjectCode": "UC4",
+                    "credits": 2,
+                    "notes": null
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "yearNumber": 3,
+            "semesters": [
+              {
+                "semesterNumber": 1,
+                "subjects": [
+                  {
+                    "subjectName": "Pathology 1 (for physiotherapy)",
+                    "subjectCode": "BMS352",
+                    "credits": 3,
+                    "notes": "Prerequisites: BMS212, BMS124, BMS125, BMS136, BMS137"
+                  },
+                  {
+                    "subjectName": "Pharmacology 1 (for physiotherapy)",
+                    "subjectCode": "BMS361",
+                    "credits": 2,
+                    "notes": "Prerequisites: BMS136, BMS137, BMS234, BMS235"
+                  },
+                  {
+                    "subjectName": "Biomechanics 2",
+                    "subjectCode": "BPT319",
+                    "credits": 3,
+                    "notes": "Prerequisites: BPT216, BMS115, BMS116, BPT112, BPT214"
+                  },
+                  {
+                    "subjectName": "Theory of Internal Medicine (for physiotherapy)",
+                    "subjectCode": "CMS313",
+                    "credits": 8,
+                    "notes": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212"
+                  },
+                  {
+                    "subjectName": "Cardiothoracic Surgery (for physiotherapy)",
+                    "subjectCode": "CMS321",
+                    "credits": 1,
+                    "notes": "Prerequisites: BMS115, BMS116, BMS212, BMS136, BMS137"
+                  },
+                  {
+                    "subjectName": "Radiology 1 (for physiotherapy)",
+                    "subjectCode": "CMS322",
+                    "credits": 2,
+                    "notes": "Prerequisites: BMS115, BMS116, BMS212"
+                  },
+                  {
+                    "subjectName": "Elective Course (1)",
+                    "subjectCode": "E1",
+                    "credits": 3,
+                    "notes": null
+                  }
+                ]
+              },
+              {
+                "semesterNumber": 2,
+                "subjects": [
+                  {
+                    "subjectName": "Pathology 2 (for physiotherapy)",
+                    "subjectCode": "BMS353",
+                    "credits": 3,
+                    "notes": "Prerequisites: BMS212, BMS124, BMS125, BMS136, BMS137, BMS352"
+                  },
+                  {
+                    "subjectName": "Pharmacology 2 (for physiotherapy)",
+                    "subjectCode": "BMS362",
+                    "credits": 2,
+                    "notes": "Prerequisites: BMS361"
+                  },
+                  {
+                    "subjectName": "General Surgery (for physiotherapy)",
+                    "subjectCode": "CMS323",
+                    "credits": 3,
+                    "notes": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212, BMS124, BMS125"
+                  },
+                  {
+                    "subjectName": "Obstetrics & Gynaecology (for physiotherapy)",
+                    "subjectCode": "CMS342",
+                    "credits": 2,
+                    "notes": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212"
+                  },
+                  {
+                    "subjectName": "Public Health (for physiotherapy)",
+                    "subjectCode": "CMS383",
+                    "credits": 2,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Elective Course (2)",
+                    "subjectCode": "E2",
+                    "credits": 2,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Cardiopulmonary and Internal Medicine PT and Rehabilitation",
+                    "subjectCode": "PTM322",
+                    "credits": 8,
+                    "notes": "Prerequisites: CMS322, CMS321, BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, BPT218, BMS136, BMS137, BMS212, BMS124, BMS125, CMS313"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "yearNumber": 4,
+            "semesters": [
+              {
+                "semesterNumber": 1,
+                "subjects": [
+                  {
+                    "subjectName": "Radiology 2 (for physiotherapy)",
+                    "subjectCode": "CMS423",
+                    "credits": 2,
+                    "notes": "Prerequisites: BMS115, BMS116, CMS322"
+                  },
+                  {
+                    "subjectName": "Traumatology and Orthopaedic Surgery",
+                    "subjectCode": "CMS424",
+                    "credits": 4,
+                    "notes": "Prerequisites: BPT216, BMS115, BMS116, BPT112, BPT214, BPT319"
+                  },
+                  {
+                    "subjectName": "Woman Health PT and Rehabilitation",
+                    "subjectCode": "PTH442",
+                    "credits": 4,
+                    "notes": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212, CMS342, BPT217, PHY112, BPT113, BPT215"
+                  },
+                  {
+                    "subjectName": "Integumentary PT and Rehabilitation",
+                    "subjectCode": "PTM423",
+                    "credits": 5,
+                    "notes": "Prerequisites: CMS313, BMS212, BMS124, BMS125, BPT217, BMS136, BMS137, CMS323"
+                  },
+                  {
+                    "subjectName": "University Requirement (5)",
+                    "subjectCode": "UC5",
+                    "credits": 2,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "University Requirement (6)",
+                    "subjectCode": "UC6",
+                    "credits": 2,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Elective University Requirement (1)",
+                    "subjectCode": "UE1",
+                    "credits": 2,
+                    "notes": null
+                  }
+                ]
+              },
+              {
+                "semesterNumber": 2,
+                "subjects": [
+                  {
+                    "subjectName": "Paediatric Surgery (for physiotherapy)",
+                    "subjectCode": "CMS426",
+                    "credits": 1,
+                    "notes": "Prerequisites: BMS115, BMS116, BMS211, PTH241"
+                  },
+                  {
+                    "subjectName": "Paediatrics (for physiotherapy)",
+                    "subjectCode": "CMS433",
+                    "credits": 2,
+                    "notes": "Prerequisites: BMS115, BMS116, BMS211, PTH241"
+                  },
+                  {
+                    "subjectName": "Elective Course (3)",
+                    "subjectCode": "E3",
+                    "credits": 2,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Sport injuries PT and Rehabilitation",
+                    "subjectCode": "PTO431",
+                    "credits": 7,
+                    "notes": "Prerequisites: BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, CMS424, BMS212, CMS423, CMS322"
+                  },
+                  {
+                    "subjectName": "Orthopaedics PT and Rehabilitation",
+                    "subjectCode": "PTO432",
+                    "credits": 7,
+                    "notes": "Prerequisites: BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, CMS424, CMS322, CMS423, BMS212"
+                  },
+                  {
+                    "subjectName": "Orthoses and Prostheses",
+                    "subjectCode": "PTO433",
+                    "credits": 2,
+                    "notes": "Prerequisites: CMS424, CMS423, BMS115, BMS116, BMS212"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "yearNumber": 5,
+            "semesters": [
+              {
+                "semesterNumber": 1,
+                "subjects": [
+                  {
+                    "subjectName": "Electro-diagnosis (for physiotherapy)",
+                    "subjectCode": "BMS431",
+                    "credits": 2,
+                    "notes": "Prerequisites: BMS234, BMS235, BMS115, BMS116"
+                  },
+                  {
+                    "subjectName": "Neuropsychiatry (for physiotherapy)",
+                    "subjectCode": "CMS512",
+                    "credits": 4,
+                    "notes": "Prerequisites: BMS211, BMS234, BMS235, BMS361, BMS362"
+                  },
+                  {
+                    "subjectName": "Neurosurgery (for physiotherapy)",
+                    "subjectCode": "CMS522",
+                    "credits": 1,
+                    "notes": "Prerequisites: BMS211, BMS234, BMS235"
+                  },
+                  {
+                    "subjectName": "Radiology 3 (for physiotherapy)",
+                    "subjectCode": "CMS523",
+                    "credits": 2,
+                    "notes": "Prerequisites: BMS211, BMS234, BMS235, CMS423"
+                  },
+                  {
+                    "subjectName": "Elective Course (4)",
+                    "subjectCode": "E4",
+                    "credits": 1,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Paediatrics PT and Rehabilitation",
+                    "subjectCode": "PTH543",
+                    "credits": 8,
+                    "notes": "Prerequisites: PTH241, BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, CMS433, CMS426"
+                  },
+                  {
+                    "subjectName": "University Requirement (7)",
+                    "subjectCode": "UC7",
+                    "credits": 2,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Elective University (2)",
+                    "subjectCode": "UE2",
+                    "credits": 2,
+                    "notes": null
+                  }
+                ]
+              },
+              {
+                "semesterNumber": 2,
+                "subjects": [
+                  {
+                    "subjectName": "Graduation Research Project",
+                    "subjectCode": "BPT514",
+                    "credits": 2,
+                    "notes": "Prerequisites: LIB116 | Missing in source dataset: LIB116"
+                  },
+                  {
+                    "subjectName": "Differential Diagnosis 1 (for physiotherapy)",
+                    "subjectCode": "CMS502",
+                    "credits": 2,
+                    "notes": "Prerequisites: CMS424, CMS512, CMS522, CMS313, CMS323"
+                  },
+                  {
+                    "subjectName": "Elective Course (5)",
+                    "subjectCode": "E5",
+                    "credits": 2,
+                    "notes": null
+                  },
+                  {
+                    "subjectName": "Neurology PT and Rehabilitation",
+                    "subjectCode": "PTN552",
+                    "credits": 7,
+                    "notes": "Prerequisites: BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, BPT218, BMS136, BMS137, BMS211, BMS234, BMS235, BMS361, BMS362, CMS512"
+                  },
+                  {
+                    "subjectName": "Neurosurgery PT and Rehabilitation",
+                    "subjectCode": "PTN553",
+                    "credits": 4,
+                    "notes": "Prerequisites: BMS211, BMS234, BMS235, CMS522, BPT217, PHY112, BMS115, BMS116, BPT113, BPT215"
+                  },
+                  {
+                    "subjectName": "Elective University (3)",
+                    "subjectCode": "UE3",
+                    "credits": 2,
+                    "notes": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "sourceSummary": {
+    "totalSubjects": 67,
+    "totalYears": 5,
+    "totalSemesters": 10
+  }
+}
