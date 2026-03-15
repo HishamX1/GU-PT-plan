@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PT Plan - Student Portal</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Physical Therapy Study Plan</h1>
+    <div class="nav"><a href="/admin">Admin</a></div>
+  </header>
+  <main>
+    <section class="card">
+      <h2>Browse Subjects</h2>
+      <div class="grid">
+        <div><label>College</label><select id="college"></select></div>
+        <div><label>Program</label><select id="program" disabled></select></div>
+        <div><label>Year</label><select id="year" disabled></select></div>
+        <div><label>Semester</label><select id="semester" disabled></select></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Subjects</h2>
+      <table>
+        <thead><tr><th>Code</th><th>Name</th><th>Credits</th><th>Notes</th></tr></thead>
+        <tbody id="subjects"></tbody>
+      </table>
+    </section>
+  </main>
+  <script type="module" src="/student/student.js"></script>
+</body>
+</html>

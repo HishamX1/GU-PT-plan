@@ -1,0 +1,1449 @@
+{
+  "colleges": [
+    {
+      "id": 1,
+      "name": "Galala University"
+    }
+  ],
+  "programs": [
+    {
+      "id": 1,
+      "collegeId": 1,
+      "name": "Physical Therapy Program"
+    }
+  ],
+  "years": [
+    {
+      "id": 1,
+      "programId": 1,
+      "yearNumber": 1
+    },
+    {
+      "id": 2,
+      "programId": 1,
+      "yearNumber": 2
+    },
+    {
+      "id": 3,
+      "programId": 1,
+      "yearNumber": 3
+    },
+    {
+      "id": 4,
+      "programId": 1,
+      "yearNumber": 4
+    },
+    {
+      "id": 5,
+      "programId": 1,
+      "yearNumber": 5
+    }
+  ],
+  "semesters": [
+    {
+      "id": 1,
+      "yearId": 1,
+      "semesterNumber": 1
+    },
+    {
+      "id": 2,
+      "yearId": 1,
+      "semesterNumber": 2
+    },
+    {
+      "id": 3,
+      "yearId": 2,
+      "semesterNumber": 1
+    },
+    {
+      "id": 4,
+      "yearId": 2,
+      "semesterNumber": 2
+    },
+    {
+      "id": 5,
+      "yearId": 3,
+      "semesterNumber": 1
+    },
+    {
+      "id": 6,
+      "yearId": 3,
+      "semesterNumber": 2
+    },
+    {
+      "id": 7,
+      "yearId": 4,
+      "semesterNumber": 1
+    },
+    {
+      "id": 8,
+      "yearId": 4,
+      "semesterNumber": 2
+    },
+    {
+      "id": 9,
+      "yearId": 5,
+      "semesterNumber": 1
+    },
+    {
+      "id": 10,
+      "yearId": 5,
+      "semesterNumber": 2
+    }
+  ],
+  "subjects": [
+    {
+      "id": 1,
+      "semesterId": 1,
+      "subjectName": "Anatomy 1 (for physiotherapy)",
+      "subjectCode": "BMS115",
+      "credits": 3,
+      "notes": null
+    },
+    {
+      "id": 2,
+      "semesterId": 1,
+      "subjectName": "Histology 1 (for physiotherapy)",
+      "subjectCode": "BMS124",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 3,
+      "semesterId": 1,
+      "subjectName": "Physiology 1 (for physiotherapy)",
+      "subjectCode": "BMS136",
+      "credits": 3,
+      "notes": null
+    },
+    {
+      "id": 4,
+      "semesterId": 1,
+      "subjectName": "Biochemistry (for physiotherapy)",
+      "subjectCode": "BMS149",
+      "credits": 4,
+      "notes": null
+    },
+    {
+      "id": 5,
+      "semesterId": 1,
+      "subjectName": "Ethics and Laws",
+      "subjectCode": "BPT111",
+      "credits": 1,
+      "notes": null
+    },
+    {
+      "id": 6,
+      "semesterId": 1,
+      "subjectName": "Biophysics (for Physiotherapy)",
+      "subjectCode": "PHY112",
+      "credits": 3,
+      "notes": null
+    },
+    {
+      "id": 7,
+      "semesterId": 1,
+      "subjectName": "University Requirement (1)",
+      "subjectCode": "UC1",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 8,
+      "semesterId": 2,
+      "subjectName": "Anatomy 2 (for physiotherapy)",
+      "subjectCode": "BMS116",
+      "credits": 3,
+      "notes": "Prerequisites: BMS115"
+    },
+    {
+      "id": 9,
+      "semesterId": 2,
+      "subjectName": "Histology 2 (for physiotherapy)",
+      "subjectCode": "BMS125",
+      "credits": 2,
+      "notes": "Prerequisites: BMS124"
+    },
+    {
+      "id": 10,
+      "semesterId": 2,
+      "subjectName": "Physiology 2 (for physiotherapy)",
+      "subjectCode": "BMS137",
+      "credits": 3,
+      "notes": "Prerequisites: BMS136"
+    },
+    {
+      "id": 11,
+      "semesterId": 2,
+      "subjectName": "Kinesiology 1",
+      "subjectCode": "BPT112",
+      "credits": 3,
+      "notes": "Prerequisites: BMS115"
+    },
+    {
+      "id": 12,
+      "semesterId": 2,
+      "subjectName": "Tests and Measurements 1",
+      "subjectCode": "BPT113",
+      "credits": 3,
+      "notes": "Prerequisites: BMS115"
+    },
+    {
+      "id": 13,
+      "semesterId": 2,
+      "subjectName": "University Requirement (2)",
+      "subjectCode": "UC2",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 14,
+      "semesterId": 2,
+      "subjectName": "University Requirement (3)",
+      "subjectCode": "UC3",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 15,
+      "semesterId": 3,
+      "subjectName": "Neuroanatomy (for physiotherapy)",
+      "subjectCode": "BMS211",
+      "credits": 3,
+      "notes": null
+    },
+    {
+      "id": 16,
+      "semesterId": 3,
+      "subjectName": "Neurophysiology 1 (for physiotherapy)",
+      "subjectCode": "BMS234",
+      "credits": 3,
+      "notes": null
+    },
+    {
+      "id": 17,
+      "semesterId": 3,
+      "subjectName": "Clinical Biochemistry (for physiotherapy)",
+      "subjectCode": "BMS244",
+      "credits": 4,
+      "notes": "Prerequisites: BMS149"
+    },
+    {
+      "id": 18,
+      "semesterId": 3,
+      "subjectName": "Kinesiology 2",
+      "subjectCode": "BPT214",
+      "credits": 3,
+      "notes": "Prerequisites: BMS115, BMS116, BPT112"
+    },
+    {
+      "id": 19,
+      "semesterId": 3,
+      "subjectName": "Tests and Measurements 2",
+      "subjectCode": "BPT215",
+      "credits": 3,
+      "notes": "Prerequisites: BPT113, BMS115, BMS116"
+    },
+    {
+      "id": 20,
+      "semesterId": 3,
+      "subjectName": "Growth and Development and Human Genetics",
+      "subjectCode": "PTH241",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 21,
+      "semesterId": 4,
+      "subjectName": "Anatomy 3 (for physiotherapy)",
+      "subjectCode": "BMS212",
+      "credits": 3,
+      "notes": "Prerequisites: BMS115, BMS116"
+    },
+    {
+      "id": 22,
+      "semesterId": 4,
+      "subjectName": "Neurophysiology 2 (for physiotherapy)",
+      "subjectCode": "BMS235",
+      "credits": 3,
+      "notes": "Prerequisites: BMS234"
+    },
+    {
+      "id": 23,
+      "semesterId": 4,
+      "subjectName": "Biomechanics 1",
+      "subjectCode": "BPT216",
+      "credits": 3,
+      "notes": "Prerequisites: BMS115, BMS116, BPT112, BPT214"
+    },
+    {
+      "id": 24,
+      "semesterId": 4,
+      "subjectName": "Therapeutic Modalities",
+      "subjectCode": "BPT217",
+      "credits": 6,
+      "notes": "Prerequisites: PHY112, BMS115, BMS116, BPT113, BPT215"
+    },
+    {
+      "id": 25,
+      "semesterId": 4,
+      "subjectName": "Exercise Physiology",
+      "subjectCode": "BPT218",
+      "credits": 2,
+      "notes": "Prerequisites: BMS136, BMS137"
+    },
+    {
+      "id": 26,
+      "semesterId": 4,
+      "subjectName": "University Requirement (4)",
+      "subjectCode": "UC4",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 27,
+      "semesterId": 5,
+      "subjectName": "Pathology 1 (for physiotherapy)",
+      "subjectCode": "BMS352",
+      "credits": 3,
+      "notes": "Prerequisites: BMS212, BMS124, BMS125, BMS136, BMS137"
+    },
+    {
+      "id": 28,
+      "semesterId": 5,
+      "subjectName": "Pharmacology 1 (for physiotherapy)",
+      "subjectCode": "BMS361",
+      "credits": 2,
+      "notes": "Prerequisites: BMS136, BMS137, BMS234, BMS235"
+    },
+    {
+      "id": 29,
+      "semesterId": 5,
+      "subjectName": "Biomechanics 2",
+      "subjectCode": "BPT319",
+      "credits": 3,
+      "notes": "Prerequisites: BPT216, BMS115, BMS116, BPT112, BPT214"
+    },
+    {
+      "id": 30,
+      "semesterId": 5,
+      "subjectName": "Theory of Internal Medicine (for physiotherapy)",
+      "subjectCode": "CMS313",
+      "credits": 8,
+      "notes": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212"
+    },
+    {
+      "id": 31,
+      "semesterId": 5,
+      "subjectName": "Cardiothoracic Surgery (for physiotherapy)",
+      "subjectCode": "CMS321",
+      "credits": 1,
+      "notes": "Prerequisites: BMS115, BMS116, BMS212, BMS136, BMS137"
+    },
+    {
+      "id": 32,
+      "semesterId": 5,
+      "subjectName": "Radiology 1 (for physiotherapy)",
+      "subjectCode": "CMS322",
+      "credits": 2,
+      "notes": "Prerequisites: BMS115, BMS116, BMS212"
+    },
+    {
+      "id": 33,
+      "semesterId": 5,
+      "subjectName": "Elective Course (1)",
+      "subjectCode": "E1",
+      "credits": 3,
+      "notes": null
+    },
+    {
+      "id": 34,
+      "semesterId": 6,
+      "subjectName": "Pathology 2 (for physiotherapy)",
+      "subjectCode": "BMS353",
+      "credits": 3,
+      "notes": "Prerequisites: BMS212, BMS124, BMS125, BMS136, BMS137, BMS352"
+    },
+    {
+      "id": 35,
+      "semesterId": 6,
+      "subjectName": "Pharmacology 2 (for physiotherapy)",
+      "subjectCode": "BMS362",
+      "credits": 2,
+      "notes": "Prerequisites: BMS361"
+    },
+    {
+      "id": 36,
+      "semesterId": 6,
+      "subjectName": "General Surgery (for physiotherapy)",
+      "subjectCode": "CMS323",
+      "credits": 3,
+      "notes": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212, BMS124, BMS125"
+    },
+    {
+      "id": 37,
+      "semesterId": 6,
+      "subjectName": "Obstetrics & Gynaecology (for physiotherapy)",
+      "subjectCode": "CMS342",
+      "credits": 2,
+      "notes": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212"
+    },
+    {
+      "id": 38,
+      "semesterId": 6,
+      "subjectName": "Public Health (for physiotherapy)",
+      "subjectCode": "CMS383",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 39,
+      "semesterId": 6,
+      "subjectName": "Elective Course (2)",
+      "subjectCode": "E2",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 40,
+      "semesterId": 6,
+      "subjectName": "Cardiopulmonary and Internal Medicine PT and Rehabilitation",
+      "subjectCode": "PTM322",
+      "credits": 8,
+      "notes": "Prerequisites: CMS322, CMS321, BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, BPT218, BMS136, BMS137, BMS212, BMS124, BMS125, CMS313"
+    },
+    {
+      "id": 41,
+      "semesterId": 7,
+      "subjectName": "Radiology 2 (for physiotherapy)",
+      "subjectCode": "CMS423",
+      "credits": 2,
+      "notes": "Prerequisites: BMS115, BMS116, CMS322"
+    },
+    {
+      "id": 42,
+      "semesterId": 7,
+      "subjectName": "Traumatology and Orthopaedic Surgery",
+      "subjectCode": "CMS424",
+      "credits": 4,
+      "notes": "Prerequisites: BPT216, BMS115, BMS116, BPT112, BPT214, BPT319"
+    },
+    {
+      "id": 43,
+      "semesterId": 7,
+      "subjectName": "Woman Health PT and Rehabilitation",
+      "subjectCode": "PTH442",
+      "credits": 4,
+      "notes": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212, CMS342, BPT217, PHY112, BPT113, BPT215"
+    },
+    {
+      "id": 44,
+      "semesterId": 7,
+      "subjectName": "Integumentary PT and Rehabilitation",
+      "subjectCode": "PTM423",
+      "credits": 5,
+      "notes": "Prerequisites: CMS313, BMS212, BMS124, BMS125, BPT217, BMS136, BMS137, CMS323"
+    },
+    {
+      "id": 45,
+      "semesterId": 7,
+      "subjectName": "University Requirement (5)",
+      "subjectCode": "UC5",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 46,
+      "semesterId": 7,
+      "subjectName": "University Requirement (6)",
+      "subjectCode": "UC6",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 47,
+      "semesterId": 7,
+      "subjectName": "Elective University Requirement (1)",
+      "subjectCode": "UE1",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 48,
+      "semesterId": 8,
+      "subjectName": "Paediatric Surgery (for physiotherapy)",
+      "subjectCode": "CMS426",
+      "credits": 1,
+      "notes": "Prerequisites: BMS115, BMS116, BMS211, PTH241"
+    },
+    {
+      "id": 49,
+      "semesterId": 8,
+      "subjectName": "Paediatrics (for physiotherapy)",
+      "subjectCode": "CMS433",
+      "credits": 2,
+      "notes": "Prerequisites: BMS115, BMS116, BMS211, PTH241"
+    },
+    {
+      "id": 50,
+      "semesterId": 8,
+      "subjectName": "Elective Course (3)",
+      "subjectCode": "E3",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 51,
+      "semesterId": 8,
+      "subjectName": "Sport injuries PT and Rehabilitation",
+      "subjectCode": "PTO431",
+      "credits": 7,
+      "notes": "Prerequisites: BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, CMS424, BMS212, CMS423, CMS322"
+    },
+    {
+      "id": 52,
+      "semesterId": 8,
+      "subjectName": "Orthopaedics PT and Rehabilitation",
+      "subjectCode": "PTO432",
+      "credits": 7,
+      "notes": "Prerequisites: BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, CMS424, CMS322, CMS423, BMS212"
+    },
+    {
+      "id": 53,
+      "semesterId": 8,
+      "subjectName": "Orthoses and Prostheses",
+      "subjectCode": "PTO433",
+      "credits": 2,
+      "notes": "Prerequisites: CMS424, CMS423, BMS115, BMS116, BMS212"
+    },
+    {
+      "id": 54,
+      "semesterId": 9,
+      "subjectName": "Electro-diagnosis (for physiotherapy)",
+      "subjectCode": "BMS431",
+      "credits": 2,
+      "notes": "Prerequisites: BMS234, BMS235, BMS115, BMS116"
+    },
+    {
+      "id": 55,
+      "semesterId": 9,
+      "subjectName": "Neuropsychiatry (for physiotherapy)",
+      "subjectCode": "CMS512",
+      "credits": 4,
+      "notes": "Prerequisites: BMS211, BMS234, BMS235, BMS361, BMS362"
+    },
+    {
+      "id": 56,
+      "semesterId": 9,
+      "subjectName": "Neurosurgery (for physiotherapy)",
+      "subjectCode": "CMS522",
+      "credits": 1,
+      "notes": "Prerequisites: BMS211, BMS234, BMS235"
+    },
+    {
+      "id": 57,
+      "semesterId": 9,
+      "subjectName": "Radiology 3 (for physiotherapy)",
+      "subjectCode": "CMS523",
+      "credits": 2,
+      "notes": "Prerequisites: BMS211, BMS234, BMS235, CMS423"
+    },
+    {
+      "id": 58,
+      "semesterId": 9,
+      "subjectName": "Elective Course (4)",
+      "subjectCode": "E4",
+      "credits": 1,
+      "notes": null
+    },
+    {
+      "id": 59,
+      "semesterId": 9,
+      "subjectName": "Paediatrics PT and Rehabilitation",
+      "subjectCode": "PTH543",
+      "credits": 8,
+      "notes": "Prerequisites: PTH241, BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, CMS433, CMS426"
+    },
+    {
+      "id": 60,
+      "semesterId": 9,
+      "subjectName": "University Requirement (7)",
+      "subjectCode": "UC7",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 61,
+      "semesterId": 9,
+      "subjectName": "Elective University (2)",
+      "subjectCode": "UE2",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 62,
+      "semesterId": 10,
+      "subjectName": "Graduation Research Project",
+      "subjectCode": "BPT514",
+      "credits": 2,
+      "notes": "Prerequisites: LIB116 | Missing in source dataset: LIB116"
+    },
+    {
+      "id": 63,
+      "semesterId": 10,
+      "subjectName": "Differential Diagnosis 1 (for physiotherapy)",
+      "subjectCode": "CMS502",
+      "credits": 2,
+      "notes": "Prerequisites: CMS424, CMS512, CMS522, CMS313, CMS323"
+    },
+    {
+      "id": 64,
+      "semesterId": 10,
+      "subjectName": "Elective Course (5)",
+      "subjectCode": "E5",
+      "credits": 2,
+      "notes": null
+    },
+    {
+      "id": 65,
+      "semesterId": 10,
+      "subjectName": "Neurology PT and Rehabilitation",
+      "subjectCode": "PTN552",
+      "credits": 7,
+      "notes": "Prerequisites: BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, BPT218, BMS136, BMS137, BMS211, BMS234, BMS235, BMS361, BMS362, CMS512"
+    },
+    {
+      "id": 66,
+      "semesterId": 10,
+      "subjectName": "Neurosurgery PT and Rehabilitation",
+      "subjectCode": "PTN553",
+      "credits": 4,
+      "notes": "Prerequisites: BMS211, BMS234, BMS235, CMS522, BPT217, PHY112, BMS115, BMS116, BPT113, BPT215"
+    },
+    {
+      "id": 67,
+      "semesterId": 10,
+      "subjectName": "Elective University (3)",
+      "subjectCode": "UE3",
+      "credits": 2,
+      "notes": null
+    }
+  ],
+  "subjectPrerequisites": [
+    {
+      "subjectId": 8,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 9,
+      "prerequisiteSubjectId": 2
+    },
+    {
+      "subjectId": 10,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 11,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 12,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 17,
+      "prerequisiteSubjectId": 4
+    },
+    {
+      "subjectId": 18,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 18,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 18,
+      "prerequisiteSubjectId": 11
+    },
+    {
+      "subjectId": 19,
+      "prerequisiteSubjectId": 12
+    },
+    {
+      "subjectId": 19,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 19,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 21,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 21,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 22,
+      "prerequisiteSubjectId": 16
+    },
+    {
+      "subjectId": 23,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 23,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 23,
+      "prerequisiteSubjectId": 11
+    },
+    {
+      "subjectId": 23,
+      "prerequisiteSubjectId": 18
+    },
+    {
+      "subjectId": 24,
+      "prerequisiteSubjectId": 6
+    },
+    {
+      "subjectId": 24,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 24,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 24,
+      "prerequisiteSubjectId": 12
+    },
+    {
+      "subjectId": 24,
+      "prerequisiteSubjectId": 19
+    },
+    {
+      "subjectId": 25,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 25,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 27,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 27,
+      "prerequisiteSubjectId": 2
+    },
+    {
+      "subjectId": 27,
+      "prerequisiteSubjectId": 9
+    },
+    {
+      "subjectId": 27,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 27,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 28,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 28,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 28,
+      "prerequisiteSubjectId": 16
+    },
+    {
+      "subjectId": 28,
+      "prerequisiteSubjectId": 22
+    },
+    {
+      "subjectId": 29,
+      "prerequisiteSubjectId": 23
+    },
+    {
+      "subjectId": 29,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 29,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 29,
+      "prerequisiteSubjectId": 11
+    },
+    {
+      "subjectId": 29,
+      "prerequisiteSubjectId": 18
+    },
+    {
+      "subjectId": 30,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 30,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 30,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 30,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 30,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 31,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 31,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 31,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 31,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 31,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 32,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 32,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 32,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 34,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 34,
+      "prerequisiteSubjectId": 2
+    },
+    {
+      "subjectId": 34,
+      "prerequisiteSubjectId": 9
+    },
+    {
+      "subjectId": 34,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 34,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 34,
+      "prerequisiteSubjectId": 27
+    },
+    {
+      "subjectId": 35,
+      "prerequisiteSubjectId": 28
+    },
+    {
+      "subjectId": 36,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 36,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 36,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 36,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 36,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 36,
+      "prerequisiteSubjectId": 2
+    },
+    {
+      "subjectId": 36,
+      "prerequisiteSubjectId": 9
+    },
+    {
+      "subjectId": 37,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 37,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 37,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 37,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 37,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 32
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 31
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 24
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 6
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 12
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 19
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 25
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 2
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 9
+    },
+    {
+      "subjectId": 40,
+      "prerequisiteSubjectId": 30
+    },
+    {
+      "subjectId": 41,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 41,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 41,
+      "prerequisiteSubjectId": 32
+    },
+    {
+      "subjectId": 42,
+      "prerequisiteSubjectId": 23
+    },
+    {
+      "subjectId": 42,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 42,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 42,
+      "prerequisiteSubjectId": 11
+    },
+    {
+      "subjectId": 42,
+      "prerequisiteSubjectId": 18
+    },
+    {
+      "subjectId": 42,
+      "prerequisiteSubjectId": 29
+    },
+    {
+      "subjectId": 43,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 43,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 43,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 43,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 43,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 43,
+      "prerequisiteSubjectId": 37
+    },
+    {
+      "subjectId": 43,
+      "prerequisiteSubjectId": 24
+    },
+    {
+      "subjectId": 43,
+      "prerequisiteSubjectId": 6
+    },
+    {
+      "subjectId": 43,
+      "prerequisiteSubjectId": 12
+    },
+    {
+      "subjectId": 43,
+      "prerequisiteSubjectId": 19
+    },
+    {
+      "subjectId": 44,
+      "prerequisiteSubjectId": 30
+    },
+    {
+      "subjectId": 44,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 44,
+      "prerequisiteSubjectId": 2
+    },
+    {
+      "subjectId": 44,
+      "prerequisiteSubjectId": 9
+    },
+    {
+      "subjectId": 44,
+      "prerequisiteSubjectId": 24
+    },
+    {
+      "subjectId": 44,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 44,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 44,
+      "prerequisiteSubjectId": 36
+    },
+    {
+      "subjectId": 48,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 48,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 48,
+      "prerequisiteSubjectId": 15
+    },
+    {
+      "subjectId": 48,
+      "prerequisiteSubjectId": 20
+    },
+    {
+      "subjectId": 49,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 49,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 49,
+      "prerequisiteSubjectId": 15
+    },
+    {
+      "subjectId": 49,
+      "prerequisiteSubjectId": 20
+    },
+    {
+      "subjectId": 51,
+      "prerequisiteSubjectId": 24
+    },
+    {
+      "subjectId": 51,
+      "prerequisiteSubjectId": 6
+    },
+    {
+      "subjectId": 51,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 51,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 51,
+      "prerequisiteSubjectId": 12
+    },
+    {
+      "subjectId": 51,
+      "prerequisiteSubjectId": 19
+    },
+    {
+      "subjectId": 51,
+      "prerequisiteSubjectId": 42
+    },
+    {
+      "subjectId": 51,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 51,
+      "prerequisiteSubjectId": 41
+    },
+    {
+      "subjectId": 51,
+      "prerequisiteSubjectId": 32
+    },
+    {
+      "subjectId": 52,
+      "prerequisiteSubjectId": 24
+    },
+    {
+      "subjectId": 52,
+      "prerequisiteSubjectId": 6
+    },
+    {
+      "subjectId": 52,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 52,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 52,
+      "prerequisiteSubjectId": 12
+    },
+    {
+      "subjectId": 52,
+      "prerequisiteSubjectId": 19
+    },
+    {
+      "subjectId": 52,
+      "prerequisiteSubjectId": 42
+    },
+    {
+      "subjectId": 52,
+      "prerequisiteSubjectId": 32
+    },
+    {
+      "subjectId": 52,
+      "prerequisiteSubjectId": 41
+    },
+    {
+      "subjectId": 52,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 53,
+      "prerequisiteSubjectId": 42
+    },
+    {
+      "subjectId": 53,
+      "prerequisiteSubjectId": 41
+    },
+    {
+      "subjectId": 53,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 53,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 53,
+      "prerequisiteSubjectId": 21
+    },
+    {
+      "subjectId": 54,
+      "prerequisiteSubjectId": 16
+    },
+    {
+      "subjectId": 54,
+      "prerequisiteSubjectId": 22
+    },
+    {
+      "subjectId": 54,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 54,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 55,
+      "prerequisiteSubjectId": 15
+    },
+    {
+      "subjectId": 55,
+      "prerequisiteSubjectId": 16
+    },
+    {
+      "subjectId": 55,
+      "prerequisiteSubjectId": 22
+    },
+    {
+      "subjectId": 55,
+      "prerequisiteSubjectId": 28
+    },
+    {
+      "subjectId": 55,
+      "prerequisiteSubjectId": 35
+    },
+    {
+      "subjectId": 56,
+      "prerequisiteSubjectId": 15
+    },
+    {
+      "subjectId": 56,
+      "prerequisiteSubjectId": 16
+    },
+    {
+      "subjectId": 56,
+      "prerequisiteSubjectId": 22
+    },
+    {
+      "subjectId": 57,
+      "prerequisiteSubjectId": 15
+    },
+    {
+      "subjectId": 57,
+      "prerequisiteSubjectId": 16
+    },
+    {
+      "subjectId": 57,
+      "prerequisiteSubjectId": 22
+    },
+    {
+      "subjectId": 57,
+      "prerequisiteSubjectId": 41
+    },
+    {
+      "subjectId": 59,
+      "prerequisiteSubjectId": 20
+    },
+    {
+      "subjectId": 59,
+      "prerequisiteSubjectId": 24
+    },
+    {
+      "subjectId": 59,
+      "prerequisiteSubjectId": 6
+    },
+    {
+      "subjectId": 59,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 59,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 59,
+      "prerequisiteSubjectId": 12
+    },
+    {
+      "subjectId": 59,
+      "prerequisiteSubjectId": 19
+    },
+    {
+      "subjectId": 59,
+      "prerequisiteSubjectId": 49
+    },
+    {
+      "subjectId": 59,
+      "prerequisiteSubjectId": 48
+    },
+    {
+      "subjectId": 63,
+      "prerequisiteSubjectId": 42
+    },
+    {
+      "subjectId": 63,
+      "prerequisiteSubjectId": 55
+    },
+    {
+      "subjectId": 63,
+      "prerequisiteSubjectId": 56
+    },
+    {
+      "subjectId": 63,
+      "prerequisiteSubjectId": 30
+    },
+    {
+      "subjectId": 63,
+      "prerequisiteSubjectId": 36
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 24
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 6
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 12
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 19
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 25
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 3
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 10
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 15
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 16
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 22
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 28
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 35
+    },
+    {
+      "subjectId": 65,
+      "prerequisiteSubjectId": 55
+    },
+    {
+      "subjectId": 66,
+      "prerequisiteSubjectId": 15
+    },
+    {
+      "subjectId": 66,
+      "prerequisiteSubjectId": 16
+    },
+    {
+      "subjectId": 66,
+      "prerequisiteSubjectId": 22
+    },
+    {
+      "subjectId": 66,
+      "prerequisiteSubjectId": 56
+    },
+    {
+      "subjectId": 66,
+      "prerequisiteSubjectId": 24
+    },
+    {
+      "subjectId": 66,
+      "prerequisiteSubjectId": 6
+    },
+    {
+      "subjectId": 66,
+      "prerequisiteSubjectId": 1
+    },
+    {
+      "subjectId": 66,
+      "prerequisiteSubjectId": 8
+    },
+    {
+      "subjectId": 66,
+      "prerequisiteSubjectId": 12
+    },
+    {
+      "subjectId": 66,
+      "prerequisiteSubjectId": 19
+    }
+  ],
+  "counters": {
+    "colleges": 2,
+    "programs": 2,
+    "years": 6,
+    "semesters": 11,
+    "subjects": 68
+  }
+}

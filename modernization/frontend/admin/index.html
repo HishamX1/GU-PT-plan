@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PT Plan - Admin</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header>
+  <h1>Admin Dashboard</h1>
+  <div class="nav"><a href="/">Student View</a></div>
+</header>
+<main>
+  <section class="card">
+    <h2>Create entities</h2>
+    <p class="error" id="error"></p>
+    <p class="success" id="success"></p>
+    <div class="grid">
+      <div><label>College Name</label><input id="collegeName" required /><button id="addCollege">Add College</button></div>
+      <div>
+        <label>Program College</label><select id="programCollege" required></select>
+        <label>Program Name</label><input id="programName" required />
+        <button id="addProgram">Add Program</button>
+      </div>
+      <div>
+        <label>Year Program</label><select id="yearProgram" required></select>
+        <label>Year Number</label><input id="yearNumber" type="number" min="1" required />
+        <button id="addYear">Add Year</button>
+      </div>
+      <div>
+        <label>Semester Year</label><select id="semesterYear" required></select>
+        <label>Semester Number</label><select id="semesterNumber"><option value="1">1</option><option value="2">2</option></select>
+        <button id="addSemester">Add Semester</button>
+      </div>
+      <div>
+        <label>Subject Semester</label><select id="subjectSemester" required></select>
+        <label>Subject Code</label><input id="subjectCode" required />
+        <label>Subject Name</label><input id="subjectName" required />
+        <label>Credits</label><input id="subjectCredits" type="number" min="1" required />
+        <label>Notes</label><textarea id="subjectNotes"></textarea>
+        <button id="addSubject">Add Subject</button>
+      </div>
+    </div>
+  </section>
+</main>
+<script type="module" src="/admin/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "gu-pt-modernization",
+  "version": "1.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "extract:data": "node scripts/extract-plan-data.js",
+    "db:migrate": "node backend/src/db/runMigrations.js",
+    "db:seed": "node backend/src/db/runSeed.js",
+    "start": "node backend/src/server.js",
+    "dev": "node --watch backend/src/server.js",
+    "check": "node --check backend/src/server.js && node --check scripts/extract-plan-data.js && node --check scripts/smoke-test.js",
+    "smoke": "node scripts/smoke-test.js"
+  }
+}
