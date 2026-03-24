@@ -36,6 +36,19 @@ This module extends the original proof-of-concept without altering existing root
    - `http://localhost:4000/` (student)
    - `http://localhost:4000/admin` (admin)
 
+## Local preview (no changes to original PT plan files)
+Use this when you want a full preview without editing root `data.js` or any original plan assets.
+
+1. `cd modernization`
+2. `npm install`
+3. `npm run preview:local`
+4. Open:
+   - `http://localhost:4000/` (student preview)
+   - `http://localhost:4000/admin` (admin preview)
+
+Notes:
+- `preview:local` reads/extracts from the root `../data.js` and writes only to modernization runtime artifacts (`data/academic-plan.json` and `data/runtime-db.json`).
+- It does not modify the original study plan source files.
 
 
 ## Current operational scope
@@ -64,3 +77,10 @@ This module extends the original proof-of-concept without altering existing root
 
 ## Restricted environment mode
 If package registries are blocked, runtime still works with no external dependencies and stores data at `data/runtime-db.json`.
+
+## Hosting note
+- GitHub Pages is static-only; full modernization behavior requires running backend API locally or on a deployed server.
+
+
+## Merge note (v2)
+If merge conflicts occur, keep this file's sections for `Local preview`, `Production database readiness`, and `REST API` as the source of truth. Also keep `modernization/package.json` script names unchanged (`extract:data`, `db:migrate`, `db:seed`, `smoke`, `preview:local`).

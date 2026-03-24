@@ -29,6 +29,14 @@
                     <button id="search-btn"><i class="fas fa-search"></i></button>
                 </div>
 
+                <!-- BEGIN: modernization preview links (merge-safe block) -->
+                <div class="modernization-links" id="modernization-links" data-merge-baseline="v2">
+                    <a class="modernization-link" href="modernization/frontend/student/index.html" target="_blank" rel="noopener">Modernized UI (Static)</a>
+                    <a class="modernization-link secondary" href="http://localhost:4000/" target="_blank" rel="noopener">Modernized Student (Local API)</a>
+                    <a class="modernization-link secondary" href="http://localhost:4000/admin" target="_blank" rel="noopener">Modernized Admin (Local API)</a>
+                    <span class="modernization-status" id="modernization-status">Modernization API status: checking...</span>
+                </div>
+                <!-- END: modernization preview links (merge-safe block) -->
             <div class="modernization-links" id="modernization-links">
                 <a class="modernization-link" href="http://localhost:4000/" target="_blank" rel="noopener">Modernized Student Preview</a>
                 <a class="modernization-link secondary" href="http://localhost:4000/admin" target="_blank" rel="noopener">Modernized Admin Preview</a>
@@ -137,6 +145,10 @@
           const res = await fetch('http://localhost:4000/api/health', { mode: 'cors' });
           if (!res.ok) throw new Error('not_ok');
           const data = await res.json();
+          statusEl.textContent = `Modernization API status: online (${data.mode})`; 
+          statusEl.classList.add('online');
+        } catch {
+          statusEl.textContent = 'Modernization API status: offline (static preview works; run `cd modernization && npm run preview:local` for full stack)';
           statusEl.textContent = `Modernization server status: online (${data.mode})`;
           statusEl.classList.add('online');
         } catch {
