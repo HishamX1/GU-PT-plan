@@ -39,3 +39,14 @@
 
  * Created for Galala University, 2025 Created By Hisham_Abdelaal
  #H_X
+
+
+## Modernization local preview
+To preview the modernized admin/student experience locally (without editing original PT plan source files):
+
+1. `cd modernization`
+2. `npm install`
+3. `npm run preview:local`
+4. Open `http://localhost:4000/` (student) and `http://localhost:4000/admin` (admin).
+
+You can also open the root `index.html` and use the new **Modernized Preview** links in the header; they show online/offline status for the modernization server.

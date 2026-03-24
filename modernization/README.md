@@ -37,6 +37,7 @@ This module extends the original proof-of-concept without altering existing root
    - `http://localhost:4000/admin` (admin)
 
 
+
 ## Current operational scope
 - Admin can create **colleges (faculties)**, programs, years, semesters, and subjects via `/admin`.
 - Student portal browses records through cascading filters and loads subjects with the full hierarchy (`collegeId`, `programId`, `yearId`, `semesterId`) to prevent cross-faculty/cross-program mismatches.
