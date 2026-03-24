@@ -50,6 +50,7 @@ Notes:
 - `preview:local` reads/extracts from the root `../data.js` and writes only to modernization runtime artifacts (`data/academic-plan.json` and `data/runtime-db.json`).
 - It does not modify the original study plan source files.
 
+
 ## Current operational scope
 - Admin can create **colleges (faculties)**, programs, years, semesters, and subjects via `/admin`.
 - Student portal browses records through cascading filters and loads subjects with the full hierarchy (`collegeId`, `programId`, `yearId`, `semesterId`) to prevent cross-faculty/cross-program mismatches.

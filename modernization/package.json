@@ -14,4 +14,6 @@
     "preview:local": "DATA_MODE=file npm run extract:data && DATA_MODE=file npm run db:migrate && DATA_MODE=file npm run db:seed && DATA_MODE=file node backend/src/server.js"
   },
   "description": "Modernization runtime scripts (canonical merge baseline v2 for preview/db workflows)"
+
+  }
 }
