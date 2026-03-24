@@ -1,4 +1,6 @@
 const api = '/api';
+const staticDataUrl = '../../data/runtime-db.json';
+let staticDbPromise;
 
 const collegeEl = document.getElementById('college');
 const programEl = document.getElementById('program');
@@ -13,8 +15,58 @@ function options(select, items, labelKey = 'name', valueKey = 'id') {
 }
 
 async function fetchJson(url) {
-  const res = await fetch(url);
-  return res.json();
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    if (!url.startsWith(api)) throw error;
+    const db = await getStaticDb();
+    return resolveFromStaticDb(url, db);
+  }
+}
+
+async function getStaticDb() {
+  if (!staticDbPromise) {
+    staticDbPromise = fetch(staticDataUrl).then((res) => {
+      if (!res.ok) throw new Error('Failed to load static data');
+      return res.json();
+    });
+  }
+  return staticDbPromise;
+}
+
+function resolveFromStaticDb(url, db) {
+  const parsed = new URL(url, 'https://local.test');
+  const path = parsed.pathname;
+  const q = parsed.searchParams;
+
+  if (path === '/api/colleges') return db.colleges ?? [];
+  if (path === '/api/programs') {
+    const collegeId = Number(q.get('collegeId'));
+    return (db.programs ?? []).filter((p) => !collegeId || p.collegeId === collegeId);
+  }
+  if (path === '/api/years') {
+    const programId = Number(q.get('programId'));
+    return (db.years ?? []).filter((y) => !programId || y.programId === programId);
+  }
+  if (path === '/api/semesters') {
+    const yearId = Number(q.get('yearId'));
+    return (db.semesters ?? []).filter((s) => !yearId || s.yearId === yearId);
+  }
+  if (path === '/api/subjects') {
+    const collegeId = Number(q.get('collegeId'));
+    const programId = Number(q.get('programId'));
+    const yearId = Number(q.get('yearId'));
+    const semesterId = Number(q.get('semesterId'));
+    return (db.subjects ?? []).filter((s) =>
+      (!collegeId || s.collegeId === collegeId) &&
+      (!programId || s.programId === programId) &&
+      (!yearId || s.yearId === yearId) &&
+      (!semesterId || s.semesterId === semesterId)
+    );
+  }
+  return [];
 }
 
 async function init() {

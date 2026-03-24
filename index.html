@@ -32,8 +32,8 @@
                 <!-- BEGIN: modernization preview links (merge-safe block) -->
                 <div class="modernization-links" id="modernization-links" data-merge-baseline="v2">
                     <a class="modernization-link" href="modernization/frontend/student/index.html" target="_blank" rel="noopener">Modernized UI (Static)</a>
-                    <a class="modernization-link secondary" href="http://localhost:4000/" target="_blank" rel="noopener">Modernized Student (Local API)</a>
-                    <a class="modernization-link secondary" href="http://localhost:4000/admin" target="_blank" rel="noopener">Modernized Admin (Local API)</a>
+                    <a class="modernization-link secondary" href="modernization/frontend/student/index.html" target="_blank" rel="noopener">Modernized Student Preview</a>
+                    <a class="modernization-link secondary" href="modernization/frontend/admin/index.html" target="_blank" rel="noopener">Modernized Admin Preview</a>
                     <span class="modernization-status" id="modernization-status">Modernization API status: checking...</span>
                 </div>
                 <!-- END: modernization preview links (merge-safe block) -->
@@ -143,7 +143,7 @@
           statusEl.textContent = `Modernization API status: online (${data.mode})`; 
           statusEl.classList.add('online');
         } catch {
-          statusEl.textContent = 'Modernization API status: offline (static preview works; run `cd modernization && npm run preview:local` for full stack)';
+          statusEl.textContent = 'Modernization API status: offline (static previews above work; run `cd modernization && npm run preview:local` for full stack)';
           statusEl.classList.add('offline');
         }
       })();
