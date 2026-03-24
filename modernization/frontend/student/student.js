@@ -55,7 +55,7 @@ yearEl.addEventListener('change', async () => {
 semesterEl.addEventListener('change', async () => {
   subjectsEl.innerHTML = '';
   if (!semesterEl.value) return;
-  const subjects = await fetchJson(`${api}/subjects?semesterId=${semesterEl.value}`);
+  const subjects = await fetchJson(`${api}/subjects?collegeId=${collegeEl.value}&programId=${programEl.value}&yearId=${yearEl.value}&semesterId=${semesterEl.value}`);
   subjectsEl.innerHTML = subjects.map((s) =>
     `<tr><td>${s.subjectCode}</td><td>${s.subjectName}</td><td>${s.credits}</td><td>${s.notes ?? ''}</td></tr>`
   ).join('');

@@ -2,6 +2,9 @@ const api = '/api';
 const errorEl = document.getElementById('error');
 const successEl = document.getElementById('success');
 
+
+const cache = { colleges: [], programs: [], years: [], semesters: [] };
+
 const ids = {
   programCollege: document.getElementById('programCollege'),
   yearProgram: document.getElementById('yearProgram'),
@@ -31,15 +34,19 @@ async function request(path, options = {}) {
 
 async function loadRelations() {
   const colleges = await request('/colleges');
+  cache.colleges = colleges;
   renderOptions(ids.programCollege, colleges);
 
   const programs = await request('/programs');
+  cache.programs = programs;
   renderOptions(ids.yearProgram, programs);
 
   const years = await request('/years');
+  cache.years = years;
   renderOptions(ids.semesterYear, years, 'yearNumber');
 
   const semesters = await request('/semesters');
+  cache.semesters = semesters;
   renderOptions(ids.subjectSemester, semesters, 'semesterNumber');
 }
 
@@ -94,7 +101,27 @@ document.getElementById('addSubject').onclick = async () => {
     const credits = Number(document.getElementById('subjectCredits').value);
     const notes = document.getElementById('subjectNotes').value.trim() || null;
     if (!semesterId || !subjectCode || !subjectName || !credits) throw new Error('All subject fields are required');
-    await request('/subjects', { method: 'POST', body: JSON.stringify({ semesterId, subjectCode, subjectName, credits, notes, prerequisiteSubjectIds: [] }) });
+
+    const semester = cache.semesters.find((s) => s.id === semesterId);
+    const year = cache.years.find((y) => y.id === semester?.yearId);
+    const program = cache.programs.find((p) => p.id === year?.programId);
+    const college = cache.colleges.find((c) => c.id === program?.collegeId);
+    if (!semester || !year || !program || !college) throw new Error('Please reload relations and try again');
+
+    await request('/subjects', {
+      method: 'POST',
+      body: JSON.stringify({
+        semesterId,
+        yearId: year.id,
+        programId: program.id,
+        collegeId: college.id,
+        subjectCode,
+        subjectName,
+        credits,
+        notes,
+        prerequisiteSubjectIds: []
+      })
+    });
     setMessage('success', 'Subject added');
   } catch (e) { setMessage('error', e.message); }
 };
