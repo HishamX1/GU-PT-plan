@@ -31,6 +31,9 @@ export function validateSubject(body) {
   if (typeof body?.subjectCode !== 'string' || body.subjectCode.trim().length < 1) return 'Invalid subjectCode';
   if (!isPositiveInt(body?.credits) || body.credits > 30) return 'Invalid credits';
   if (body.notes !== undefined && body.notes !== null && typeof body.notes !== 'string') return 'Invalid notes';
+  if (body.collegeId !== undefined && !isPositiveInt(body.collegeId)) return 'Invalid collegeId';
+  if (body.programId !== undefined && !isPositiveInt(body.programId)) return 'Invalid programId';
+  if (body.yearId !== undefined && !isPositiveInt(body.yearId)) return 'Invalid yearId';
   if (!Array.isArray(body?.prerequisiteSubjectIds || [])) return 'Invalid prerequisiteSubjectIds';
   return null;
 }
