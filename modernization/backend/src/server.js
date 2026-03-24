@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { env } from './config/env.js';
 import { handleApi } from './routes/catalogRoutes.js';
-import { ensureStore } from './db/store.js';
+import { ensureDataStore } from './db/client.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,7 +29,7 @@ function serveFile(res, filePath) {
   res.end(fs.readFileSync(filePath));
 }
 
-ensureStore();
+await ensureDataStore();
 
 const server = http.createServer(async (req, res) => {
   const started = Date.now();
@@ -55,7 +55,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(env.port, () => {
-  console.log(`Backend running on port ${env.port}`);
+  console.log(`Backend running on port ${env.port} (${env.dataMode} mode)`);
 });
 
 process.on('SIGTERM', () => {
