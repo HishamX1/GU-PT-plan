@@ -39,3 +39,34 @@
 
  * Created for Galala University, 2025 Created By Hisham_Abdelaal
  #H_X
+
+
+## Modernization local preview
+To preview the modernized admin/student experience locally (without editing original PT plan source files):
+
+1. `cd modernization`
+2. `npm install`
+3. `npm run preview:local`
+4. Open `http://localhost:4000/` (student) and `http://localhost:4000/admin` (admin).
+
+You can also open the root `index.html` and use the new **Modernized Preview** links in the header; they show online/offline status for the modernization server.
+
+
+## Why GitHub Pages still looks the same
+`https://hishamx1.github.io/GU-PT-plan/` is a static host, so it cannot run the modernization backend API (`/api/...`) on port 4000.
+That is why the original view still appears as the primary experience there.
+
+## Whole-project local preview (legacy + modernization together)
+Run from repository root:
+
+```bash
+./scripts/preview-all.sh
+```
+
+This launches:
+- Legacy site at `http://localhost:8080`
+- Modernized student full stack at `http://localhost:4000`
+- Modernized admin full stack at `http://localhost:4000/admin`
+- Static modernized UI at `http://localhost:8080/modernization/frontend/student/index.html`
+
+Use this to test the whole project end-to-end before production launch.

@@ -6,7 +6,7 @@ This module extends the original proof-of-concept without altering existing root
 - Structured academic model extracted from `../data.js` into `data/academic-plan.json`.
 - Normalized PostgreSQL schema and migration scripts for production databases.
 - Seed pipeline that imports all years/semesters/subjects and prerequisite links.
-- Dependency-free Node.js backend APIs with validation and duplicate prevention.
+- Node.js backend APIs with validation, duplicate prevention, and PostgreSQL runtime support.
 - Minimal student interface and admin dashboard (dropdown-driven relation input).
 - Deployment instructions/artifacts for Vercel (frontend), Render (backend), and Supabase (database).
 
@@ -36,12 +36,36 @@ This module extends the original proof-of-concept without altering existing root
    - `http://localhost:4000/` (student)
    - `http://localhost:4000/admin` (admin)
 
+## Local preview (no changes to original PT plan files)
+Use this when you want a full preview without editing root `data.js` or any original plan assets.
+
+1. `cd modernization`
+2. `npm install`
+3. `npm run preview:local`
+4. Open:
+   - `http://localhost:4000/` (student preview)
+   - `http://localhost:4000/admin` (admin preview)
+
+Notes:
+- `preview:local` reads/extracts from the root `../data.js` and writes only to modernization runtime artifacts (`data/academic-plan.json` and `data/runtime-db.json`).
+- It does not modify the original study plan source files.
+
+## Current operational scope
+- Admin can create **colleges (faculties)**, programs, years, semesters, and subjects via `/admin`.
+- Student portal browses records through cascading filters and loads subjects with the full hierarchy (`collegeId`, `programId`, `yearId`, `semesterId`) to prevent cross-faculty/cross-program mismatches.
+- Runtime supports `postgres` mode for live deployments and `file` mode only as a fallback.
+
+## Production database readiness
+- PostgreSQL migrations and seed SQL are included under `db/migrations` and `db/seeds`.
+- Backend services now execute SQL in `postgres` mode (with DB constraints + duplicate protection) and preserve file mode only for restricted environments.
+- For live deployments, set `DATA_MODE=postgres`, configure `DATABASE_URL`, and ensure the `pg` driver is available in your runtime environment.
+
 ## REST API
 - `GET /api/colleges` | `POST /api/colleges`
 - `GET /api/programs?collegeId=...` | `POST /api/programs`
 - `GET /api/years?programId=...` | `POST /api/years`
 - `GET /api/semesters?yearId=...` | `POST /api/semesters`
-- `GET /api/subjects?semesterId=...` | `POST /api/subjects`
+- `GET /api/subjects?collegeId=...&programId=...&yearId=...&semesterId=...` | `POST /api/subjects`
 
 ## Data integrity and human error prevention
 - Required fields validated in backend schemas.
@@ -52,3 +76,6 @@ This module extends the original proof-of-concept without altering existing root
 
 ## Restricted environment mode
 If package registries are blocked, runtime still works with no external dependencies and stores data at `data/runtime-db.json`.
+
+## Hosting note
+- GitHub Pages is static-only; full modernization behavior requires running backend API locally or on a deployed server.
