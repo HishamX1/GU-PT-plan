@@ -28,6 +28,15 @@
                     <input type="text" id="course-search" placeholder="Search courses...">
                     <button id="search-btn"><i class="fas fa-search"></i></button>
                 </div>
+
+            <!-- BEGIN: modernization preview links -->
+            <div class="modernization-links" id="modernization-links">
+                <a class="modernization-link" href="modernization/frontend/student/index.html" target="_blank" rel="noopener">Modernized UI (Static)</a>
+                <a class="modernization-link secondary" href="http://localhost:4000/" target="_blank" rel="noopener">Modernized Student (Local API)</a>
+                <a class="modernization-link secondary" href="http://localhost:4000/admin" target="_blank" rel="noopener">Modernized Admin (Local API)</a>
+                <span class="modernization-status" id="modernization-status">Modernization API status: checking...</span>
+            </div>
+            <!-- END: modernization preview links -->
             </div>
         </div>
     </header>
@@ -122,5 +131,23 @@
     <script src="tester.js"></script>
     <!-- <script src="assets/relationship-arrows.js"></script> -->
     <script src="enhanced-spacing.js"></script>
+
+    <script>
+      (async function checkModernizationStatus() {
+        const statusEl = document.getElementById('modernization-status');
+        if (!statusEl) return;
+        try {
+          const res = await fetch('http://localhost:4000/api/health', { mode: 'cors' });
+          if (!res.ok) throw new Error('not_ok');
+          const data = await res.json();
+          statusEl.textContent = `Modernization API status: online (${data.mode})`; 
+          statusEl.classList.add('online');
+        } catch {
+          statusEl.textContent = 'Modernization API status: offline (static preview works; run `cd modernization && npm run preview:local` for full stack)';
+          statusEl.classList.add('offline');
+        }
+      })();
+    </script>
+
 </body>
 </html>

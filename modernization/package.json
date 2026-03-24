@@ -9,7 +9,9 @@
     "db:seed": "node backend/src/db/runSeed.js",
     "start": "node backend/src/server.js",
     "dev": "node --watch backend/src/server.js",
-    "check": "node --check backend/src/server.js && node --check scripts/extract-plan-data.js && node --check scripts/smoke-test.js",
-    "smoke": "node scripts/smoke-test.js"
-  }
+    "check": "node --check backend/src/server.js && node --check backend/src/routes/catalogRoutes.js && node --check backend/src/services/catalogService.js && node --check backend/src/db/client.js && node --check scripts/extract-plan-data.js && node --check scripts/smoke-test.js",
+    "smoke": "node scripts/smoke-test.js",
+    "preview:local": "DATA_MODE=file npm run extract:data && DATA_MODE=file npm run db:migrate && DATA_MODE=file npm run db:seed && DATA_MODE=file node backend/src/server.js"
+  },
+  "description": "Modernization runtime scripts (canonical merge baseline for preview/db workflows)"
 }

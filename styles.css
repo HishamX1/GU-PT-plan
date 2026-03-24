@@ -1045,3 +1045,40 @@ select {
 }
 /* End of Focus Mode Styling */
 
+
+/* Modernization preview quick links */
+.modernization-links {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.modernization-link {
+  font-size: 0.8rem;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modernization-link.secondary {
+  background: transparent;
+}
+
+.modernization-status {
+  font-size: 0.78rem;
+  padding-left: 4px;
+  opacity: 0.95;
+}
+
+.modernization-status.online {
+  color: #97ffbb;
+}
+
+.modernization-status.offline {
+  color: #ffd28e;
+}

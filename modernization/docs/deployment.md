@@ -2,14 +2,15 @@
 
 ## Environment files
 - Copy `.env.example` to `.env` for local development.
-- Set `PORT`, `API_BASE_PATH`, and `CORS_ORIGIN` appropriately.
+- Set `PORT`, `API_BASE_PATH`, `CORS_ORIGIN`, `DATABASE_URL`, and `DATA_MODE` appropriately.
 
 ## Supabase (PostgreSQL)
 1. Create a Supabase project.
 2. Copy connection string into `DATABASE_URL`.
-3. Run SQL migration/seed files in Supabase SQL editor:
-   - `db/migrations/001_init.sql`
-   - `db/seeds/001_seed.sql`
+3. Ensure the Node runtime has the `pg` driver available (`npm install pg`).
+4. Run migrations and seed from the backend service:
+   - `npm run db:migrate`
+   - `npm run db:seed`
 
 ## Render (Backend)
 1. Create a new Web Service from this repository.
@@ -20,6 +21,8 @@
    - `PORT=4000`
    - `API_BASE_PATH=/api`
    - `CORS_ORIGIN=https://<your-vercel-domain>`
+   - `DATABASE_URL=<your-supabase-or-postgres-url>`
+   - `DATA_MODE=postgres`
 6. Optional: reuse provided `render.yaml`.
 
 ## Vercel (Frontend)
@@ -28,7 +31,7 @@
 3. Update `YOUR_RENDER_URL` placeholder.
 
 ## Post-deployment checks
-- `GET /api/health` returns `{ status: "ok", mode: "offline-file-store" }`.
+- `GET /api/health` returns `{ status: "ok", mode: "postgres" }`.
 - Student page loads cascading filters.
 - Admin creates records and duplicate prevention returns 409.
 
