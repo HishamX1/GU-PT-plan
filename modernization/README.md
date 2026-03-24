@@ -36,19 +36,7 @@ This module extends the original proof-of-concept without altering existing root
    - `http://localhost:4000/` (student)
    - `http://localhost:4000/admin` (admin)
 
-## Local preview (no changes to original PT plan files)
-Use this when you want a full preview without editing root `data.js` or any original plan assets.
 
-1. `cd modernization`
-2. `npm install`
-3. `npm run preview:local`
-4. Open:
-   - `http://localhost:4000/` (student preview)
-   - `http://localhost:4000/admin` (admin preview)
-
-Notes:
-- `preview:local` reads/extracts from the root `../data.js` and writes only to modernization runtime artifacts (`data/academic-plan.json` and `data/runtime-db.json`).
-- It does not modify the original study plan source files.
 
 ## Current operational scope
 - Admin can create **colleges (faculties)**, programs, years, semesters, and subjects via `/admin`.
