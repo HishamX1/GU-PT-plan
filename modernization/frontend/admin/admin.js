@@ -1,8 +1,8 @@
 const api = window.location.origin.includes('localhost:4000')
   ? '/api'
   : 'http://localhost:4000/api';
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'admin';
+const ADMIN_USER = 'Admin';
+const ADMIN_PASS = 'Admin';
 
 const errorEl = document.getElementById('error');
 const successEl = document.getElementById('success');
