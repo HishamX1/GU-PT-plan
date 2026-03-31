@@ -25,7 +25,8 @@
             </div>
             <div class="search-container">
                 <div class="search-box">
-                    <input type="text" id="course-search" placeholder="Search courses...">
+                    <input type="text" id="course-search" list="course-search-suggestions" placeholder="Search courses by code or name...">
+                    <datalist id="course-search-suggestions"></datalist>
                     <button id="search-btn"><i class="fas fa-search"></i></button>
                 </div>
 
@@ -185,7 +186,7 @@
             .sort((a, b) => a.code.localeCompare(b.code))
             .map((course) => `
               <tr>
-                <td>${course.code}</td>
+                <td><button type="button" class="student-review-link" data-course-code="${course.code}">${course.code}</button></td>
                 <td>${course.name}</td>
                 <td>${course.credits}</td>
                 <td>${course.prerequisites?.length ? course.prerequisites.join(', ') : 'None'}</td>
@@ -199,6 +200,14 @@
         semesterSelect.value = '1';
         renderRows();
         semesterSelect.addEventListener('change', renderRows);
+        tbody.addEventListener('click', (event) => {
+          const btn = event.target.closest('.student-review-link');
+          if (!btn) return;
+          const code = btn.getAttribute('data-course-code');
+          if (typeof window.quickAccessCourse === 'function') {
+            window.quickAccessCourse(code);
+          }
+        });
       })();
     </script>
 

@@ -1,6 +1,8 @@
-const api = '/api';
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'admin';
+const api = window.location.origin.includes('localhost:4000')
+  ? '/api'
+  : 'http://localhost:4000/api';
+const ADMIN_USER = 'Admin';
+const ADMIN_PASS = 'Admin';
 
 const errorEl = document.getElementById('error');
 const successEl = document.getElementById('success');
@@ -44,6 +46,10 @@ async function request(path, options = {}) {
     headers: { 'Content-Type': 'application/json' },
     ...options
   });
+  const contentType = res.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    throw new Error('Modernization API is unavailable. Run `cd modernization && npm run preview:local`.');
+  }
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'Request failed');
   return data;

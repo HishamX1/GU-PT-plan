@@ -1138,3 +1138,16 @@ select {
   text-align: left;
   font-size: 0.9rem;
 }
+
+.student-review-link {
+  background: transparent;
+  border: none;
+  color: #1f3b78;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.student-review-link:hover {
+  text-decoration: underline;
+}

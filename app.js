@@ -251,52 +251,31 @@ function setupEventListeners() {
 
     /**
      * Perform search based on the search input
+     */
     function performSearch() {
         const query = elements.courseSearch.value.trim().toLowerCase();
-        if (!query) return;
-        
-        state.searchResults = courses.filter(course => 
-            course.code.toLowerCase().includes(query) || 
+        if (!query) {
+            renderSemesters();
+            return;
+        }
+
+        state.searchResults = courses.filter(course =>
+            course.code.toLowerCase().includes(query) ||
             course.name.toLowerCase().includes(query)
         );
-        
-        // Tag filtering is now handled by filters.js, so we call its search/filter mechanism
-        if (window.ptFilters) {
-            window.ptFilters.performSearch(); // This will internally filter and render
+
+        if (state.searchResults.length > 0) {
+            renderSearchResults();
+            addToNavigationStack({ type: 'search', id: query });
+            updateBreadcrumbs();
+            updateHistoryList();
         } else {
-            // Fallback if filters.js is not loaded, though it should be
-            if (state.searchResults.length > 0) {
-                renderSearchResults(); // This is app.js's original search result rendering
-                addToNavigationStack({ type: 'search', id: query });
-                updateBreadcrumbs();
-                updateHistoryList();
-            } else {
-                elements.semesterContainer.innerHTML = `
-                    <div class="no-results">
-                        <h3>No courses found matching "${query}"</h3>
-                        <button class="back-btn">← Back</button>
-                    </div>
-                `;
-            }
-        }
-    }   // Semester card
-        if (target.closest('.semester-card')) {
-            const card = target.closest('.semester-card');
-            handleSemesterNavigation(card);
-            return;
-        }
-        
-        // Course card
-        if (target.closest('.course-card')) {
-            const card = target.closest('.course-card');
-            if (card.classList.contains('tree-node')) {
-                // If it's a tree node in the hierarchy view
-                handleCourseNavigation(card);
-            } else {
-                // If it's a course in the course list view
-                handleCourseNavigation(card);
-            }
-            return;
+            elements.semesterContainer.innerHTML = `
+                <div class="no-results">
+                    <h3>No courses found matching "${query}"</h3>
+                    <button class="back-btn">← Back</button>
+                </div>
+            `;
         }
     }
 
@@ -329,6 +308,15 @@ function setupEventListeners() {
         updateBreadcrumbs();
         updateHistoryList();
     }
+
+    window.quickAccessCourse = function(courseCode) {
+        if (!courseCode || !courses.some(c => c.code === courseCode)) return;
+        addToNavigationStack({ type: 'course', id: courseCode });
+        renderCourseHierarchy(courseCode);
+        updateBreadcrumbs();
+        updateHistoryList();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     /**
      * Show course details in a modal
@@ -971,52 +959,24 @@ function setupEventListeners() {
 
     // Initialize the application
     initialize();
-});
-// In app.js, add to initialize():
-function initialize() {
-    // ... existing code ...
-    setupAnimationObservers(); // Add this line
-}
 
-// Add new method:
-function setupAnimationObservers() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
+    const suggestionList = document.getElementById('course-search-suggestions');
+    if (suggestionList && elements.courseSearch) {
+        suggestionList.innerHTML = courses
+            .slice()
+            .sort((a, b) => a.code.localeCompare(b.code))
+            .map((course) => `<option value="${course.code} - ${course.name}"></option>`)
+            .join('');
+
+        elements.courseSearch.addEventListener('input', () => {
+            const rawValue = elements.courseSearch.value;
+            if (rawValue.includes(' - ')) {
+                const [courseCode] = rawValue.split(' - ');
+                elements.courseSearch.value = courseCode.trim();
             }
         });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.semester-card, .course-card').forEach(el => {
-        observer.observe(el);
-    });
-}
-// In app.js, after line 450 (original renderCourseHierarchy)
-function renderCourseHierarchy(code) {
-    // ... original code ...
-
-    // Add these lines:
-    setTimeout(() => {
-        enhanceNodeSpacing(); 
-        addSemesterLabels();
-    }, 200);
-}
-// In app.js, modify performSearch():
-function performSearch() {
-    // ... original code ...
-
-    // Add tag filtering
-    state.searchResults = state.searchResults.filter(course => {
-        return state.activeTagFilters.every(tag => 
-            course.tags.includes(tag)
-        );
-    });
-}
-
-
-
-
+    }
+});
 // Enhanced Path Highlighting and Focus Mode Logic
 function getAllPrerequisites(courseCode, allCourses, path = new Set()) {
     const course = allCourses.find(c => c.code === courseCode);
