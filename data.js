@@ -603,3 +603,5 @@ courses.forEach(course => {
     course.tags = []; // Initialize tags array
     course.totalSemesters = Math.max(...courses.map(c => c.semester));
 });
+
+window.courses = courses;
