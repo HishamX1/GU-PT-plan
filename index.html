@@ -31,9 +31,7 @@
 
                 <!-- BEGIN: modernization preview links (merge-safe block) -->
                 <div class="modernization-links" id="modernization-links" data-merge-baseline="v2">
-                    <a class="modernization-link" href="modernization/frontend/student/index.html" target="_blank" rel="noopener">Modernized UI (Static)</a>
-                    <a class="modernization-link secondary" href="modernization/frontend/student/index.html" target="_blank" rel="noopener">Modernized Student Preview</a>
-                    <a class="modernization-link secondary" href="modernization/frontend/admin/index.html" target="_blank" rel="noopener">Modernized Admin Preview</a>
+                    <a class="modernization-link secondary" href="modernization/frontend/admin/index.html" target="_blank" rel="noopener">Admin Preview</a>
                     <span class="modernization-status" id="modernization-status">Modernization API status: checking...</span>
                 </div>
                 <!-- END: modernization preview links (merge-safe block) -->
@@ -97,6 +95,28 @@
                 <!-- Main visualization area -->
                 <div id="semester-container" class="centered-content"></div>
             </div>
+
+            <section class="student-review-card" id="student-review-card">
+                <h3>Student Review</h3>
+                <p class="student-review-note">Integrated quick review of courses by semester inside the main website.</p>
+                <div class="student-review-controls">
+                    <label for="student-review-semester">Semester</label>
+                    <select id="student-review-semester"></select>
+                </div>
+                <div class="student-review-table-wrap">
+                    <table class="student-review-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Credits</th>
+                                <th>Prerequisites</th>
+                            </tr>
+                        </thead>
+                        <tbody id="student-review-body"></tbody>
+                    </table>
+                </div>
+            </section>
         </div>
     </main>
 
@@ -143,9 +163,42 @@
           statusEl.textContent = `Modernization API status: online (${data.mode})`; 
           statusEl.classList.add('online');
         } catch {
-          statusEl.textContent = 'Modernization API status: offline (static previews above work; run `cd modernization && npm run preview:local` for full stack)';
+          statusEl.textContent = 'Modernization API status: offline (run `cd modernization && npm run preview:local` for full stack admin APIs)';
           statusEl.classList.add('offline');
         }
+      })();
+
+      (function renderStudentReview() {
+        const semesterSelect = document.getElementById('student-review-semester');
+        const tbody = document.getElementById('student-review-body');
+        if (!semesterSelect || !tbody || !Array.isArray(window.courses)) return;
+
+        const maxSemester = Math.max(...window.courses.map((course) => course.semester));
+        semesterSelect.innerHTML = Array.from({ length: maxSemester }, (_, idx) => idx + 1)
+          .map((semester) => `<option value="${semester}">Semester ${semester}</option>`)
+          .join('');
+
+        function renderRows() {
+          const semester = Number(semesterSelect.value);
+          const rows = window.courses
+            .filter((course) => course.semester === semester)
+            .sort((a, b) => a.code.localeCompare(b.code))
+            .map((course) => `
+              <tr>
+                <td>${course.code}</td>
+                <td>${course.name}</td>
+                <td>${course.credits}</td>
+                <td>${course.prerequisites?.length ? course.prerequisites.join(', ') : 'None'}</td>
+              </tr>
+            `)
+            .join('');
+
+          tbody.innerHTML = rows || '<tr><td colspan="4">No courses found for this semester.</td></tr>';
+        }
+
+        semesterSelect.value = '1';
+        renderRows();
+        semesterSelect.addEventListener('change', renderRows);
       })();
     </script>
 
