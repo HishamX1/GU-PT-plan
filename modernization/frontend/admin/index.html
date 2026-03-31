@@ -9,10 +9,19 @@
 <body>
 <header>
   <h1>Admin Dashboard</h1>
-  <div class="nav"><a href="../student/index.html">Student View</a></div>
 </header>
 <main>
-  <section class="card">
+  <section class="card" id="adminLoginCard">
+    <h2>Admin Login</h2>
+    <p class="error" id="authError"></p>
+    <div class="grid">
+      <div><label>Username</label><input id="adminUsername" autocomplete="username" /></div>
+      <div><label>Password</label><input id="adminPassword" type="password" autocomplete="current-password" /></div>
+    </div>
+    <button id="adminLoginBtn">Login</button>
+  </section>
+
+  <section class="card" id="adminDashboard" hidden>
     <h2>Create entities</h2>
     <p class="error" id="error"></p>
     <p class="success" id="success"></p>

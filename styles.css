@@ -1082,3 +1082,72 @@ select {
 .modernization-status.offline {
   color: #ffd28e;
 }
+
+.student-review-card {
+  margin-top: 18px;
+  background: #fff;
+  border: 1px solid #e6e8ef;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.student-review-card h3 {
+  margin: 0 0 8px 0;
+  color: #1f3b78;
+}
+
+.student-review-note {
+  margin: 0 0 12px 0;
+  color: #4b5563;
+  font-size: 0.92rem;
+}
+
+.student-review-controls {
+  max-width: 220px;
+  margin-bottom: 12px;
+}
+
+.student-review-controls label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+  font-size: 0.88rem;
+}
+
+.student-review-controls select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #d4d9e5;
+  border-radius: 8px;
+}
+
+.student-review-table-wrap {
+  overflow-x: auto;
+}
+
+.student-review-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.student-review-table th,
+.student-review-table td {
+  border-bottom: 1px solid #edf1f7;
+  padding: 9px 10px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.student-review-link {
+  background: transparent;
+  border: none;
+  color: #1f3b78;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.student-review-link:hover {
+  text-decoration: underline;
+}
