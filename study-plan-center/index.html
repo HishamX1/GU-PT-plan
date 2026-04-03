@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galala University Study Plan Center - New System</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/GU-Icon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #002147 0%, #003a70 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .info-box {
+            background: white;
+            border-left: 4px solid #FFD700;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .info-box h2 {
+            color: #002147;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .info-box p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #FFD700;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-card h3 {
+            color: #002147;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: #002147;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #003a70;
+            box-shadow: 0 4px 12px rgba(0, 33, 71, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #8C1D40;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #a52850;
+            box-shadow: 0 4px 12px rgba(140, 29, 64, 0.3);
+        }
+        
+        .status {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            margin-top: 50px;
+        }
+        
+        .icon {
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎓 Galala University Study Plan Center</h1>
+        <p>Database-Driven Study Plan Management System</p>
+    </header>
+    
+    <div class="container">
+        <div class="info-box">
+            <h2>Welcome to the New Study Plan Center</h2>
+            <p>This is the new database-driven system for managing Galala University study plans. The system is currently under development and will be integrated with the main website.</p>
+            
+            <div class="status success">
+                <strong>✅ System Status:</strong> The new React-based Study Plan Center has been successfully built and is ready for integration. All components are functional and tested.
+            </div>
+            
+            <h3 style="color: #002147; margin-top: 25px; margin-bottom: 15px;">Key Features</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3><span class="icon">👥</span> Student Portal</h3>
+                    <p>Browse faculties, programs, years, semesters, and courses with complete prerequisite information.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><span class="icon">⚙️</span> Admin Dashboard</h3>
+                    <p>Manage faculties, programs, and courses without coding. Changes appear instantly for students.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><span class="icon">⚡</span> Real-time Sync</h3>
+                    <p>Automatic data refresh every 2 seconds. Students see admin changes immediately.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><span class="icon">🎨</span> Galala Branding</h3>
+                    <p>Complete Galala University color scheme and design throughout the system.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><span class="icon">📱</span> Responsive Design</h3>
+                    <p>Optimized for mobile, tablet, and desktop devices.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><span class="icon">🔐</span> Secure Access</h3>
+                    <p>Role-based access control with admin authentication.</p>
+                </div>
+            </div>
+            
+            <h3 style="color: #002147; margin-top: 30px; margin-bottom: 15px;">Integration Status</h3>
+            <p>The new Study Plan Center is being integrated with the existing website. Once complete, you'll be able to:</p>
+            <ul style="margin-left: 20px; margin-top: 10px; color: #555; line-height: 1.8;">
+                <li>Access the new system from the main website</li>
+                <li>Switch between the existing system and new system</li>
+                <li>Use the admin dashboard to manage all faculties</li>
+                <li>See real-time updates across all student portals</li>
+            </ul>
+            
+            <div class="button-group">
+                <a href="../index.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Main Website
+                </a>
+                <a href="../modernization/frontend/admin/index.html" class="btn btn-secondary" target="_blank">
+                    <i class="fas fa-lock"></i> Admin Preview (Legacy)
+                </a>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h2>📋 Implementation Details</h2>
+            <p><strong>Technology Stack:</strong></p>
+            <ul style="margin-left: 20px; margin-top: 10px; color: #555; line-height: 1.8;">
+                <li>Frontend: React 19 + Tailwind CSS 4 + shadcn/ui</li>
+                <li>Backend: Express 4 + tRPC 11</li>
+                <li>Database: MySQL + Drizzle ORM</li>
+                <li>Authentication: Manus OAuth</li>
+            </ul>
+            
+            <p style="margin-top: 20px;"><strong>Database Schema:</strong></p>
+            <ul style="margin-left: 20px; margin-top: 10px; color: #555; line-height: 1.8;">
+                <li>Faculties - Academic faculties</li>
+                <li>Programs - Degree programs</li>
+                <li>Years - Academic years</li>
+                <li>Semesters - Semesters within years</li>
+                <li>Courses - Individual courses</li>
+                <li>Course Prerequisites - Prerequisite relationships</li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2026 Galala University. All rights reserved.</p>
+        <p>Study Plan Center - Empowering Academic Excellence</p>
+    </footer>
+</body>
+</html>
