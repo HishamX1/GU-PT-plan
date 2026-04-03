@@ -4,18 +4,34 @@ import {
   createSemester,
   createSubject,
   createYear,
+  deleteCollege,
+  deleteProgram,
+  deleteSemester,
+  deleteSubject,
+  deleteYear,
   getColleges,
   getPrograms,
   getSemesters,
   getSubjects,
-  getYears
+  getYears,
+  updateCollege,
+  updateProgram,
+  updateSemester,
+  updateSubject,
+  updateYear
 } from '../services/catalogService.js';
 import {
   validateCollege,
+  validateCollegePatch,
+  validateEntityId,
   validateProgram,
+  validateProgramPatch,
   validateSemester,
+  validateSemesterPatch,
   validateSubject,
-  validateYear
+  validateSubjectPatch,
+  validateYear,
+  validateYearPatch
 } from '../validation/schemas.js';
 import { env } from '../config/env.js';
 
@@ -24,7 +40,7 @@ function json(res, status, data) {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': env.allowCorsOrigin,
     'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS'
   });
   res.end(JSON.stringify(data));
 }
@@ -44,6 +60,26 @@ function toNumber(v) {
   if (v === undefined || v === null || v === '') return undefined;
   const n = Number(v);
   return Number.isNaN(n) ? undefined : n;
+}
+
+async function handleUpdate(req, res, validator, updater, id, label) {
+  const idErr = validateEntityId(id, `${label} id`);
+  if (idErr) return json(res, 400, { error: idErr });
+  const body = await parseBody(req);
+  const err = validator(body);
+  if (err) return json(res, 400, { error: err });
+  const updated = await updater(id, body);
+  if (updated === false) return json(res, 404, { error: `${label} not found` });
+  if (!updated) return json(res, 409, { error: `${label} already exists` });
+  return json(res, 200, updated);
+}
+
+async function handleDelete(res, deleter, id, label) {
+  const idErr = validateEntityId(id, `${label} id`);
+  if (idErr) return json(res, 400, { error: idErr });
+  const deleted = await deleter(id);
+  if (!deleted) return json(res, 404, { error: `${label} not found` });
+  return json(res, 200, { deleted: true, id });
 }
 
 export async function handleApi(req, res, url) {
@@ -68,6 +104,16 @@ export async function handleApi(req, res, url) {
       return json(res, 201, created);
     }
 
+    if (req.method === 'PUT' && url.pathname.startsWith(`${env.apiBasePath}/colleges/`)) {
+      const id = toNumber(url.pathname.split('/').pop());
+      return handleUpdate(req, res, validateCollegePatch, updateCollege, id, 'College');
+    }
+
+    if (req.method === 'DELETE' && url.pathname.startsWith(`${env.apiBasePath}/colleges/`)) {
+      const id = toNumber(url.pathname.split('/').pop());
+      return handleDelete(res, deleteCollege, id, 'College');
+    }
+
     if (req.method === 'GET' && url.pathname === `${env.apiBasePath}/programs`) {
       return json(res, 200, await getPrograms(toNumber(url.searchParams.get('collegeId'))));
     }
@@ -79,6 +125,16 @@ export async function handleApi(req, res, url) {
       const created = await createProgram(body);
       if (!created) return json(res, 409, { error: 'Program already exists for this college' });
       return json(res, 201, created);
+    }
+
+    if (req.method === 'PUT' && url.pathname.startsWith(`${env.apiBasePath}/programs/`)) {
+      const id = toNumber(url.pathname.split('/').pop());
+      return handleUpdate(req, res, validateProgramPatch, updateProgram, id, 'Program');
+    }
+
+    if (req.method === 'DELETE' && url.pathname.startsWith(`${env.apiBasePath}/programs/`)) {
+      const id = toNumber(url.pathname.split('/').pop());
+      return handleDelete(res, deleteProgram, id, 'Program');
     }
 
     if (req.method === 'GET' && url.pathname === `${env.apiBasePath}/years`) {
@@ -94,6 +150,16 @@ export async function handleApi(req, res, url) {
       return json(res, 201, created);
     }
 
+    if (req.method === 'PUT' && url.pathname.startsWith(`${env.apiBasePath}/years/`)) {
+      const id = toNumber(url.pathname.split('/').pop());
+      return handleUpdate(req, res, validateYearPatch, updateYear, id, 'Year');
+    }
+
+    if (req.method === 'DELETE' && url.pathname.startsWith(`${env.apiBasePath}/years/`)) {
+      const id = toNumber(url.pathname.split('/').pop());
+      return handleDelete(res, deleteYear, id, 'Year');
+    }
+
     if (req.method === 'GET' && url.pathname === `${env.apiBasePath}/semesters`) {
       return json(res, 200, await getSemesters(toNumber(url.searchParams.get('yearId'))));
     }
@@ -105,6 +171,16 @@ export async function handleApi(req, res, url) {
       const created = await createSemester(body);
       if (!created) return json(res, 409, { error: 'Semester already exists for this year' });
       return json(res, 201, created);
+    }
+
+    if (req.method === 'PUT' && url.pathname.startsWith(`${env.apiBasePath}/semesters/`)) {
+      const id = toNumber(url.pathname.split('/').pop());
+      return handleUpdate(req, res, validateSemesterPatch, updateSemester, id, 'Semester');
+    }
+
+    if (req.method === 'DELETE' && url.pathname.startsWith(`${env.apiBasePath}/semesters/`)) {
+      const id = toNumber(url.pathname.split('/').pop());
+      return handleDelete(res, deleteSemester, id, 'Semester');
     }
 
     if (req.method === 'GET' && url.pathname === `${env.apiBasePath}/subjects`) {
@@ -127,6 +203,16 @@ export async function handleApi(req, res, url) {
       const created = await createSubject({ ...body, prerequisiteSubjectIds: body.prerequisiteSubjectIds || [] });
       if (!created) return json(res, 409, { error: 'Subject code already exists in this semester' });
       return json(res, 201, created);
+    }
+
+    if (req.method === 'PUT' && url.pathname.startsWith(`${env.apiBasePath}/subjects/`)) {
+      const id = toNumber(url.pathname.split('/').pop());
+      return handleUpdate(req, res, validateSubjectPatch, updateSubject, id, 'Subject');
+    }
+
+    if (req.method === 'DELETE' && url.pathname.startsWith(`${env.apiBasePath}/subjects/`)) {
+      const id = toNumber(url.pathname.split('/').pop());
+      return handleDelete(res, deleteSubject, id, 'Subject');
     }
 
     return json(res, 404, { error: 'API route not found' });
