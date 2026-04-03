@@ -1151,3 +1151,57 @@ select {
 .student-review-link:hover {
   text-decoration: underline;
 }
+
+.university-selector-card {
+    max-width: 1400px;
+    margin: 20px auto 0;
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(0,33,71,0.95), rgba(140,29,64,0.95));
+    color: #fff;
+    box-shadow: var(--gu-shadow-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.university-selector-card h2 {
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+.university-selector-card p {
+    margin: 0;
+    color: rgba(255,255,255,0.9);
+}
+
+.selector-control {
+    min-width: 260px;
+}
+
+.selector-control label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.selector-control select {
+    width: 100%;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 10px;
+    padding: 10px;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+}
+
+.selector-control option {
+    color: #111;
+}
+
+@media (max-width: 900px) {
+    .university-selector-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
