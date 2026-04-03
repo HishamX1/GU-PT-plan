@@ -1,6 +1,10 @@
-const api = window.location.origin.includes('localhost:4000')
-  ? '/api'
-  : 'http://localhost:4000/api';
+const apiCandidates = (() => {
+  const localApi = 'http://localhost:4000/api';
+  const sameOriginApi = `${window.location.origin}/api`;
+  if (window.location.origin.includes('localhost:4000')) return ['/api'];
+  return [sameOriginApi, localApi];
+})();
+let workingApiBase = apiCandidates[0];
 const ADMIN_USER = 'Admin';
 const ADMIN_PASS = 'Admin';
 
@@ -46,17 +50,28 @@ function renderOptions(el, items, label = 'name', value = 'id') {
 }
 
 async function request(path, options = {}) {
-  const res = await fetch(`${api}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
-    ...options
-  });
-  const contentType = res.headers.get('content-type') || '';
-  if (!contentType.includes('application/json')) {
-    throw new Error('Modernization API is unavailable. Run `cd modernization && npm run preview:local`.');
+  let lastError = null;
+
+  for (const base of [workingApiBase, ...apiCandidates.filter((c) => c !== workingApiBase)]) {
+    try {
+      const res = await fetch(`${base}${path}`, {
+        headers: { 'Content-Type': 'application/json' },
+        ...options
+      });
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error('Modernization API is unavailable. Run `cd modernization && npm run preview:local` and open http://localhost:4000/admin.');
+      }
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Request failed');
+      workingApiBase = base;
+      return data;
+    } catch (error) {
+      lastError = error;
+    }
   }
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Request failed');
-  return data;
+
+  throw lastError || new Error('Failed to fetch');
 }
 
 function lookupName(collection, id, key = 'name') {

@@ -1,4 +1,5 @@
-const api = '/api';
+const apiCandidates = window.location.origin.includes('localhost:4000') ? ['/api'] : [`${window.location.origin}/api`, 'http://localhost:4000/api'];
+let api = apiCandidates[0];
 const staticDataUrl = '../../data/runtime-db.json';
 let staticDbPromise;
 
@@ -20,9 +21,23 @@ async function fetchJson(url) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch (error) {
-    if (!url.startsWith(api)) throw error;
+    const fromApi = apiCandidates.some((candidate) => url.startsWith(candidate) || url.startsWith('/api'));
+    if (!fromApi) throw error;
+    const nextApi = apiCandidates.find((candidate) => candidate !== api);
+    if (nextApi) {
+      try {
+        const fallbackUrl = url.startsWith(api) ? url.replace(api, nextApi) : url.replace('/api', nextApi);
+        const res = await fetch(fallbackUrl);
+        if (res.ok) {
+          api = nextApi;
+          return await res.json();
+        }
+      } catch {
+        // ignore and fallback to static store
+      }
+    }
     const db = await getStaticDb();
-    return resolveFromStaticDb(url, db);
+    return resolveFromStaticDb(url.replace(api, '/api'), db);
   }
 }
 
