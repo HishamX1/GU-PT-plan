@@ -32,7 +32,7 @@
 
                 <!-- BEGIN: modernization preview links (merge-safe block) -->
                 <div class="modernization-links" id="modernization-links" data-merge-baseline="v2">
-                    <a class="modernization-link secondary" href="http://localhost:4000/admin" target="_blank" rel="noopener">Admin Preview</a>
+                    <a class="modernization-link secondary" id="admin-preview-link" href="modernization/frontend/admin/index.html" target="_blank" rel="noopener">Admin Preview</a>
                     <span class="modernization-status" id="modernization-status">Modernization API status: checking...</span>
                 </div>
                 <!-- END: modernization preview links (merge-safe block) -->
@@ -170,16 +170,25 @@
     <script>
       (async function checkModernizationStatus() {
         const statusEl = document.getElementById('modernization-status');
+        const adminLink = document.getElementById('admin-preview-link');
         if (!statusEl) return;
         try {
           const res = await fetch('http://localhost:4000/api/health', { mode: 'cors' });
           if (!res.ok) throw new Error('not_ok');
           const data = await res.json();
-          statusEl.textContent = `Modernization API status: online (${data.mode})`; 
+          statusEl.textContent = `Modernization API status: online (${data.mode})`;
           statusEl.classList.add('online');
+          if (adminLink) {
+            adminLink.href = 'http://localhost:4000/admin';
+            adminLink.title = 'Opens live admin connected to the API.';
+          }
         } catch {
-          statusEl.textContent = 'Modernization API status: offline (run `cd modernization && npm run preview:local` for full stack admin APIs)';
+          statusEl.textContent = 'Modernization API status: offline (localhost:4000 unavailable). Run `cd modernization && npm run preview:local`.';
           statusEl.classList.add('offline');
+          if (adminLink) {
+            adminLink.href = 'modernization/frontend/admin/index.html';
+            adminLink.title = 'API is offline. This opens static admin preview only.';
+          }
         }
       })();
 

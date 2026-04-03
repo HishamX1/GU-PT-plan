@@ -60,7 +60,7 @@ async function request(path, options = {}) {
       });
       const contentType = res.headers.get('content-type') || '';
       if (!contentType.includes('application/json')) {
-        throw new Error('Modernization API is unavailable. Run `cd modernization && npm run preview:local` and open http://localhost:4000/admin.');
+        throw new Error('Modernization API is unavailable (localhost:4000 host unavailable). Run `cd modernization && npm run preview:local` and open http://localhost:4000/admin.');
       }
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Request failed');
@@ -71,7 +71,7 @@ async function request(path, options = {}) {
     }
   }
 
-  throw lastError || new Error('Failed to fetch');
+  throw lastError || new Error('Failed to fetch API (localhost:4000 host unavailable).');
 }
 
 function lookupName(collection, id, key = 'name') {
