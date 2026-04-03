@@ -5,6 +5,10 @@ function duplicate(error) {
   return String(error?.code) === '23505';
 }
 
+function notFound(result) {
+  return !result || !result.rowCount;
+}
+
 export async function getColleges() {
   if (env.dataMode === 'postgres') {
     const { rows } = await query('SELECT id, name FROM colleges ORDER BY name');
@@ -29,6 +33,59 @@ export async function createCollege(data) {
     const row = { id: nextId(store, 'colleges'), name: data.name.trim() };
     store.colleges.push(row);
     return row;
+  });
+}
+
+export async function updateCollege(id, data) {
+  if (env.dataMode === 'postgres') {
+    try {
+      const { rows, rowCount } = await query('UPDATE colleges SET name = COALESCE($2, name) WHERE id = $1 RETURNING id, name', [
+        id,
+        data.name?.trim()
+      ]);
+      if (!rowCount) return false;
+      return rows[0];
+    } catch (error) {
+      if (duplicate(error)) return null;
+      throw error;
+    }
+  }
+
+  return withFileStore((store) => {
+    const college = store.colleges.find((c) => c.id === id);
+    if (!college) return false;
+    if (data.name) {
+      const name = data.name.trim();
+      if (store.colleges.some((c) => c.id !== id && c.name.toLowerCase() === name.toLowerCase())) return null;
+      college.name = name;
+    }
+    return college;
+  });
+}
+
+export async function deleteCollege(id) {
+  if (env.dataMode === 'postgres') {
+    const { rowCount } = await query('DELETE FROM colleges WHERE id = $1', [id]);
+    return rowCount > 0;
+  }
+
+  return withFileStore((store) => {
+    const before = store.colleges.length;
+    const programsToDelete = store.programs.filter((p) => p.collegeId === id).map((p) => p.id);
+    const yearsToDelete = store.years.filter((y) => programsToDelete.includes(y.programId)).map((y) => y.id);
+    const semestersToDelete = store.semesters.filter((s) => yearsToDelete.includes(s.yearId)).map((s) => s.id);
+    const subjectsToDelete = store.subjects.filter((s) => semestersToDelete.includes(s.semesterId)).map((s) => s.id);
+
+    store.subjectPrerequisites = store.subjectPrerequisites.filter(
+      (p) => !subjectsToDelete.includes(p.subjectId) && !subjectsToDelete.includes(p.prerequisiteSubjectId)
+    );
+    store.subjects = store.subjects.filter((s) => !subjectsToDelete.includes(s.id));
+    store.semesters = store.semesters.filter((s) => !semestersToDelete.includes(s.id));
+    store.years = store.years.filter((y) => !yearsToDelete.includes(y.id));
+    store.programs = store.programs.filter((p) => !programsToDelete.includes(p.id));
+    store.colleges = store.colleges.filter((c) => c.id !== id);
+
+    return before !== store.colleges.length;
   });
 }
 
@@ -69,6 +126,65 @@ export async function createProgram(data) {
   });
 }
 
+export async function updateProgram(id, data) {
+  if (env.dataMode === 'postgres') {
+    try {
+      if (data.collegeId) {
+        const collegeExists = await query('SELECT 1 FROM colleges WHERE id = $1', [data.collegeId]);
+        if (notFound(collegeExists)) throw new Error('FK_COLLEGE');
+      }
+      const { rows, rowCount } = await query(
+        'UPDATE programs SET college_id = COALESCE($2, college_id), name = COALESCE($3, name) WHERE id = $1 RETURNING id, college_id AS "collegeId", name',
+        [id, data.collegeId, data.name?.trim()]
+      );
+      if (!rowCount) return false;
+      return rows[0];
+    } catch (error) {
+      if (duplicate(error)) return null;
+      throw error;
+    }
+  }
+
+  return withFileStore((store) => {
+    const program = store.programs.find((p) => p.id === id);
+    if (!program) return false;
+
+    const nextCollegeId = data.collegeId ?? program.collegeId;
+    const nextName = data.name ? data.name.trim() : program.name;
+
+    if (!store.colleges.some((c) => c.id === nextCollegeId)) throw new Error('FK_COLLEGE');
+    if (store.programs.some((p) => p.id !== id && p.collegeId === nextCollegeId && p.name.toLowerCase() === nextName.toLowerCase())) return null;
+
+    program.collegeId = nextCollegeId;
+    program.name = nextName;
+    return program;
+  });
+}
+
+export async function deleteProgram(id) {
+  if (env.dataMode === 'postgres') {
+    const { rowCount } = await query('DELETE FROM programs WHERE id = $1', [id]);
+    return rowCount > 0;
+  }
+
+  return withFileStore((store) => {
+    const before = store.programs.length;
+    const yearsToDelete = store.years.filter((y) => y.programId === id).map((y) => y.id);
+    const semestersToDelete = store.semesters.filter((s) => yearsToDelete.includes(s.yearId)).map((s) => s.id);
+    const subjectsToDelete = store.subjects.filter((s) => semestersToDelete.includes(s.semesterId)).map((s) => s.id);
+
+    store.subjectPrerequisites = store.subjectPrerequisites.filter(
+      (p) => !subjectsToDelete.includes(p.subjectId) && !subjectsToDelete.includes(p.prerequisiteSubjectId)
+    );
+    store.subjects = store.subjects.filter((s) => !subjectsToDelete.includes(s.id));
+    store.semesters = store.semesters.filter((s) => !semestersToDelete.includes(s.id));
+    store.years = store.years.filter((y) => !yearsToDelete.includes(y.id));
+    store.programs = store.programs.filter((p) => p.id !== id);
+
+    return before !== store.programs.length;
+  });
+}
+
 export async function getYears(programId) {
   if (env.dataMode === 'postgres') {
     const { rows } = await query(
@@ -106,6 +222,63 @@ export async function createYear(data) {
   });
 }
 
+export async function updateYear(id, data) {
+  if (env.dataMode === 'postgres') {
+    try {
+      if (data.programId) {
+        const programExists = await query('SELECT 1 FROM programs WHERE id = $1', [data.programId]);
+        if (notFound(programExists)) throw new Error('FK_PROGRAM');
+      }
+      const { rows, rowCount } = await query(
+        'UPDATE years SET program_id = COALESCE($2, program_id), year_number = COALESCE($3, year_number) WHERE id = $1 RETURNING id, program_id AS "programId", year_number AS "yearNumber"',
+        [id, data.programId, data.yearNumber]
+      );
+      if (!rowCount) return false;
+      return rows[0];
+    } catch (error) {
+      if (duplicate(error)) return null;
+      throw error;
+    }
+  }
+
+  return withFileStore((store) => {
+    const year = store.years.find((y) => y.id === id);
+    if (!year) return false;
+
+    const nextProgramId = data.programId ?? year.programId;
+    const nextYear = data.yearNumber ?? year.yearNumber;
+
+    if (!store.programs.some((p) => p.id === nextProgramId)) throw new Error('FK_PROGRAM');
+    if (store.years.some((y) => y.id !== id && y.programId === nextProgramId && y.yearNumber === nextYear)) return null;
+
+    year.programId = nextProgramId;
+    year.yearNumber = nextYear;
+    return year;
+  });
+}
+
+export async function deleteYear(id) {
+  if (env.dataMode === 'postgres') {
+    const { rowCount } = await query('DELETE FROM years WHERE id = $1', [id]);
+    return rowCount > 0;
+  }
+
+  return withFileStore((store) => {
+    const before = store.years.length;
+    const semestersToDelete = store.semesters.filter((s) => s.yearId === id).map((s) => s.id);
+    const subjectsToDelete = store.subjects.filter((s) => semestersToDelete.includes(s.semesterId)).map((s) => s.id);
+
+    store.subjectPrerequisites = store.subjectPrerequisites.filter(
+      (p) => !subjectsToDelete.includes(p.subjectId) && !subjectsToDelete.includes(p.prerequisiteSubjectId)
+    );
+    store.subjects = store.subjects.filter((s) => !subjectsToDelete.includes(s.id));
+    store.semesters = store.semesters.filter((s) => !semestersToDelete.includes(s.id));
+    store.years = store.years.filter((y) => y.id !== id);
+
+    return before !== store.years.length;
+  });
+}
+
 export async function getSemesters(yearId) {
   if (env.dataMode === 'postgres') {
     const { rows } = await query(
@@ -140,6 +313,61 @@ export async function createSemester(data) {
     const row = { id: nextId(store, 'semesters'), yearId: data.yearId, semesterNumber: data.semesterNumber };
     store.semesters.push(row);
     return row;
+  });
+}
+
+export async function updateSemester(id, data) {
+  if (env.dataMode === 'postgres') {
+    try {
+      if (data.yearId) {
+        const yearExists = await query('SELECT 1 FROM years WHERE id = $1', [data.yearId]);
+        if (notFound(yearExists)) throw new Error('FK_YEAR');
+      }
+      const { rows, rowCount } = await query(
+        'UPDATE semesters SET year_id = COALESCE($2, year_id), semester_number = COALESCE($3, semester_number) WHERE id = $1 RETURNING id, year_id AS "yearId", semester_number AS "semesterNumber"',
+        [id, data.yearId, data.semesterNumber]
+      );
+      if (!rowCount) return false;
+      return rows[0];
+    } catch (error) {
+      if (duplicate(error)) return null;
+      throw error;
+    }
+  }
+
+  return withFileStore((store) => {
+    const sem = store.semesters.find((s) => s.id === id);
+    if (!sem) return false;
+
+    const nextYearId = data.yearId ?? sem.yearId;
+    const nextSemester = data.semesterNumber ?? sem.semesterNumber;
+
+    if (!store.years.some((y) => y.id === nextYearId)) throw new Error('FK_YEAR');
+    if (store.semesters.some((s) => s.id !== id && s.yearId === nextYearId && s.semesterNumber === nextSemester)) return null;
+
+    sem.yearId = nextYearId;
+    sem.semesterNumber = nextSemester;
+    return sem;
+  });
+}
+
+export async function deleteSemester(id) {
+  if (env.dataMode === 'postgres') {
+    const { rowCount } = await query('DELETE FROM semesters WHERE id = $1', [id]);
+    return rowCount > 0;
+  }
+
+  return withFileStore((store) => {
+    const before = store.semesters.length;
+    const subjectsToDelete = store.subjects.filter((s) => s.semesterId === id).map((s) => s.id);
+
+    store.subjectPrerequisites = store.subjectPrerequisites.filter(
+      (p) => !subjectsToDelete.includes(p.subjectId) && !subjectsToDelete.includes(p.prerequisiteSubjectId)
+    );
+    store.subjects = store.subjects.filter((s) => !subjectsToDelete.includes(s.id));
+    store.semesters = store.semesters.filter((s) => s.id !== id);
+
+    return before !== store.semesters.length;
   });
 }
 
@@ -265,5 +493,71 @@ export async function createSubject(data) {
     }
 
     return row;
+  });
+}
+
+export async function updateSubject(id, data) {
+  if (env.dataMode === 'postgres') {
+    try {
+      if (data.semesterId) {
+        const sem = await query('SELECT 1 FROM semesters WHERE id = $1', [data.semesterId]);
+        if (notFound(sem)) throw new Error('FK_SEMESTER');
+      }
+
+      const { rows, rowCount } = await query(
+        `UPDATE subjects
+            SET semester_id = COALESCE($2, semester_id),
+                subject_name = COALESCE($3, subject_name),
+                subject_code = COALESCE($4, subject_code),
+                credits = COALESCE($5, credits),
+                notes = COALESCE($6, notes)
+          WHERE id = $1
+          RETURNING id, semester_id AS "semesterId", subject_name AS "subjectName", subject_code AS "subjectCode", credits, notes`,
+        [id, data.semesterId, data.subjectName?.trim(), data.subjectCode?.trim(), data.credits, data.notes ?? null]
+      );
+
+      if (!rowCount) return false;
+      return rows[0];
+    } catch (error) {
+      if (duplicate(error)) return null;
+      throw error;
+    }
+  }
+
+  return withFileStore((store) => {
+    const subject = store.subjects.find((s) => s.id === id);
+    if (!subject) return false;
+
+    const nextSemesterId = data.semesterId ?? subject.semesterId;
+    const nextName = data.subjectName ? data.subjectName.trim() : subject.subjectName;
+    const nextCode = data.subjectCode ? data.subjectCode.trim() : subject.subjectCode;
+    const nextCredits = data.credits ?? subject.credits;
+
+    if (!store.semesters.some((s) => s.id === nextSemesterId)) throw new Error('FK_SEMESTER');
+    if (store.subjects.some((s) => s.id !== id && s.semesterId === nextSemesterId && s.subjectCode.toLowerCase() === nextCode.toLowerCase())) {
+      return null;
+    }
+
+    subject.semesterId = nextSemesterId;
+    subject.subjectName = nextName;
+    subject.subjectCode = nextCode;
+    subject.credits = nextCredits;
+    subject.notes = data.notes === undefined ? subject.notes : data.notes;
+
+    return subject;
+  });
+}
+
+export async function deleteSubject(id) {
+  if (env.dataMode === 'postgres') {
+    const { rowCount } = await query('DELETE FROM subjects WHERE id = $1', [id]);
+    return rowCount > 0;
+  }
+
+  return withFileStore((store) => {
+    const before = store.subjects.length;
+    store.subjectPrerequisites = store.subjectPrerequisites.filter((p) => p.subjectId !== id && p.prerequisiteSubjectId !== id);
+    store.subjects = store.subjects.filter((s) => s.id !== id);
+    return before !== store.subjects.length;
   });
 }

@@ -3,12 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PT Plan - Admin</title>
+  <title>Galala University Study Plan Center - Admin</title>
   <link rel="stylesheet" href="../styles.css" />
 </head>
 <body>
-<header>
-  <h1>Admin Dashboard</h1>
+<header class="hero">
+  <img src="../images/GU-Logo.svg" alt="Galala University logo" class="logo" />
+  <div>
+    <h1>Galala University Study Plan Center</h1>
+    <p>Admin Preview — manage faculties, semesters, and subjects dynamically.</p>
+  </div>
 </header>
 <main>
   <section class="card" id="adminLoginCard">
@@ -22,28 +26,45 @@
   </section>
 
   <section class="card" id="adminDashboard" hidden>
-    <h2>Create entities</h2>
+    <h2>University Data Control Panel</h2>
     <p class="error" id="error"></p>
     <p class="success" id="success"></p>
-    <div class="grid">
-      <div><label>College Name</label><input id="collegeName" required /><button id="addCollege">Add College</button></div>
+
+    <div class="grid admin-grid">
       <div>
-        <label>Program College</label><select id="programCollege" required></select>
+        <h3>Add Faculty</h3>
+        <label>Faculty Name</label><input id="collegeName" required />
+        <button id="addCollege">Add Faculty</button>
+        <div id="collegeList" class="entity-list"></div>
+      </div>
+
+      <div>
+        <h3>Add Program</h3>
+        <label>Faculty</label><select id="programCollege" required></select>
         <label>Program Name</label><input id="programName" required />
         <button id="addProgram">Add Program</button>
+        <div id="programList" class="entity-list"></div>
       </div>
+
       <div>
-        <label>Year Program</label><select id="yearProgram" required></select>
+        <h3>Add Year</h3>
+        <label>Program</label><select id="yearProgram" required></select>
         <label>Year Number</label><input id="yearNumber" type="number" min="1" required />
         <button id="addYear">Add Year</button>
+        <div id="yearList" class="entity-list"></div>
       </div>
+
       <div>
-        <label>Semester Year</label><select id="semesterYear" required></select>
+        <h3>Add Semester</h3>
+        <label>Year</label><select id="semesterYear" required></select>
         <label>Semester Number</label><select id="semesterNumber"><option value="1">1</option><option value="2">2</option></select>
         <button id="addSemester">Add Semester</button>
+        <div id="semesterList" class="entity-list"></div>
       </div>
+
       <div>
-        <label>Subject Semester</label><select id="subjectSemester" required></select>
+        <h3>Add Subject</h3>
+        <label>Semester</label><select id="subjectSemester" required></select>
         <label>Subject Code</label><input id="subjectCode" required />
         <label>Subject Name</label><input id="subjectName" required />
         <label>Credits</label><input id="subjectCredits" type="number" min="1" required />
@@ -51,6 +72,14 @@
         <button id="addSubject">Add Subject</button>
       </div>
     </div>
+
+    <section class="card nested-card">
+      <h3>Subject Manager</h3>
+      <table>
+        <thead><tr><th>Code</th><th>Name</th><th>Credits</th><th>Semester</th><th>Actions</th></tr></thead>
+        <tbody id="subjectList"></tbody>
+      </table>
+    </section>
   </section>
 </main>
 <script type="module" src="./admin.js"></script>

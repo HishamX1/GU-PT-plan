@@ -59,19 +59,29 @@ function resolveFromStaticDb(url, db) {
     const programId = Number(q.get('programId'));
     const yearId = Number(q.get('yearId'));
     const semesterId = Number(q.get('semesterId'));
-    return (db.subjects ?? []).filter((s) =>
-      (!collegeId || s.collegeId === collegeId) &&
-      (!programId || s.programId === programId) &&
-      (!yearId || s.yearId === yearId) &&
-      (!semesterId || s.semesterId === semesterId)
-    );
+
+    const semesterMap = new Map((db.semesters ?? []).map((s) => [s.id, s]));
+    const yearMap = new Map((db.years ?? []).map((y) => [y.id, y]));
+    const programMap = new Map((db.programs ?? []).map((p) => [p.id, p]));
+
+    return (db.subjects ?? []).filter((s) => {
+      const sem = semesterMap.get(s.semesterId);
+      const year = yearMap.get(sem?.yearId);
+      const program = programMap.get(year?.programId);
+      return (
+        (!collegeId || program?.collegeId === collegeId) &&
+        (!programId || year?.programId === programId) &&
+        (!yearId || sem?.yearId === yearId) &&
+        (!semesterId || s.semesterId === semesterId)
+      );
+    });
   }
   return [];
 }
 
 async function init() {
-  const colleges = await fetchJson(`${api}/colleges`);
-  options(collegeEl, colleges);
+  const faculties = await fetchJson(`${api}/colleges`);
+  options(collegeEl, faculties);
 }
 
 collegeEl.addEventListener('change', async () => {

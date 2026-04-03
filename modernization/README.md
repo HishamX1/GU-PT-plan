@@ -7,7 +7,7 @@ This module extends the original proof-of-concept without altering existing root
 - Normalized PostgreSQL schema and migration scripts for production databases.
 - Seed pipeline that imports all years/semesters/subjects and prerequisite links.
 - Node.js backend APIs with validation, duplicate prevention, and PostgreSQL runtime support.
-- Minimal student interface and admin dashboard (dropdown-driven relation input).
+- Branded student interface and admin dashboard with full CRUD controls and cascade-safe hierarchy management.
 - Deployment instructions/artifacts for Vercel (frontend), Render (backend), and Supabase (database).
 
 ## Folder structure
@@ -52,7 +52,7 @@ Notes:
 
 
 ## Current operational scope
-- Admin can create **colleges (faculties)**, programs, years, semesters, and subjects via `/admin`.
+- Admin can create, update, and delete **colleges (faculties)**, programs, years, semesters, and subjects via `/admin`.
 - Student portal browses records through cascading filters and loads subjects with the full hierarchy (`collegeId`, `programId`, `yearId`, `semesterId`) to prevent cross-faculty/cross-program mismatches.
 - Runtime supports `postgres` mode for live deployments and `file` mode only as a fallback.
 
@@ -62,11 +62,11 @@ Notes:
 - For live deployments, set `DATA_MODE=postgres`, configure `DATABASE_URL`, and ensure the `pg` driver is available in your runtime environment.
 
 ## REST API
-- `GET /api/colleges` | `POST /api/colleges`
-- `GET /api/programs?collegeId=...` | `POST /api/programs`
-- `GET /api/years?programId=...` | `POST /api/years`
-- `GET /api/semesters?yearId=...` | `POST /api/semesters`
-- `GET /api/subjects?collegeId=...&programId=...&yearId=...&semesterId=...` | `POST /api/subjects`
+- `GET /api/colleges` | `POST /api/colleges` | `PUT /api/colleges/:id` | `DELETE /api/colleges/:id`
+- `GET /api/programs?collegeId=...` | `POST /api/programs` | `PUT /api/programs/:id` | `DELETE /api/programs/:id`
+- `GET /api/years?programId=...` | `POST /api/years` | `PUT /api/years/:id` | `DELETE /api/years/:id`
+- `GET /api/semesters?yearId=...` | `POST /api/semesters` | `PUT /api/semesters/:id` | `DELETE /api/semesters/:id`
+- `GET /api/subjects?collegeId=...&programId=...&yearId=...&semesterId=...` | `POST /api/subjects` | `PUT /api/subjects/:id` | `DELETE /api/subjects/:id`
 
 ## Data integrity and human error prevention
 - Required fields validated in backend schemas.
