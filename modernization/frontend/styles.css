@@ -51,6 +51,19 @@ th,td { border-bottom: 1px solid #e5e7eb; padding: 10px; text-align:left; font-s
 .entity-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px; }
 .entity-row .actions { display: flex; gap: 6px; }
 .entity-row button { margin: 0; width: auto; padding: 6px 8px; font-size: 12px; }
+details { margin-top: 10px; }
+summary { cursor: pointer; font-weight: 700; }
+pre {
+  margin-top: 8px;
+  max-height: 340px;
+  overflow: auto;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 12px;
+  line-height: 1.45;
+}
 
 .animated { animation: rise .5s ease-out; }
 
