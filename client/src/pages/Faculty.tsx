@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { Loader2, ArrowLeft, BookOpen } from "lucide-react";
+import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 
 export default function Faculty() {
+  useRealtimeSync();
   const params = useParams();
   const [, setLocation] = useLocation();
   const facultyId = params?.id ? parseInt(params.id) : null;

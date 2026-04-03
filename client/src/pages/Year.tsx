@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { Loader2, ArrowLeft, BookMarked } from "lucide-react";
+import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 
 export default function Year() {
+  useRealtimeSync();
   const params = useParams();
   const [, setLocation] = useLocation();
   const yearId = params?.id ? parseInt(params.id) : null;

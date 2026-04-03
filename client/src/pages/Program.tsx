@@ -4,8 +4,10 @@ import { Card } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { Loader2, ArrowLeft, Calendar } from "lucide-react";
 import { useState } from "react";
+import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 
 export default function Program() {
+  useRealtimeSync();
   const params = useParams();
   const [, setLocation] = useLocation();
   const programId = params?.id ? parseInt(params.id) : null;

@@ -43,15 +43,21 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
+  /* Galala University Theme Colors */
+  --gu-primary: #002147;
+  --gu-secondary: #8C1D40;
+  --gu-accent: #FFD700;
+  
+  /* Primary Colors */
+  --primary: #002147;
+  --primary-foreground: #ffffff;
+  --sidebar-primary: #002147;
+  --sidebar-primary-foreground: #ffffff;
+  --chart-1: #FFD700;
+  --chart-2: #8C1D40;
+  --chart-3: #003a70;
+  --chart-4: #002147;
+  --chart-5: #001a33;
   --radius: 0.65rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.235 0.015 65);
@@ -131,6 +137,33 @@
   input[type="radio"]:not(:disabled) {
     @apply cursor-pointer;
   }
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 33, 71, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #002147;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8C1D40;
+}
+
+/* Firefox Scrollbar */
+* {
+  scrollbar-color: #002147 rgba(0, 33, 71, 0.05);
+  scrollbar-width: thin;
 }
 
 @layer components {

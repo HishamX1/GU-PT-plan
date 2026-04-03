@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { Loader2, ArrowLeft, BookOpen, Award, Link2 } from "lucide-react";
 import { useState } from "react";
+import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 
 interface CourseWithDetails {
   id: number;
@@ -16,6 +17,7 @@ interface CourseWithDetails {
 }
 
 export default function Semester() {
+  useRealtimeSync();
   const params = useParams();
   const [, setLocation] = useLocation();
   const semesterId = params?.id ? parseInt(params.id) : null;
