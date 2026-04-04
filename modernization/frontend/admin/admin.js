@@ -1,7 +1,10 @@
 const apiCandidates = (() => {
   const localApi = 'http://localhost:4000/api';
   const sameOriginApi = `${window.location.origin}/api`;
+  const isVercel = window.location.hostname.includes('vercel.app');
+  
   if (window.location.origin.includes('localhost:4000')) return ['/api'];
+  if (isVercel) return [sameOriginApi, localApi];
   return [sameOriginApi, localApi];
 })();
 let workingApiBase = apiCandidates[0];
@@ -267,26 +270,6 @@ function setupLogin() {
   });
 }
 
-async function loadReactExampleSources() {
-  const mirrors = [
-    { path: './examples/Admin.tsx', el: reactAdminSourceEl },
-    { path: './examples/FacultyManagement.tsx', el: reactFacultySourceEl }
-  ];
-
-  await Promise.all(mirrors.map(async ({ path, el }) => {
-    if (!el) return;
-
-    try {
-      const response = await fetch(path);
-      if (!response.ok) throw new Error(`Could not load ${path}`);
-      el.textContent = await response.text();
-    } catch (error) {
-      el.textContent = `Failed to load ${path}: ${error.message}`;
-    }
-  }));
-}
-
 bindAdminActions();
 bindCrudDelegates();
 setupLogin();
-loadReactExampleSources();
