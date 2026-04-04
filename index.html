@@ -4,253 +4,280 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galala University Study Plan Center</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="animations.css">
-    <link rel="stylesheet" href="filters.css">
-    <link rel="stylesheet" href="galala-theme.css">
-    <link rel="stylesheet" href="hierarchy-arrows.css">
-    <link rel="stylesheet" href="tester.css">
-    <link rel="stylesheet" href="enhanced-spacing.css">
-    <link rel="icon" type="image/svg+xml" href="assets/images/GU-Icon.svg">
+    <link rel="icon" type="image/svg+xml" href="./assets/images/GU-Icon.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #002147 0%, #003a70 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .hero-card {
+            background: white;
+            border-left: 6px solid #FFD700;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .hero-card h2 {
+            color: #002147;
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+        }
+        
+        .hero-card p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .access-card {
+            background: #f8f9fa;
+            padding: 35px;
+            border-radius: 12px;
+            border: 1px solid #e1e4e8;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .access-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: #FFD700;
+        }
+        
+        .access-card i {
+            font-size: 3.5rem;
+            color: #002147;
+            margin-bottom: 20px;
+        }
+        
+        .access-card h3 {
+            font-size: 1.8rem;
+            color: #002147;
+            margin-bottom: 15px;
+        }
+        
+        .access-card p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            padding: 14px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .btn-student {
+            background: #002147;
+            color: white;
+        }
+        
+        .btn-student:hover {
+            background: #003a70;
+            box-shadow: 0 5px 15px rgba(0, 33, 71, 0.3);
+        }
+        
+        .btn-admin {
+            background: #8C1D40;
+            color: white;
+        }
+        
+        .btn-admin:hover {
+            background: #a52850;
+            box-shadow: 0 5px 15px rgba(140, 29, 64, 0.3);
+        }
+        
+        .features-section {
+            margin-top: 60px;
+        }
+        
+        .features-section h2 {
+            text-align: center;
+            color: #002147;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .feature-item {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .feature-item i {
+            color: #FFD700;
+            font-size: 1.5rem;
+            margin-top: 3px;
+        }
+        
+        .feature-item div h4 {
+            color: #002147;
+            margin-bottom: 8px;
+        }
+        
+        .feature-item div p {
+            color: #777;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            margin-top: 60px;
+            background: white;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .hero-card { padding: 25px; }
+            .hero-card h2 { font-size: 1.8rem; }
+        }
+    </style>
 </head>
 <body>
-    <header class="gu-header">
-        <div class="header-content">
-            <div class="logo-container">
-                <img src="assets/images/GU-Logo.svg" 
-                alt="Galala University Logo" 
-                class="gu-logo">
-                <h1>Galala University Study Plan Center</h1>
-            </div>
-            <div class="search-container">
-                <div class="search-box">
-                    <input type="text" id="course-search" list="course-search-suggestions" placeholder="Search courses by code or name...">
-                    <datalist id="course-search-suggestions"></datalist>
-                    <button id="search-btn"><i class="fas fa-search"></i></button>
-                </div>
-
-                <!-- BEGIN: modernization preview links (merge-safe block) -->
-                <div class="modernization-links" id="modernization-links" data-merge-baseline="v2">
-                    <a class="modernization-link secondary" id="new-study-plan-link" href="study-plan-center/index.html" rel="noopener">📱 New Study Plan Center</a>
-                    <a class="modernization-link secondary" id="admin-preview-link" href="modernization/frontend/admin/index.html" target="_blank" rel="noopener">Admin Preview</a>
-                    <span class="modernization-status" id="modernization-status">Modernization API status: checking...</span>
-                </div>
-                <!-- END: modernization preview links (merge-safe block) -->
-            </div>
-        </div>
+    <header>
+        <h1>🎓 Galala University</h1>
+        <p>Official Study Plan Center & Academic Repository</p>
     </header>
-
-
-    <section class="university-selector-card">
-        <div class="selector-copy">
-            <h2>Welcome to Galala University Study Plan Center</h2>
-            <p>Select a faculty to view its study-plan structure. Physical Therapy is currently live for students.</p>
-        </div>
-        <div class="selector-control">
-            <label for="faculty-selector">Faculty</label>
-            <select id="faculty-selector">
-                <option value="physical-therapy">Physical Therapy</option>
-            </select>
-        </div>
-    </section>
-
-    <main class="gu-main-container">
-        <div class="sidebar">
-            <div class="filter-section">
-                <h3>Filters</h3>
-                <div id="active-filters" class="active-filters" style="display: none;">
-                    <!-- Dynamically populated with active filters -->
-                </div>
-                <div class="filter-group">
-                    <label>View Mode</label>
-                    <div class="toggle-container">
-                        <button class="filter-btn active" data-filter="prerequisites">Prerequisites</button>
-                        <button class="filter-btn active" data-filter="requiredFor">Required For</button>
-                    </div>
-                </div>
-                <div class="filter-group">
-                    <label>Semester</label>
-                    <select id="semester-filter">
-                        <option value="all">All Semesters</option>
-                        <!-- Dynamically populated -->
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Credits</label>
-                    <div class="range-slider">
-                        <input type="range" min="1" max="8" value="1" class="slider" id="credits-min">
-                        <input type="range" min="1" max="8" value="8" class="slider" id="credits-max">
-                        <div class="range-values">
-                            <span id="credits-min-value">1</span> - <span id="credits-max-value">8</span> Credits
-                        </div>
-                    </div>
-                </div>
-                <div class="filter-group">
-                    <label>Quick Filters</label>
-                    <div id="tag-filters" class="tag-filters">
-                        <!-- Dynamically populated -->
-                    </div>
-                </div>
-                <button id="clear-filters-btn" class="clear-filters-btn">Clear All Filters</button>
-            </div>
-            <div class="navigation-history">
-                <h3>Navigation History</h3>
-                <ul id="history-list">
-                    <!-- Dynamically populated -->
-                </ul>
-            </div>
-        </div>
-
-        <div class="content-area">
-            <div class="breadcrumb" id="breadcrumb-container">
-                <span class="breadcrumb-item active">Home</span>
-            </div>
+    
+    <div class="container">
+        <div class="hero-card">
+            <h2>Welcome to the Study Plan Center</h2>
+            <p>Access the most up-to-date academic information, browse degree programs, and manage course requirements through our new integrated system.</p>
             
-            <div id="visualization-container" class="visualization-container">
-                <!-- Main visualization area -->
-                <div id="semester-container" class="centered-content"></div>
-            </div>
-
-            <section class="student-review-card" id="student-review-card">
-                <h3>Student Review</h3>
-                <p class="student-review-note">Integrated quick review of courses by semester inside the main website.</p>
-                <div class="student-review-controls">
-                    <label for="student-review-semester">Semester</label>
-                    <select id="student-review-semester"></select>
+            <div class="access-grid">
+                <!-- Student Access -->
+                <div class="access-card">
+                    <i class="fas fa-user-graduate"></i>
+                    <h3>Student Portal</h3>
+                    <p>Browse your faculty, explore programs, and view detailed semester-by-semester study plans with prerequisite maps.</p>
+                    <a href="./student-interactive-view.html" class="btn btn-student">
+                        <i class="fas fa-search"></i> Access Study Plans
+                    </a>
                 </div>
-                <div class="student-review-table-wrap">
-                    <table class="student-review-table">
-                        <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Name</th>
-                                <th>Credits</th>
-                                <th>Prerequisites</th>
-                            </tr>
-                        </thead>
-                        <tbody id="student-review-body"></tbody>
-                    </table>
+                
+                <!-- Admin Access -->
+                <div class="access-card">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>Admin Dashboard</h3>
+                    <p>Manage university data, add new faculties, update programs, and maintain course catalogs in real-time.</p>
+                    <a href="./modernization/frontend/admin/index.html" class="btn btn-admin">
+                        <i class="fas fa-lock"></i> Admin Login
+                    </a>
                 </div>
-            </section>
-        </div>
-    </main>
-
-    <footer class="gu-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Galala University</h3>
-                <p>University-wide study plans (currently active: Physical Therapy)</p>
-            </div>
-            <div class="footer-section">
-                <p>&copy; 2025 Galala University. All rights reserved.</p>
             </div>
         </div>
-    </footer>
-
-    <!-- Course Info Modal -->
-    <div id="course-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div id="modal-course-content"></div>
+        
+        <div class="features-section">
+            <h2>System Capabilities</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <h4>Dynamic Catalog</h4>
+                        <p>Real-time access to all university faculties and academic programs.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <h4>Interactive Maps</h4>
+                        <p>Visual representations of course sequences and prerequisites.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <h4>Instant Updates</h4>
+                        <p>Administrative changes reflect immediately across the entire platform.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <h4>Mobile Ready</h4>
+                        <p>Fully responsive design for access on any device, anywhere.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-
-    <!-- DATA MUST COME FIRST -->
-    <script src="data.js"></script>
-    <script src="app.js"></script>
-    <script src="animations.js"></script>
-    <script src="filters.js"></script>
-    <script src="hierarchy-arrows.js"></script>
-    <script src="semester-arrows.js"></script>
-    <script src="tester.js"></script>
-    <!-- <script src="assets/relationship-arrows.js"></script> -->
-    <script src="enhanced-spacing.js"></script>
-
-    <script>
-      (async function checkModernizationStatus() {
-        const statusEl = document.getElementById('modernization-status');
-        const adminLink = document.getElementById('admin-preview-link');
-        if (!statusEl) return;
-        try {
-          const res = await fetch('http://localhost:4000/api/health', { mode: 'cors' });
-          if (!res.ok) throw new Error('not_ok');
-          const data = await res.json();
-          statusEl.textContent = `Modernization API status: online (${data.mode})`;
-          statusEl.classList.add('online');
-          if (adminLink) {
-            adminLink.href = 'http://localhost:4000/admin';
-            adminLink.title = 'Opens live admin connected to the API.';
-          }
-        } catch {
-          statusEl.textContent = 'Modernization API status: offline (localhost:4000 unavailable). Run `cd modernization && npm run preview:local`.';
-          statusEl.classList.add('offline');
-          if (adminLink) {
-            adminLink.href = 'modernization/frontend/admin/index.html';
-            adminLink.title = 'API is offline. This opens static admin preview only.';
-          }
-        }
-      })();
-
-
-      (function initializeFacultySelector() {
-        const selector = document.getElementById('faculty-selector');
-        const headerTitle = document.querySelector('.logo-container h1');
-        if (!selector || !headerTitle) return;
-
-        function renderFaculty() {
-          const value = selector.value;
-          if (value === 'physical-therapy') {
-            headerTitle.textContent = 'Galala University Study Plan Center — Faculty of Physical Therapy';
-          }
-        }
-
-        selector.addEventListener('change', renderFaculty);
-        renderFaculty();
-      })();
-
-      (function renderStudentReview() {
-        const semesterSelect = document.getElementById('student-review-semester');
-        const tbody = document.getElementById('student-review-body');
-        if (!semesterSelect || !tbody || !Array.isArray(window.courses)) return;
-
-        const maxSemester = Math.max(...window.courses.map((course) => course.semester));
-        semesterSelect.innerHTML = Array.from({ length: maxSemester }, (_, idx) => idx + 1)
-          .map((semester) => `<option value="${semester}">Semester ${semester}</option>`)
-          .join('');
-
-        function renderRows() {
-          const semester = Number(semesterSelect.value);
-          const rows = window.courses
-            .filter((course) => course.semester === semester)
-            .sort((a, b) => a.code.localeCompare(b.code))
-            .map((course) => `
-              <tr>
-                <td><button type="button" class="student-review-link" data-course-code="${course.code}">${course.code}</button></td>
-                <td>${course.name}</td>
-                <td>${course.credits}</td>
-                <td>${course.prerequisites?.length ? course.prerequisites.join(', ') : 'None'}</td>
-              </tr>
-            `)
-            .join('');
-
-          tbody.innerHTML = rows || '<tr><td colspan="4">No courses found for this semester.</td></tr>';
-        }
-
-        semesterSelect.value = '1';
-        renderRows();
-        semesterSelect.addEventListener('change', renderRows);
-        tbody.addEventListener('click', (event) => {
-          const btn = event.target.closest('.student-review-link');
-          if (!btn) return;
-          const code = btn.getAttribute('data-course-code');
-          if (typeof window.quickAccessCourse === 'function') {
-            window.quickAccessCourse(code);
-          }
-        });
-      })();
-    </script>
-
+    
+    <footer>
+        <p>&copy; 2026 Galala University. All rights reserved.</p>
+        <p>Empowering Academic Excellence through Innovation</p>
+    </footer>
 </body>
 </html>
