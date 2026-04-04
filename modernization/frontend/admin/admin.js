@@ -1,7 +1,10 @@
 const apiCandidates = (() => {
   const localApi = 'http://localhost:4000/api';
   const sameOriginApi = `${window.location.origin}/api`;
+  const isVercel = window.location.hostname.includes('vercel.app');
+  
   if (window.location.origin.includes('localhost:4000')) return ['/api'];
+  if (isVercel) return [sameOriginApi, localApi];
   return [sameOriginApi, localApi];
 })();
 let workingApiBase = apiCandidates[0];
@@ -13,8 +16,6 @@ const successEl = document.getElementById('success');
 const authErrorEl = document.getElementById('authError');
 const loginCard = document.getElementById('adminLoginCard');
 const dashboard = document.getElementById('adminDashboard');
-const reactAdminSourceEl = document.getElementById('reactAdminSource');
-const reactFacultySourceEl = document.getElementById('reactFacultySource');
 
 const cache = { colleges: [], programs: [], years: [], semesters: [], subjects: [] };
 
@@ -62,7 +63,7 @@ async function request(path, options = {}) {
       });
       const contentType = res.headers.get('content-type') || '';
       if (!contentType.includes('application/json')) {
-        throw new Error('Modernization API is unavailable (localhost:4000 host unavailable). Run `cd modernization && npm run preview:local` and open http://localhost:4000/admin.');
+        throw new Error('Modernization API is unavailable.');
       }
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Request failed');
@@ -73,7 +74,7 @@ async function request(path, options = {}) {
     }
   }
 
-  throw lastError || new Error('Failed to fetch API (localhost:4000 host unavailable).');
+  throw lastError || new Error('Failed to fetch API.');
 }
 
 function lookupName(collection, id, key = 'name') {
@@ -267,26 +268,6 @@ function setupLogin() {
   });
 }
 
-async function loadReactExampleSources() {
-  const mirrors = [
-    { path: './examples/Admin.tsx', el: reactAdminSourceEl },
-    { path: './examples/FacultyManagement.tsx', el: reactFacultySourceEl }
-  ];
-
-  await Promise.all(mirrors.map(async ({ path, el }) => {
-    if (!el) return;
-
-    try {
-      const response = await fetch(path);
-      if (!response.ok) throw new Error(`Could not load ${path}`);
-      el.textContent = await response.text();
-    } catch (error) {
-      el.textContent = `Failed to load ${path}: ${error.message}`;
-    }
-  }));
-}
-
 bindAdminActions();
 bindCrudDelegates();
 setupLogin();
-loadReactExampleSources();
