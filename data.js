@@ -604,4 +604,8 @@ courses.forEach(course => {
     course.totalSemesters = Math.max(...courses.map(c => c.semester));
 });
 
-window.courses = courses;
+if (typeof window !== 'undefined') {
+  window.courses = courses;
+} else {
+  globalThis.courses = courses;
+}

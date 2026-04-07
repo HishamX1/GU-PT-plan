@@ -10,9 +10,18 @@ const sourcePath = path.join(rootDir, 'data.js');
 const outputPath = path.resolve(__dirname, '..', 'data', 'academic-plan.json');
 
 const source = fs.readFileSync(sourcePath, 'utf8');
-const context = {};
+const context = { window: {} };
 vm.createContext(context);
-vm.runInContext(`${source}\nthis.__courses = courses;`, context);
+try {
+  vm.runInContext(`${source}\nthis.__courses = courses;`, context);
+} catch (e) {
+  // If window.courses is set, use that
+  if (context.window.courses) {
+    context.__courses = context.window.courses;
+  } else {
+    throw e;
+  }
+}
 
 const courses = context.__courses || [];
 const collegeName = 'Galala University';
