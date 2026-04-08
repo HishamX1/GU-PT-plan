@@ -1,0 +1,59 @@
+{
+  "courses": [
+    {
+      "id": "course-001",
+      "semesterId": "sem-001",
+      "code": "PT101",
+      "name": "Introduction to Physical Therapy",
+      "description": "Fundamentals of physical therapy practice and history",
+      "credits": 3,
+      "prerequisites": [],
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "course-002",
+      "semesterId": "sem-001",
+      "code": "ANAT101",
+      "name": "Human Anatomy I",
+      "description": "Study of human skeletal and muscular systems",
+      "credits": 4,
+      "prerequisites": [],
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "course-003",
+      "semesterId": "sem-001",
+      "code": "PHYS101",
+      "name": "Physics for Health Sciences",
+      "description": "Physics principles applied to human body",
+      "credits": 3,
+      "prerequisites": [],
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "course-004",
+      "semesterId": "sem-002",
+      "code": "PHYSIO101",
+      "name": "Human Physiology I",
+      "description": "Study of human body systems and functions",
+      "credits": 4,
+      "prerequisites": ["ANAT101"],
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "course-005",
+      "semesterId": "sem-002",
+      "code": "CHEM101",
+      "name": "Chemistry for Health Sciences",
+      "description": "Chemistry fundamentals for healthcare professionals",
+      "credits": 3,
+      "prerequisites": [],
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    }
+  ]
+}
