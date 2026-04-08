@@ -1,0 +1,14 @@
+{
+  "programs": [
+    {
+      "id": "prog-001",
+      "facultyId": "fac-001",
+      "name": "Bachelor of Physical Therapy",
+      "code": "BPT",
+      "description": "4-year Bachelor's degree in Physical Therapy",
+      "duration": 4,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    }
+  ]
+}

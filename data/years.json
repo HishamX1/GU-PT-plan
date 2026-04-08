@@ -1,0 +1,36 @@
+{
+  "years": [
+    {
+      "id": "year-001",
+      "programId": "prog-001",
+      "yearNumber": 1,
+      "description": "First Year - Foundational Courses",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "year-002",
+      "programId": "prog-001",
+      "yearNumber": 2,
+      "description": "Second Year - Core Courses",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "year-003",
+      "programId": "prog-001",
+      "yearNumber": 3,
+      "description": "Third Year - Advanced Courses",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "year-004",
+      "programId": "prog-001",
+      "yearNumber": 4,
+      "description": "Fourth Year - Clinical Practice",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    }
+  ]
+}

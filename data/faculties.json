@@ -1,0 +1,12 @@
+{
+  "faculties": [
+    {
+      "id": "fac-001",
+      "name": "Faculty of Physical Therapy",
+      "code": "PT",
+      "description": "Physical Therapy and Rehabilitation Sciences",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    }
+  ]
+}

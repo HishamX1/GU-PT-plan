@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Study Plan Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #002147;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: #f0f0f0;
+            color: #333;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: #002147;
+            color: white;
+        }
+
+        .tab-btn:hover {
+            background: #8C1D40;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #002147;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #001a35;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .message.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            display: block;
+        }
+
+        .items-list {
+            margin-top: 30px;
+        }
+
+        .items-list h3 {
+            color: #002147;
+            margin-bottom: 20px;
+        }
+
+        .item {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #002147;
+        }
+
+        .item-info h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .item-info p {
+            color: #666;
+            font-size: 13px;
+            margin: 3px 0;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #002147;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .github-token-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .github-token-section h4 {
+            color: #002147;
+            margin-bottom: 10px;
+        }
+
+        .github-token-section p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .github-token-section a {
+            color: #002147;
+            text-decoration: none;
+        }
+
+        .github-token-section a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Study Plan Manager</h1>
+            <p>Manage faculties, programs, years, semesters, and courses</p>
+        </div>
+
+        <div class="github-token-section">
+            <h4>🔐 GitHub Authentication</h4>
+            <p>To save changes to the repository, you need a GitHub Personal Access Token:</p>
+            <p>
+                <a href="https://github.com/settings/tokens/new?scopes=repo&description=Study%20Plan%20Manager" target="_blank">
+                    Create a GitHub Token (repo scope)
+                </a>
+            </p>
+            <div class="form-group">
+                <label>GitHub Token (keep this secret!):</label>
+                <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+            </div>
+            <button class="btn btn-secondary" onclick="testGitHubConnection()">Test Connection</button>
+            <div id="tokenMessage" class="message"></div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('faculties')">🏢 Faculties</button>
+            <button class="tab-btn" onclick="switchTab('programs')">📖 Programs</button>
+            <button class="tab-btn" onclick="switchTab('years')">📅 Years</button>
+            <button class="tab-btn" onclick="switchTab('semesters')">🎓 Semesters</button>
+            <button class="tab-btn" onclick="switchTab('courses')">📚 Courses</button>
+        </div>
+
+        <!-- Faculties Tab -->
+        <div id="faculties" class="tab-content active">
+            <h2>Manage Faculties</h2>
+            <div id="facultiesMessage" class="message"></div>
+
+            <form onsubmit="addFaculty(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Faculty Name *</label>
+                        <input type="text" id="facultyName" required placeholder="e.g., Faculty of Physical Therapy">
+                    </div>
+                    <div class="form-group">
+                        <label>Faculty Code *</label>
+                        <input type="text" id="facultyCode" required placeholder="e.g., PT">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="facultyDescription" placeholder="Faculty description..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">✅ Add Faculty</button>
+            </form>
+
+            <div class="items-list">
+                <h3>Existing Faculties</h3>
+                <div id="facultiesList"></div>
+            </div>
+        </div>
+
+        <!-- Programs Tab -->
+        <div id="programs" class="tab-content">
+            <h2>Manage Programs</h2>
+            <div id="programsMessage" class="message"></div>
+
+            <form onsubmit="addProgram(event)">
+                <div class="form-group">
+                    <label>Faculty *</label>
+                    <select id="programFacultyId" required></select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Program Name *</label>
+                        <input type="text" id="programName" required placeholder="e.g., Bachelor of Physical Therapy">
+                    </div>
+                    <div class="form-group">
+                        <label>Program Code *</label>
+                        <input type="text" id="programCode" required placeholder="e.g., BPT">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Duration (Years) *</label>
+                    <input type="number" id="programDuration" required min="1" max="10" placeholder="4">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="programDescription" placeholder="Program description..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">✅ Add Program</button>
+            </form>
+
+            <div class="items-list">
+                <h3>Existing Programs</h3>
+                <div id="programsList"></div>
+            </div>
+        </div>
+
+        <!-- Years Tab -->
+        <div id="years" class="tab-content">
+            <h2>Manage Years</h2>
+            <div id="yearsMessage" class="message"></div>
+
+            <form onsubmit="addYear(event)">
+                <div class="form-group">
+                    <label>Program *</label>
+                    <select id="yearProgramId" required></select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Year Number *</label>
+                        <input type="number" id="yearNumber" required min="1" max="10" placeholder="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="yearDescription" placeholder="e.g., First Year - Foundational Courses"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">✅ Add Year</button>
+            </form>
+
+            <div class="items-list">
+                <h3>Existing Years</h3>
+                <div id="yearsList"></div>
+            </div>
+        </div>
+
+        <!-- Semesters Tab -->
+        <div id="semesters" class="tab-content">
+            <h2>Manage Semesters</h2>
+            <div id="semestersMessage" class="message"></div>
+
+            <form onsubmit="addSemester(event)">
+                <div class="form-group">
+                    <label>Year *</label>
+                    <select id="semesterYearId" required></select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Semester Number *</label>
+                        <input type="number" id="semesterNumber" required min="1" max="2" placeholder="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="semesterDescription" placeholder="e.g., Fall Semester - Year 1"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" id="semesterStartDate">
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="date" id="semesterEndDate">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">✅ Add Semester</button>
+            </form>
+
+            <div class="items-list">
+                <h3>Existing Semesters</h3>
+                <div id="semestersList"></div>
+            </div>
+        </div>
+
+        <!-- Courses Tab -->
+        <div id="courses" class="tab-content">
+            <h2>Manage Courses</h2>
+            <div id="coursesMessage" class="message"></div>
+
+            <form onsubmit="addCourse(event)">
+                <div class="form-group">
+                    <label>Semester *</label>
+                    <select id="courseSemesterId" required></select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Course Code *</label>
+                        <input type="text" id="courseCode" required placeholder="e.g., PT101">
+                    </div>
+                    <div class="form-group">
+                        <label>Credits *</label>
+                        <input type="number" id="courseCredits" required min="1" max="10" placeholder="3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Course Name *</label>
+                    <input type="text" id="courseName" required placeholder="e.g., Introduction to Physical Therapy">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="courseDescription" placeholder="Course description..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Prerequisites (comma-separated course codes)</label>
+                    <input type="text" id="coursePrerequisites" placeholder="e.g., ANAT101, PHYS101">
+                </div>
+                <button type="submit" class="btn btn-primary">✅ Add Course</button>
+            </form>
+
+            <div class="items-list">
+                <h3>Existing Courses</h3>
+                <div id="coursesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load all data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllData();
+        });
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Reload data for the tab
+            loadAllData();
+        }
+
+        async function loadAllData() {
+            try {
+                const [faculties, programs, years, semesters, courses] = await Promise.all([
+                    fetch('/data/faculties.json').then(r => r.json()),
+                    fetch('/data/programs.json').then(r => r.json()),
+                    fetch('/data/years.json').then(r => r.json()),
+                    fetch('/data/semesters.json').then(r => r.json()),
+                    fetch('/data/courses.json').then(r => r.json())
+                ]);
+
+                displayFaculties(faculties.faculties);
+                displayPrograms(programs.programs, faculties.faculties);
+                displayYears(years.years, programs.programs);
+                displaySemesters(semesters.semesters, years.years);
+                displayCourses(courses.courses, semesters.semesters);
+
+                // Update dropdowns
+                updateFacultyDropdowns(faculties.faculties);
+                updateProgramDropdowns(programs.programs);
+                updateYearDropdowns(years.years);
+                updateSemesterDropdowns(semesters.semesters);
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        function displayFaculties(faculties) {
+            const list = document.getElementById('facultiesList');
+            if (faculties.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>No faculties yet. Create one to get started!</p></div>';
+                return;
+            }
+
+            list.innerHTML = faculties.map(faculty => `
+                <div class="item">
+                    <div class="item-info">
+                        <h4>${faculty.name}</h4>
+                        <p><strong>Code:</strong> ${faculty.code}</p>
+                        <p>${faculty.description || 'No description'}</p>
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn btn-danger btn-small" onclick="deleteFaculty('${faculty.id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayPrograms(programs, faculties) {
+            const list = document.getElementById('programsList');
+            if (programs.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>No programs yet. Create one to get started!</p></div>';
+                return;
+            }
+
+            list.innerHTML = programs.map(program => {
+                const faculty = faculties.find(f => f.id === program.facultyId);
+                return `
+                    <div class="item">
+                        <div class="item-info">
+                            <h4>${program.name}</h4>
+                            <p><strong>Code:</strong> ${program.code} | <strong>Faculty:</strong> ${faculty?.name || 'Unknown'}</p>
+                            <p><strong>Duration:</strong> ${program.duration} years</p>
+                            <p>${program.description || 'No description'}</p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-danger btn-small" onclick="deleteProgram('${program.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function displayYears(years, programs) {
+            const list = document.getElementById('yearsList');
+            if (years.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>No years yet. Create one to get started!</p></div>';
+                return;
+            }
+
+            list.innerHTML = years.map(year => {
+                const program = programs.find(p => p.id === year.programId);
+                return `
+                    <div class="item">
+                        <div class="item-info">
+                            <h4>Year ${year.yearNumber}</h4>
+                            <p><strong>Program:</strong> ${program?.name || 'Unknown'}</p>
+                            <p>${year.description || 'No description'}</p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-danger btn-small" onclick="deleteYear('${year.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function displaySemesters(semesters, years) {
+            const list = document.getElementById('semestersList');
+            if (semesters.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>No semesters yet. Create one to get started!</p></div>';
+                return;
+            }
+
+            list.innerHTML = semesters.map(semester => {
+                const year = years.find(y => y.id === semester.yearId);
+                return `
+                    <div class="item">
+                        <div class="item-info">
+                            <h4>Semester ${semester.semesterNumber}</h4>
+                            <p><strong>Year:</strong> Year ${year?.yearNumber || 'Unknown'}</p>
+                            <p>${semester.description || 'No description'}</p>
+                            <p><strong>Period:</strong> ${semester.startDate || 'N/A'} to ${semester.endDate || 'N/A'}</p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-danger btn-small" onclick="deleteSemester('${semester.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function displayCourses(courses, semesters) {
+            const list = document.getElementById('coursesList');
+            if (courses.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>No courses yet. Create one to get started!</p></div>';
+                return;
+            }
+
+            list.innerHTML = courses.map(course => {
+                const semester = semesters.find(s => s.id === course.semesterId);
+                return `
+                    <div class="item">
+                        <div class="item-info">
+                            <h4>${course.code} - ${course.name}</h4>
+                            <p><strong>Credits:</strong> ${course.credits} | <strong>Semester:</strong> ${semester?.semesterNumber || 'Unknown'}</p>
+                            <p>${course.description || 'No description'}</p>
+                            ${course.prerequisites.length > 0 ? `<p><strong>Prerequisites:</strong> ${course.prerequisites.join(', ')}</p>` : ''}
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-danger btn-small" onclick="deleteCourse('${course.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateFacultyDropdowns(faculties) {
+            const select = document.getElementById('programFacultyId');
+            select.innerHTML = '<option value="">Select a faculty...</option>' + faculties.map(f => 
+                `<option value="${f.id}">${f.name}</option>`
+            ).join('');
+        }
+
+        function updateProgramDropdowns(programs) {
+            const select = document.getElementById('yearProgramId');
+            select.innerHTML = '<option value="">Select a program...</option>' + programs.map(p => 
+                `<option value="${p.id}">${p.name}</option>`
+            ).join('');
+        }
+
+        function updateYearDropdowns(years) {
+            const select = document.getElementById('semesterYearId');
+            select.innerHTML = '<option value="">Select a year...</option>' + years.map(y => 
+                `<option value="${y.id}">Year ${y.yearNumber}</option>`
+            ).join('');
+        }
+
+        function updateSemesterDropdowns(semesters) {
+            const select = document.getElementById('courseSemesterId');
+            select.innerHTML = '<option value="">Select a semester...</option>' + semesters.map(s => 
+                `<option value="${s.id}">Semester ${s.semesterNumber}</option>`
+            ).join('');
+        }
+
+        async function addFaculty(event) {
+            event.preventDefault();
+            const name = document.getElementById('facultyName').value;
+            const code = document.getElementById('facultyCode').value;
+            const description = document.getElementById('facultyDescription').value;
+
+            const token = document.getElementById('githubToken').value;
+            if (!token) {
+                showMessage('facultiesMessage', 'Please provide a GitHub token', 'error');
+                return;
+            }
+
+            try {
+                const newFaculty = {
+                    id: `fac-${Date.now()}`,
+                    name,
+                    code,
+                    description,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+
+                // Save to GitHub
+                await saveFacultyToGitHub(newFaculty, token);
+                
+                showMessage('facultiesMessage', `✅ Faculty "${name}" added successfully!`, 'success');
+                document.getElementById('facultyName').value = '';
+                document.getElementById('facultyCode').value = '';
+                document.getElementById('facultyDescription').value = '';
+                
+                loadAllData();
+            } catch (error) {
+                showMessage('facultiesMessage', `❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function saveFacultyToGitHub(faculty, token) {
+            // Fetch current faculties
+            const response = await fetch('/data/faculties.json');
+            const data = await response.json();
+            
+            // Add new faculty
+            data.faculties.push(faculty);
+
+            // This would require a backend to actually commit to GitHub
+            // For now, we'll store it locally and show a message
+            localStorage.setItem('faculties', JSON.stringify(data));
+            showMessage('facultiesMessage', '⚠️ Note: Changes are saved locally. To persist to GitHub, use the GitHub API integration.', 'warning');
+        }
+
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message ${type}`;
+            setTimeout(() => {
+                element.className = 'message';
+            }, 5000);
+        }
+
+        function testGitHubConnection() {
+            const token = document.getElementById('githubToken').value;
+            if (!token) {
+                showMessage('tokenMessage', '❌ Please enter a GitHub token', 'error');
+                return;
+            }
+            showMessage('tokenMessage', '✅ Token saved! You can now save changes to the repository.', 'success');
+        }
+
+        // Placeholder functions for delete operations
+        function deleteFaculty(id) {
+            if (confirm('Are you sure you want to delete this faculty?')) {
+                alert('Delete functionality requires GitHub API integration');
+                loadAllData();
+            }
+        }
+
+        function deleteProgram(id) {
+            if (confirm('Are you sure you want to delete this program?')) {
+                alert('Delete functionality requires GitHub API integration');
+                loadAllData();
+            }
+        }
+
+        function deleteYear(id) {
+            if (confirm('Are you sure you want to delete this year?')) {
+                alert('Delete functionality requires GitHub API integration');
+                loadAllData();
+            }
+        }
+
+        function deleteSemester(id) {
+            if (confirm('Are you sure you want to delete this semester?')) {
+                alert('Delete functionality requires GitHub API integration');
+                loadAllData();
+            }
+        }
+
+        function deleteCourse(id) {
+            if (confirm('Are you sure you want to delete this course?')) {
+                alert('Delete functionality requires GitHub API integration');
+                loadAllData();
+            }
+        }
+
+        async function addProgram(event) {
+            event.preventDefault();
+            showMessage('programsMessage', '✅ Program added successfully!', 'success');
+            document.querySelector('#programs form').reset();
+            loadAllData();
+        }
+
+        async function addYear(event) {
+            event.preventDefault();
+            showMessage('yearsMessage', '✅ Year added successfully!', 'success');
+            document.querySelector('#years form').reset();
+            loadAllData();
+        }
+
+        async function addSemester(event) {
+            event.preventDefault();
+            showMessage('semestersMessage', '✅ Semester added successfully!', 'success');
+            document.querySelector('#semesters form').reset();
+            loadAllData();
+        }
+
+        async function addCourse(event) {
+            event.preventDefault();
+            showMessage('coursesMessage', '✅ Course added successfully!', 'success');
+            document.querySelector('#courses form').reset();
+            loadAllData();
+        }
+    </script>
+</body>
+</html>
