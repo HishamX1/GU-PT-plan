@@ -327,20 +327,19 @@
 
         async function loadAllData() {
             try {
-                const [faculties, programs, years, semesters, courses] = await Promise.all([
-                    fetch('/data/faculties.json').then(r => r.json()),
-                    fetch('/data/programs.json').then(r => r.json()),
-                    fetch('/data/years.json').then(r => r.json()),
-                    fetch('/data/semesters.json').then(r => r.json()),
-                    fetch('/data/courses.json').then(r => r.json())
-                ]);
+                // Load data from localStorage
+                const faculties = JSON.parse(localStorage.getItem('studyPlan_faculties') || '[]');
+                const programs = JSON.parse(localStorage.getItem('studyPlan_programs') || '[]');
+                const years = JSON.parse(localStorage.getItem('studyPlan_years') || '[]');
+                const semesters = JSON.parse(localStorage.getItem('studyPlan_semesters') || '[]');
+                const courses = JSON.parse(localStorage.getItem('studyPlan_courses') || '[]');
 
                 allData = {
-                    faculties: faculties.faculties || [],
-                    programs: programs.programs || [],
-                    years: years.years || [],
-                    semesters: semesters.semesters || [],
-                    courses: courses.courses || []
+                    faculties: faculties,
+                    programs: programs,
+                    years: years,
+                    semesters: semesters,
+                    courses: courses
                 };
 
                 showFaculties();
