@@ -1,0 +1,25 @@
+{
+  "years": [
+    {
+      "id": "year-1712707200004-1",
+      "programId": "prog-1712707200001-bse",
+      "yearNumber": 1,
+      "description": "Foundation Year",
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "year-1712707200005-2",
+      "programId": "prog-1712707200001-bse",
+      "yearNumber": 2,
+      "description": "Core Courses",
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "year-1712707200006-1",
+      "programId": "prog-1712707200002-bce",
+      "yearNumber": 1,
+      "description": "Foundation Year",
+      "createdAt": "2026-04-10T00:00:00Z"
+    }
+  ]
+}

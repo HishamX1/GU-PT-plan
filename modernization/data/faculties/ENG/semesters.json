@@ -1,0 +1,40 @@
+{
+  "semesters": [
+    {
+      "id": "sem-1712707200004-1-1",
+      "yearId": "year-1712707200004-1",
+      "semesterNumber": 1,
+      "description": "Fall 2024",
+      "startDate": "2024-09-01",
+      "endDate": "2024-12-31",
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "sem-1712707200005-1-2",
+      "yearId": "year-1712707200004-1",
+      "semesterNumber": 2,
+      "description": "Spring 2025",
+      "startDate": "2025-01-15",
+      "endDate": "2025-05-31",
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "sem-1712707200006-2-1",
+      "yearId": "year-1712707200005-2",
+      "semesterNumber": 1,
+      "description": "Fall 2025",
+      "startDate": "2025-09-01",
+      "endDate": "2025-12-31",
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "sem-1712707200007-3-1",
+      "yearId": "year-1712707200006-1",
+      "semesterNumber": 1,
+      "description": "Fall 2024",
+      "startDate": "2024-09-01",
+      "endDate": "2024-12-31",
+      "createdAt": "2026-04-10T00:00:00Z"
+    }
+  ]
+}

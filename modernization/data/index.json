@@ -1,0 +1,20 @@
+{
+  "faculties": [
+    {
+      "id": "fac-1712707200000-pt",
+      "code": "PT",
+      "name": "Faculty of Physical Therapy",
+      "description": "Comprehensive physical therapy education program",
+      "path": "faculties/PT",
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "fac-1712707200001-eng",
+      "code": "ENG",
+      "name": "Faculty of Engineering",
+      "description": "Engineering and Technology Programs",
+      "path": "faculties/ENG",
+      "createdAt": "2026-04-10T00:00:00Z"
+    }
+  ]
+}
