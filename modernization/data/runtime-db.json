@@ -3,6 +3,10 @@
     {
       "id": 1,
       "name": "Galala University"
+    },
+    {
+      "id": 2,
+      "name": "nursing"
     }
   ],
   "programs": [
@@ -1440,7 +1444,7 @@
     }
   ],
   "counters": {
-    "colleges": 2,
+    "colleges": 3,
     "programs": 2,
     "years": 6,
     "semesters": 11,

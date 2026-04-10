@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Study Plan Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #002147 0%, #8C1D40 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #002147;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196F3;
+            color: #0c5aa0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: #f0f0f0;
+            color: #333;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: #002147;
+            color: white;
+        }
+
+        .tab-btn:hover {
+            background: #8C1D40;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #002147;
+            box-shadow: 0 0 0 3px rgba(0, 33, 71, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            background: #002147;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #8C1D40;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .message.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+            display: block;
+        }
+
+        .items-list {
+            margin-top: 30px;
+        }
+
+        .items-list h3 {
+            color: #002147;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .item {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #002147;
+        }
+
+        .item-info h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .item-info p {
+            color: #666;
+            font-size: 13px;
+            margin: 3px 0;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .sync-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4caf50;
+            margin-left: 10px;
+        }
+
+        .sync-indicator.syncing {
+            background: #ff9800;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .item-actions {
+                margin-top: 15px;
+                width: 100%;
+            }
+
+            .item-actions button {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Study Plan Manager <span class="sync-indicator" id="syncIndicator"></span></h1>
+            <p>Manage faculties, programs, years, semesters, and courses</p>
+        </div>
+
+        <div class="info-box">
+            ℹ️ <strong>How it works:</strong> Data is stored in your browser's local storage and syncs in real-time with the student portal. Changes appear instantly for all users viewing the site.
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('faculties')">🏢 Faculties</button>
+            <button class="tab-btn" onclick="switchTab('programs')">📖 Programs</button>
+            <button class="tab-btn" onclick="switchTab('years')">📅 Years</button>
+            <button class="tab-btn" onclick="switchTab('semesters')">🎓 Semesters</button>
+            <button class="tab-btn" onclick="switchTab('courses')">📚 Courses</button>
+        </div>
+
+        <!-- FACULTIES TAB -->
+        <div id="faculties" class="tab-content active">
+            <h2>🏢 Manage Faculties</h2>
+            <div id="facultyMessage" class="message"></div>
+
+            <div class="form-group">
+                <label>Faculty Name *</label>
+                <input type="text" id="facultyName" placeholder="e.g., Faculty of Physical Therapy">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Faculty Code *</label>
+                    <input type="text" id="facultyCode" placeholder="e.g., PT">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="facultyDescription" placeholder="Faculty description...">
+                </div>
+            </div>
+
+            <button class="btn" onclick="addFaculty()">✅ Add Faculty</button>
+
+            <div class="items-list">
+                <h3>Existing Faculties</h3>
+                <div id="facultiesList" class="empty-state"><p>Loading...</p></div>
+            </div>
+        </div>
+
+        <!-- PROGRAMS TAB -->
+        <div id="programs" class="tab-content">
+            <h2>📖 Manage Programs</h2>
+            <div id="programMessage" class="message"></div>
+
+            <div class="form-group">
+                <label>Faculty *</label>
+                <select id="programFaculty">
+                    <option value="">Select a faculty...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Program Name *</label>
+                <input type="text" id="programName" placeholder="e.g., Bachelor of Physical Therapy">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Program Code *</label>
+                    <input type="text" id="programCode" placeholder="e.g., BPT">
+                </div>
+                <div class="form-group">
+                    <label>Duration (Years) *</label>
+                    <input type="number" id="programDuration" placeholder="e.g., 4" min="1">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="programDescription" placeholder="Program description..."></textarea>
+            </div>
+
+            <button class="btn" onclick="addProgram()">✅ Add Program</button>
+
+            <div class="items-list">
+                <h3>Existing Programs</h3>
+                <div id="programsList" class="empty-state"><p>No programs yet. Create one to get started!</p></div>
+            </div>
+        </div>
+
+        <!-- YEARS TAB -->
+        <div id="years" class="tab-content">
+            <h2>📅 Manage Years</h2>
+            <div id="yearMessage" class="message"></div>
+
+            <div class="form-group">
+                <label>Program *</label>
+                <select id="yearProgram">
+                    <option value="">Select a program...</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Year Number *</label>
+                    <input type="number" id="yearNumber" placeholder="e.g., 1" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="yearDescription" placeholder="e.g., Foundation Year">
+                </div>
+            </div>
+
+            <button class="btn" onclick="addYear()">✅ Add Year</button>
+
+            <div class="items-list">
+                <h3>Existing Years</h3>
+                <div id="yearsList" class="empty-state"><p>No years yet. Create one to get started!</p></div>
+            </div>
+        </div>
+
+        <!-- SEMESTERS TAB -->
+        <div id="semesters" class="tab-content">
+            <h2>🎓 Manage Semesters</h2>
+            <div id="semesterMessage" class="message"></div>
+
+            <div class="form-group">
+                <label>Year *</label>
+                <select id="semesterYear">
+                    <option value="">Select a year...</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Semester Number *</label>
+                    <input type="number" id="semesterNumber" placeholder="e.g., 1" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="semesterDescription" placeholder="e.g., Fall 2024">
+                </div>
+            </div>
+
+            <button class="btn" onclick="addSemester()">✅ Add Semester</button>
+
+            <div class="items-list">
+                <h3>Existing Semesters</h3>
+                <div id="semestersList" class="empty-state"><p>No semesters yet. Create one to get started!</p></div>
+            </div>
+        </div>
+
+        <!-- COURSES TAB -->
+        <div id="courses" class="tab-content">
+            <h2>📚 Manage Courses</h2>
+            <div id="courseMessage" class="message"></div>
+
+            <div class="form-group">
+                <label>Semester *</label>
+                <select id="courseSemester">
+                    <option value="">Select a semester...</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Course Code *</label>
+                    <input type="text" id="courseCode" placeholder="e.g., PT101">
+                </div>
+                <div class="form-group">
+                    <label>Credits *</label>
+                    <input type="number" id="courseCredits" placeholder="e.g., 3" min="1">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Course Name *</label>
+                <input type="text" id="courseName" placeholder="e.g., Introduction to Physical Therapy">
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="courseDescription" placeholder="Course description..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Prerequisites (comma-separated course codes)</label>
+                <input type="text" id="coursePrerequisites" placeholder="e.g., PT101, PT102">
+            </div>
+
+            <button class="btn" onclick="addCourse()">✅ Add Course</button>
+
+            <div class="items-list">
+                <h3>Existing Courses</h3>
+                <div id="coursesList" class="empty-state"><p>No courses yet. Create one to get started!</p></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage in localStorage
+        const STORAGE_KEYS = {
+            faculties: 'studyPlan_faculties',
+            programs: 'studyPlan_programs',
+            years: 'studyPlan_years',
+            semesters: 'studyPlan_semesters',
+            courses: 'studyPlan_courses'
+        };
+
+        let allData = {
+            faculties: [],
+            programs: [],
+            years: [],
+            semesters: [],
+            courses: []
+        };
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDataFromStorage();
+            loadInitialData();
+            refreshAllDisplays();
+            setupSyncListener();
+        });
+
+        function loadInitialData() {
+            // Load from JSON files if localStorage is empty
+            if (allData.faculties.length === 0) {
+                loadJsonData();
+            }
+        }
+
+        function loadJsonData() {
+            const basePath = getBasePath();
+            
+            Promise.all([
+                fetch(`${basePath}data/faculties.json`).then(r => r.json()).catch(() => ({ faculties: [] })),
+                fetch(`${basePath}data/programs.json`).then(r => r.json()).catch(() => ({ programs: [] })),
+                fetch(`${basePath}data/years.json`).then(r => r.json()).catch(() => ({ years: [] })),
+                fetch(`${basePath}data/semesters.json`).then(r => r.json()).catch(() => ({ semesters: [] })),
+                fetch(`${basePath}data/courses.json`).then(r => r.json()).catch(() => ({ courses: [] }))
+            ]).then(([fac, prog, year, sem, course]) => {
+                allData.faculties = fac.faculties || [];
+                allData.programs = prog.programs || [];
+                allData.years = year.years || [];
+                allData.semesters = sem.semesters || [];
+                allData.courses = course.courses || [];
+                
+                saveDataToStorage();
+                refreshAllDisplays();
+            });
+        }
+
+        function getBasePath() {
+            const path = window.location.pathname;
+            if (path.includes('/GU-PT-plan/')) {
+                return '/GU-PT-plan/';
+            }
+            return '/';
+        }
+
+        function loadDataFromStorage() {
+            try {
+                allData.faculties = JSON.parse(localStorage.getItem(STORAGE_KEYS.faculties)) || [];
+                allData.programs = JSON.parse(localStorage.getItem(STORAGE_KEYS.programs)) || [];
+                allData.years = JSON.parse(localStorage.getItem(STORAGE_KEYS.years)) || [];
+                allData.semesters = JSON.parse(localStorage.getItem(STORAGE_KEYS.semesters)) || [];
+                allData.courses = JSON.parse(localStorage.getItem(STORAGE_KEYS.courses)) || [];
+            } catch (error) {
+                console.error('Error loading data from storage:', error);
+            }
+        }
+
+        function saveDataToStorage() {
+            localStorage.setItem(STORAGE_KEYS.faculties, JSON.stringify(allData.faculties));
+            localStorage.setItem(STORAGE_KEYS.programs, JSON.stringify(allData.programs));
+            localStorage.setItem(STORAGE_KEYS.years, JSON.stringify(allData.years));
+            localStorage.setItem(STORAGE_KEYS.semesters, JSON.stringify(allData.semesters));
+            localStorage.setItem(STORAGE_KEYS.courses, JSON.stringify(allData.courses));
+            
+            // Trigger storage event for cross-tab sync
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: 'studyPlanUpdated',
+                newValue: Date.now().toString()
+            }));
+        }
+
+        function setupSyncListener() {
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'studyPlanUpdated') {
+                    loadDataFromStorage();
+                    refreshAllDisplays();
+                }
+            });
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            refreshAllDisplays();
+        }
+
+        function showMessage(elementId, message, type = 'success') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message ${type}`;
+            setTimeout(() => {
+                element.className = 'message';
+            }, 5000);
+        }
+
+        function generateId(prefix) {
+            return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        }
+
+        // FACULTY FUNCTIONS
+        function addFaculty() {
+            const name = document.getElementById('facultyName').value.trim();
+            const code = document.getElementById('facultyCode').value.trim().toUpperCase();
+            const description = document.getElementById('facultyDescription').value.trim();
+
+            if (!name || !code) {
+                showMessage('facultyMessage', '❌ Please fill in all required fields', 'error');
+                return;
+            }
+
+            if (allData.faculties.some(f => f.code === code)) {
+                showMessage('facultyMessage', `❌ Faculty with code "${code}" already exists`, 'warning');
+                return;
+            }
+
+            const faculty = {
+                id: generateId('fac'),
+                name,
+                code,
+                description,
+                createdAt: new Date().toISOString()
+            };
+
+            allData.faculties.push(faculty);
+            saveDataToStorage();
+
+            document.getElementById('facultyName').value = '';
+            document.getElementById('facultyCode').value = '';
+            document.getElementById('facultyDescription').value = '';
+
+            showMessage('facultyMessage', `✅ Faculty "${name}" added successfully`, 'success');
+            refreshAllDisplays();
+        }
+
+        function deleteFaculty(id) {
+            if (confirm('Are you sure you want to delete this faculty?')) {
+                allData.faculties = allData.faculties.filter(f => f.id !== id);
+                allData.programs = allData.programs.filter(p => p.facultyId !== id);
+                saveDataToStorage();
+                refreshAllDisplays();
+                showMessage('facultyMessage', '✅ Faculty deleted successfully', 'success');
+            }
+        }
+
+        function displayFaculties() {
+            const list = document.getElementById('facultiesList');
+            if (allData.faculties.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>📭 No faculties yet. Create one to get started!</p></div>';
+                return;
+            }
+
+            list.innerHTML = allData.faculties.map(faculty => `
+                <div class="item">
+                    <div class="item-info">
+                        <h4>${faculty.name}</h4>
+                        <p><strong>Code:</strong> ${faculty.code}</p>
+                        ${faculty.description ? `<p><strong>Description:</strong> ${faculty.description}</p>` : ''}
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn btn-danger btn-small" onclick="deleteFaculty('${faculty.id}')">🗑️ Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // PROGRAM FUNCTIONS
+        function addProgram() {
+            const facultySelect = document.getElementById('programFaculty');
+            const facultyId = facultySelect.value;
+            const name = document.getElementById('programName').value.trim();
+            const code = document.getElementById('programCode').value.trim().toUpperCase();
+            const duration = parseInt(document.getElementById('programDuration').value);
+            const description = document.getElementById('programDescription').value.trim();
+
+            if (!facultyId || facultyId === '' || !name || !code || !duration) {
+                showMessage('programMessage', '❌ Please fill in all required fields (Faculty is required)', 'error');
+                return;
+            }
+
+            if (allData.programs.some(p => p.facultyId === facultyId && p.code === code)) {
+                showMessage('programMessage', `❌ Program with code "${code}" already exists in this faculty`, 'warning');
+                return;
+            }
+
+            const program = {
+                id: generateId('prog'),
+                facultyId,
+                name,
+                code,
+                duration,
+                description,
+                createdAt: new Date().toISOString()
+            };
+
+            allData.programs.push(program);
+            saveDataToStorage();
+
+            document.getElementById('programName').value = '';
+            document.getElementById('programCode').value = '';
+            document.getElementById('programDuration').value = '';
+            document.getElementById('programDescription').value = '';
+
+            showMessage('programMessage', `✅ Program "${name}" added successfully`, 'success');
+            refreshAllDisplays();
+        }
+
+        function deleteProgram(id) {
+            if (confirm('Are you sure you want to delete this program?')) {
+                allData.programs = allData.programs.filter(p => p.id !== id);
+                allData.years = allData.years.filter(y => y.programId !== id);
+                saveDataToStorage();
+                refreshAllDisplays();
+                showMessage('programMessage', '✅ Program deleted successfully', 'success');
+            }
+        }
+
+        function displayPrograms() {
+            const list = document.getElementById('programsList');
+            if (allData.programs.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>📭 No programs yet. Create one to get started!</p></div>';
+                return;
+            }
+
+            list.innerHTML = allData.programs.map(program => {
+                const faculty = allData.faculties.find(f => f.id === program.facultyId);
+                return `
+                    <div class="item">
+                        <div class="item-info">
+                            <h4>${program.name}</h4>
+                            <p><strong>Faculty:</strong> ${faculty ? faculty.name : 'Unknown'}</p>
+                            <p><strong>Code:</strong> ${program.code} • <strong>Duration:</strong> ${program.duration} years</p>
+                            ${program.description ? `<p><strong>Description:</strong> ${program.description}</p>` : ''}
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-danger btn-small" onclick="deleteProgram('${program.id}')">🗑️ Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // YEAR FUNCTIONS
+        function addYear() {
+            const programId = document.getElementById('yearProgram').value;
+            const yearNumber = parseInt(document.getElementById('yearNumber').value);
+            const description = document.getElementById('yearDescription').value.trim();
+
+            if (!programId || !yearNumber) {
+                showMessage('yearMessage', '❌ Please fill in all required fields', 'error');
+                return;
+            }
+
+            if (allData.years.some(y => y.programId === programId && y.yearNumber === yearNumber)) {
+                showMessage('yearMessage', `❌ Year ${yearNumber} already exists in this program`, 'warning');
+                return;
+            }
+
+            const year = {
+                id: generateId('year'),
+                programId,
+                yearNumber,
+                description,
+                createdAt: new Date().toISOString()
+            };
+
+            allData.years.push(year);
+            saveDataToStorage();
+
+            document.getElementById('yearNumber').value = '';
+            document.getElementById('yearDescription').value = '';
+
+            showMessage('yearMessage', `✅ Year ${yearNumber} added successfully`, 'success');
+            refreshAllDisplays();
+        }
+
+        function deleteYear(id) {
+            if (confirm('Are you sure you want to delete this year?')) {
+                allData.years = allData.years.filter(y => y.id !== id);
+                allData.semesters = allData.semesters.filter(s => s.yearId !== id);
+                saveDataToStorage();
+                refreshAllDisplays();
+                showMessage('yearMessage', '✅ Year deleted successfully', 'success');
+            }
+        }
+
+        function displayYears() {
+            const list = document.getElementById('yearsList');
+            if (allData.years.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>📭 No years yet. Create one to get started!</p></div>';
+                return;
+            }
+
+            list.innerHTML = allData.years.map(year => {
+                const program = allData.programs.find(p => p.id === year.programId);
+                return `
+                    <div class="item">
+                        <div class="item-info">
+                            <h4>Year ${year.yearNumber}</h4>
+                            <p><strong>Program:</strong> ${program ? program.name : 'Unknown'}</p>
+                            ${year.description ? `<p><strong>Description:</strong> ${year.description}</p>` : ''}
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-danger btn-small" onclick="deleteYear('${year.id}')">🗑️ Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // SEMESTER FUNCTIONS
+        function addSemester() {
+            const yearId = document.getElementById('semesterYear').value;
+            const semesterNumber = parseInt(document.getElementById('semesterNumber').value);
+            const description = document.getElementById('semesterDescription').value.trim();
+
+            if (!yearId || !semesterNumber) {
+                showMessage('semesterMessage', '❌ Please fill in all required fields', 'error');
+                return;
+            }
+
+            if (allData.semesters.some(s => s.yearId === yearId && s.semesterNumber === semesterNumber)) {
+                showMessage('semesterMessage', `❌ Semester ${semesterNumber} already exists in this year`, 'warning');
+                return;
+            }
+
+            const semester = {
+                id: generateId('sem'),
+                yearId,
+                semesterNumber,
+                description,
+                createdAt: new Date().toISOString()
+            };
+
+            allData.semesters.push(semester);
+            saveDataToStorage();
+
+            document.getElementById('semesterNumber').value = '';
+            document.getElementById('semesterDescription').value = '';
+
+            showMessage('semesterMessage', `✅ Semester ${semesterNumber} added successfully`, 'success');
+            refreshAllDisplays();
+        }
+
+        function deleteSemester(id) {
+            if (confirm('Are you sure you want to delete this semester?')) {
+                allData.semesters = allData.semesters.filter(s => s.id !== id);
+                allData.courses = allData.courses.filter(c => c.semesterId !== id);
+                saveDataToStorage();
+                refreshAllDisplays();
+                showMessage('semesterMessage', '✅ Semester deleted successfully', 'success');
+            }
+        }
+
+        function displaySemesters() {
+            const list = document.getElementById('semestersList');
+            if (allData.semesters.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>📭 No semesters yet. Create one to get started!</p></div>';
+                return;
+            }
+
+            list.innerHTML = allData.semesters.map(semester => {
+                const year = allData.years.find(y => y.id === semester.yearId);
+                const program = year ? allData.programs.find(p => p.id === year.programId) : null;
+                return `
+                    <div class="item">
+                        <div class="item-info">
+                            <h4>Semester ${semester.semesterNumber}</h4>
+                            <p><strong>Program:</strong> ${program ? program.name : 'Unknown'} • <strong>Year:</strong> ${year ? year.yearNumber : 'Unknown'}</p>
+                            ${semester.description ? `<p><strong>Description:</strong> ${semester.description}</p>` : ''}
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-danger btn-small" onclick="deleteSemester('${semester.id}')">🗑️ Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // COURSE FUNCTIONS
+        function addCourse() {
+            const semesterId = document.getElementById('courseSemester').value;
+            const code = document.getElementById('courseCode').value.trim().toUpperCase();
+            const name = document.getElementById('courseName').value.trim();
+            const credits = parseInt(document.getElementById('courseCredits').value);
+            const description = document.getElementById('courseDescription').value.trim();
+            const prerequisitesStr = document.getElementById('coursePrerequisites').value.trim();
+
+            if (!semesterId || !code || !name || !credits) {
+                showMessage('courseMessage', '❌ Please fill in all required fields', 'error');
+                return;
+            }
+
+            if (allData.courses.some(c => c.semesterId === semesterId && c.code === code)) {
+                showMessage('courseMessage', `❌ Course with code "${code}" already exists in this semester`, 'warning');
+                return;
+            }
+
+            const prerequisites = prerequisitesStr ? prerequisitesStr.split(',').map(p => p.trim()).filter(p => p) : [];
+
+            const course = {
+                id: generateId('course'),
+                semesterId,
+                code,
+                name,
+                credits,
+                description,
+                prerequisites,
+                createdAt: new Date().toISOString()
+            };
+
+            allData.courses.push(course);
+            saveDataToStorage();
+
+            document.getElementById('courseCode').value = '';
+            document.getElementById('courseName').value = '';
+            document.getElementById('courseCredits').value = '';
+            document.getElementById('courseDescription').value = '';
+            document.getElementById('coursePrerequisites').value = '';
+
+            showMessage('courseMessage', `✅ Course "${code}" added successfully`, 'success');
+            refreshAllDisplays();
+        }
+
+        function deleteCourse(id) {
+            if (confirm('Are you sure you want to delete this course?')) {
+                allData.courses = allData.courses.filter(c => c.id !== id);
+                saveDataToStorage();
+                refreshAllDisplays();
+                showMessage('courseMessage', '✅ Course deleted successfully', 'success');
+            }
+        }
+
+        function displayCourses() {
+            const list = document.getElementById('coursesList');
+            if (allData.courses.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>📭 No courses yet. Create one to get started!</p></div>';
+                return;
+            }
+
+            list.innerHTML = allData.courses.map(course => {
+                const semester = allData.semesters.find(s => s.id === course.semesterId);
+                const year = semester ? allData.years.find(y => y.id === semester.yearId) : null;
+                const program = year ? allData.programs.find(p => p.id === year.programId) : null;
+                return `
+                    <div class="item">
+                        <div class="item-info">
+                            <h4>${course.code} - ${course.name}</h4>
+                            <p><strong>Program:</strong> ${program ? program.name : 'Unknown'} • <strong>Semester:</strong> ${semester ? semester.semesterNumber : 'Unknown'}</p>
+                            <p><strong>Credits:</strong> ${course.credits}</p>
+                            ${course.description ? `<p><strong>Description:</strong> ${course.description}</p>` : ''}
+                            ${course.prerequisites.length > 0 ? `<p><strong>Prerequisites:</strong> ${course.prerequisites.join(', ')}</p>` : ''}
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-danger btn-small" onclick="deleteCourse('${course.id}')">🗑️ Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // REFRESH ALL DISPLAYS
+        function refreshAllDisplays() {
+            displayFaculties();
+            displayPrograms();
+            displayYears();
+            displaySemesters();
+            displayCourses();
+            updateSelects();
+        }
+
+        function updateSelects() {
+            // Update Faculty select in Programs
+            const programFacultySelect = document.getElementById('programFaculty');
+            const selectedProgram = programFacultySelect.value;
+            programFacultySelect.innerHTML = '<option value="">Select a faculty...</option>';
+            allData.faculties.forEach(faculty => {
+                programFacultySelect.innerHTML += `<option value="${faculty.id}">${faculty.name}</option>`;
+            });
+            programFacultySelect.value = selectedProgram;
+
+            // Update Program select in Years
+            const yearProgramSelect = document.getElementById('yearProgram');
+            const selectedYear = yearProgramSelect.value;
+            yearProgramSelect.innerHTML = '<option value="">Select a program...</option>';
+            allData.programs.forEach(program => {
+                yearProgramSelect.innerHTML += `<option value="${program.id}">${program.name}</option>`;
+            });
+            yearProgramSelect.value = selectedYear;
+
+            // Update Year select in Semesters
+            const semesterYearSelect = document.getElementById('semesterYear');
+            const selectedSemester = semesterYearSelect.value;
+            semesterYearSelect.innerHTML = '<option value="">Select a year...</option>';
+            allData.years.forEach(year => {
+                const program = allData.programs.find(p => p.id === year.programId);
+                semesterYearSelect.innerHTML += `<option value="${year.id}">${program ? program.name : 'Unknown'} - Year ${year.yearNumber}</option>`;
+            });
+            semesterYearSelect.value = selectedSemester;
+
+            // Update Semester select in Courses
+            const courseSemesterSelect = document.getElementById('courseSemester');
+            const selectedCourse = courseSemesterSelect.value;
+            courseSemesterSelect.innerHTML = '<option value="">Select a semester...</option>';
+            allData.semesters.forEach(semester => {
+                const year = allData.years.find(y => y.id === semester.yearId);
+                const program = year ? allData.programs.find(p => p.id === year.programId) : null;
+                courseSemesterSelect.innerHTML += `<option value="${semester.id}">${program ? program.name : 'Unknown'} - Year ${year ? year.yearNumber : 'Unknown'} - Semester ${semester.semesterNumber}</option>`;
+            });
+            courseSemesterSelect.value = selectedCourse;
+        }
+    </script>
+</body>
+</html>
