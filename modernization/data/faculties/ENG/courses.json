@@ -1,0 +1,54 @@
+{
+  "courses": [
+    {
+      "id": "course-1712707200005-se101",
+      "semesterId": "sem-1712707200004-1-1",
+      "code": "SE101",
+      "name": "Introduction to Programming",
+      "credits": 3,
+      "description": "Fundamentals of programming using Python",
+      "prerequisites": [],
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "course-1712707200006-se102",
+      "semesterId": "sem-1712707200004-1-1",
+      "code": "SE102",
+      "name": "Data Structures",
+      "credits": 4,
+      "description": "Arrays, linked lists, trees, and graphs",
+      "prerequisites": ["SE101"],
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "course-1712707200007-se103",
+      "semesterId": "sem-1712707200005-1-2",
+      "code": "SE103",
+      "name": "Database Systems",
+      "credits": 4,
+      "description": "SQL and database design principles",
+      "prerequisites": ["SE101"],
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "course-1712707200008-ce101",
+      "semesterId": "sem-1712707200007-3-1",
+      "code": "CE101",
+      "name": "Engineering Mechanics",
+      "credits": 3,
+      "description": "Statics and dynamics fundamentals",
+      "prerequisites": [],
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "course-1712707200009-ce102",
+      "semesterId": "sem-1712707200007-3-1",
+      "code": "CE102",
+      "name": "Materials Science",
+      "credits": 4,
+      "description": "Properties and applications of engineering materials",
+      "prerequisites": [],
+      "createdAt": "2026-04-10T00:00:00Z"
+    }
+  ]
+}

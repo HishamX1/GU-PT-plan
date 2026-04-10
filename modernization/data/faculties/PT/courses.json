@@ -1,0 +1,54 @@
+{
+  "courses": [
+    {
+      "id": "course-1712707200000-pt101",
+      "semesterId": "sem-1712707200000-1-1",
+      "code": "PT101",
+      "name": "Introduction to Physical Therapy",
+      "credits": 3,
+      "description": "Foundational course covering basic PT principles and anatomy",
+      "prerequisites": [],
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "course-1712707200001-pt102",
+      "semesterId": "sem-1712707200000-1-1",
+      "code": "PT102",
+      "name": "Musculoskeletal Assessment",
+      "credits": 4,
+      "description": "Advanced assessment techniques for musculoskeletal conditions",
+      "prerequisites": ["PT101"],
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "course-1712707200002-pt103",
+      "semesterId": "sem-1712707200000-1-1",
+      "code": "PT103",
+      "name": "Human Anatomy",
+      "credits": 4,
+      "description": "Detailed study of human body systems and structures",
+      "prerequisites": [],
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "course-1712707200003-pt104",
+      "semesterId": "sem-1712707200001-1-2",
+      "code": "PT104",
+      "name": "Physiology and Pathology",
+      "credits": 3,
+      "description": "Study of normal and abnormal physiological processes",
+      "prerequisites": ["PT103"],
+      "createdAt": "2026-04-10T00:00:00Z"
+    },
+    {
+      "id": "course-1712707200004-pt105",
+      "semesterId": "sem-1712707200001-1-2",
+      "code": "PT105",
+      "name": "Clinical Practice I",
+      "credits": 5,
+      "description": "First clinical practice experience with supervision",
+      "prerequisites": ["PT101", "PT102"],
+      "createdAt": "2026-04-10T00:00:00Z"
+    }
+  ]
+}
