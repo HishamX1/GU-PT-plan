@@ -1,5 +1,6 @@
 import { env } from '../config/env.js';
 import { query, readFileStore, withFileStore } from '../db/client.js';
+import { syncFacultyFilesFromRuntime } from '../db/facultyFileStore.js';
 
 function duplicate(error) {
   return String(error?.code) === '23505';
@@ -7,6 +8,15 @@ function duplicate(error) {
 
 function notFound(result) {
   return !result || !result.rowCount;
+}
+
+
+function withFileStoreAndSync(work) {
+  return withFileStore((store, nextId) => {
+    const result = work(store, nextId);
+    syncFacultyFilesFromRuntime(store);
+    return result;
+  });
 }
 
 export async function getColleges() {
@@ -28,7 +38,7 @@ export async function createCollege(data) {
     }
   }
 
-  return withFileStore((store, nextId) => {
+  return withFileStoreAndSync((store, nextId) => {
     if (store.colleges.some((c) => c.name.toLowerCase() === data.name.toLowerCase())) return null;
     const row = { id: nextId(store, 'colleges'), name: data.name.trim() };
     store.colleges.push(row);
@@ -51,7 +61,7 @@ export async function updateCollege(id, data) {
     }
   }
 
-  return withFileStore((store) => {
+  return withFileStoreAndSync((store) => {
     const college = store.colleges.find((c) => c.id === id);
     if (!college) return false;
     if (data.name) {
@@ -69,7 +79,7 @@ export async function deleteCollege(id) {
     return rowCount > 0;
   }
 
-  return withFileStore((store) => {
+  return withFileStoreAndSync((store) => {
     const before = store.colleges.length;
     const programsToDelete = store.programs.filter((p) => p.collegeId === id).map((p) => p.id);
     const yearsToDelete = store.years.filter((y) => programsToDelete.includes(y.programId)).map((y) => y.id);
@@ -117,7 +127,7 @@ export async function createProgram(data) {
     }
   }
 
-  return withFileStore((store, nextId) => {
+  return withFileStoreAndSync((store, nextId) => {
     if (!store.colleges.some((c) => c.id === data.collegeId)) throw new Error('FK_COLLEGE');
     if (store.programs.some((p) => p.collegeId === data.collegeId && p.name.toLowerCase() === data.name.toLowerCase())) return null;
     const row = { id: nextId(store, 'programs'), collegeId: data.collegeId, name: data.name.trim() };
@@ -145,7 +155,7 @@ export async function updateProgram(id, data) {
     }
   }
 
-  return withFileStore((store) => {
+  return withFileStoreAndSync((store) => {
     const program = store.programs.find((p) => p.id === id);
     if (!program) return false;
 
@@ -167,7 +177,7 @@ export async function deleteProgram(id) {
     return rowCount > 0;
   }
 
-  return withFileStore((store) => {
+  return withFileStoreAndSync((store) => {
     const before = store.programs.length;
     const yearsToDelete = store.years.filter((y) => y.programId === id).map((y) => y.id);
     const semestersToDelete = store.semesters.filter((s) => yearsToDelete.includes(s.yearId)).map((s) => s.id);
@@ -213,7 +223,7 @@ export async function createYear(data) {
     }
   }
 
-  return withFileStore((store, nextId) => {
+  return withFileStoreAndSync((store, nextId) => {
     if (!store.programs.some((p) => p.id === data.programId)) throw new Error('FK_PROGRAM');
     if (store.years.some((y) => y.programId === data.programId && y.yearNumber === data.yearNumber)) return null;
     const row = { id: nextId(store, 'years'), programId: data.programId, yearNumber: data.yearNumber };
@@ -241,7 +251,7 @@ export async function updateYear(id, data) {
     }
   }
 
-  return withFileStore((store) => {
+  return withFileStoreAndSync((store) => {
     const year = store.years.find((y) => y.id === id);
     if (!year) return false;
 
@@ -263,7 +273,7 @@ export async function deleteYear(id) {
     return rowCount > 0;
   }
 
-  return withFileStore((store) => {
+  return withFileStoreAndSync((store) => {
     const before = store.years.length;
     const semestersToDelete = store.semesters.filter((s) => s.yearId === id).map((s) => s.id);
     const subjectsToDelete = store.subjects.filter((s) => semestersToDelete.includes(s.semesterId)).map((s) => s.id);
@@ -307,7 +317,7 @@ export async function createSemester(data) {
     }
   }
 
-  return withFileStore((store, nextId) => {
+  return withFileStoreAndSync((store, nextId) => {
     if (!store.years.some((y) => y.id === data.yearId)) throw new Error('FK_YEAR');
     if (store.semesters.some((s) => s.yearId === data.yearId && s.semesterNumber === data.semesterNumber)) return null;
     const row = { id: nextId(store, 'semesters'), yearId: data.yearId, semesterNumber: data.semesterNumber };
@@ -335,7 +345,7 @@ export async function updateSemester(id, data) {
     }
   }
 
-  return withFileStore((store) => {
+  return withFileStoreAndSync((store) => {
     const sem = store.semesters.find((s) => s.id === id);
     if (!sem) return false;
 
@@ -357,7 +367,7 @@ export async function deleteSemester(id) {
     return rowCount > 0;
   }
 
-  return withFileStore((store) => {
+  return withFileStoreAndSync((store) => {
     const before = store.semesters.length;
     const subjectsToDelete = store.subjects.filter((s) => s.semesterId === id).map((s) => s.id);
 
@@ -461,7 +471,7 @@ export async function createSubject(data) {
     }
   }
 
-  return withFileStore((store, nextId) => {
+  return withFileStoreAndSync((store, nextId) => {
     if (!store.semesters.some((s) => s.id === data.semesterId)) throw new Error('FK_SEMESTER');
 
     if (data.collegeId && data.programId && data.yearId) {
@@ -524,7 +534,7 @@ export async function updateSubject(id, data) {
     }
   }
 
-  return withFileStore((store) => {
+  return withFileStoreAndSync((store) => {
     const subject = store.subjects.find((s) => s.id === id);
     if (!subject) return false;
 
@@ -554,7 +564,7 @@ export async function deleteSubject(id) {
     return rowCount > 0;
   }
 
-  return withFileStore((store) => {
+  return withFileStoreAndSync((store) => {
     const before = store.subjects.length;
     store.subjectPrerequisites = store.subjectPrerequisites.filter((p) => p.subjectId !== id && p.prerequisiteSubjectId !== id);
     store.subjects = store.subjects.filter((s) => s.id !== id);
