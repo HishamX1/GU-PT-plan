@@ -59,6 +59,7 @@ Frontend API configuration (student/admin):
 - Query param: `?apiBase=https://your-backend.example.com/api`
 - OR runtime global: `window.__GU_API_BASE__`
 - OR `<meta name="gu-api-base" content="https://your-backend.example.com/api">`
+- OR set **Live API Base URL** directly in the admin login screen (stored in `localStorage`).
 
 ## Deployment (free-friendly)
 
@@ -69,6 +70,7 @@ Recommended:
 - **Database**: Supabase Postgres free tier (preferred) or file fallback
 
 > GitHub Pages remains static-only; it cannot host the Node API itself.
+> The original Physical Therapy hierarchy view remains available at `student-interactive-view.html` as a legacy view.
 
 ## Fallback behavior
 

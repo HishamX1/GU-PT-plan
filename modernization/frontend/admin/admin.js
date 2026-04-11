@@ -1,15 +1,16 @@
 const configuredApiBase =
   window.__GU_API_BASE__ ||
   new URLSearchParams(window.location.search).get('apiBase') ||
+  localStorage.getItem('guApiBase') ||
   document.querySelector('meta[name="gu-api-base"]')?.content ||
   '';
 
 const apiCandidates = (() => {
   if (configuredApiBase) return [configuredApiBase.replace(/\/$/, '')];
-  const localApi = 'http://localhost:4000/api';
+  const localApi = window.location.protocol === 'https:' ? null : 'http://localhost:4000/api';
   const sameOriginApi = `${window.location.origin}/api`;
   if (window.location.origin.includes('localhost:4000')) return ['/api'];
-  return [sameOriginApi, localApi];
+  return [sameOriginApi, localApi].filter(Boolean);
 })();
 let workingApiBase = apiCandidates[0];
 
@@ -19,6 +20,7 @@ const ADMIN_PASS = 'Admin';
 const errorEl = document.getElementById('error');
 const successEl = document.getElementById('success');
 const authErrorEl = document.getElementById('authError');
+const apiBaseInput = document.getElementById('apiBaseUrl');
 const loginCard = document.getElementById('adminLoginCard');
 const dashboard = document.getElementById('adminDashboard');
 
@@ -42,6 +44,18 @@ const lists = {
 function setMessage(type, msg) {
   errorEl.textContent = type === 'error' ? msg : '';
   successEl.textContent = type === 'success' ? msg : '';
+}
+
+function normalizeApiBase(value) {
+  return String(value || '').trim().replace(/\/$/, '');
+}
+
+function updateConfiguredApiBase(value) {
+  const normalized = normalizeApiBase(value);
+  if (!normalized) return;
+  workingApiBase = normalized;
+  localStorage.setItem('guApiBase', normalized);
+  if (apiBaseInput) apiBaseInput.value = normalized;
 }
 
 function clearEntityInputs() {
@@ -100,7 +114,10 @@ async function request(path, options = {}) {
     }
   }
 
-  throw lastError || new Error('Failed to fetch API.');
+  if (lastError) {
+    throw new Error(`Live API unavailable. Set a working API URL in "Live API Base URL". (${lastError.message})`);
+  }
+  throw new Error('Failed to fetch API.');
 }
 
 function lookupName(collection, id, key = 'name') {
@@ -293,6 +310,11 @@ function setupLogin() {
   const passInput = document.getElementById('adminPassword');
   const loginBtn = document.getElementById('adminLoginBtn');
 
+  if (apiBaseInput) {
+    apiBaseInput.value = workingApiBase || '';
+    apiBaseInput.addEventListener('change', () => updateConfiguredApiBase(apiBaseInput.value));
+  }
+
   const onLogin = async () => {
     authErrorEl.textContent = '';
     const username = userInput.value.trim();
@@ -307,6 +329,7 @@ function setupLogin() {
     dashboard.hidden = false;
     setMessage('success', 'Welcome admin');
     try {
+      await request('/health');
       await loadRelations();
     } catch (error) {
       setMessage('error', error.message);

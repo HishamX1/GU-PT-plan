@@ -1,13 +1,15 @@
 const configuredApiBase =
   window.__GU_API_BASE__ ||
   new URLSearchParams(window.location.search).get('apiBase') ||
+  localStorage.getItem('guApiBase') ||
   document.querySelector('meta[name="gu-api-base"]')?.content ||
   '';
 
 const apiCandidates = (() => {
   if (configuredApiBase) return [configuredApiBase.replace(/\/$/, '')];
   if (window.location.origin.includes('localhost:4000')) return ['/api'];
-  return [`${window.location.origin}/api`, 'http://localhost:4000/api'];
+  const localApi = window.location.protocol === 'https:' ? null : 'http://localhost:4000/api';
+  return [`${window.location.origin}/api`, localApi].filter(Boolean);
 })();
 
 let api = apiCandidates[0];
