@@ -1,0 +1,674 @@
+{
+  "courses": [
+    {
+      "id": "course-1",
+      "semesterId": "sem-1",
+      "code": "BMS115",
+      "name": "Anatomy 1 (for physiotherapy)",
+      "credits": 3,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-2",
+      "semesterId": "sem-1",
+      "code": "BMS124",
+      "name": "Histology 1 (for physiotherapy)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-3",
+      "semesterId": "sem-1",
+      "code": "BMS136",
+      "name": "Physiology 1 (for physiotherapy)",
+      "credits": 3,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-4",
+      "semesterId": "sem-1",
+      "code": "BMS149",
+      "name": "Biochemistry (for physiotherapy)",
+      "credits": 4,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-5",
+      "semesterId": "sem-1",
+      "code": "BPT111",
+      "name": "Ethics and Laws",
+      "credits": 1,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-6",
+      "semesterId": "sem-1",
+      "code": "PHY112",
+      "name": "Biophysics (for Physiotherapy)",
+      "credits": 3,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-7",
+      "semesterId": "sem-1",
+      "code": "UC1",
+      "name": "University Requirement (1)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-8",
+      "semesterId": "sem-2",
+      "code": "BMS116",
+      "name": "Anatomy 2 (for physiotherapy)",
+      "credits": 3,
+      "description": "Prerequisites: BMS115",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-9",
+      "semesterId": "sem-2",
+      "code": "BMS125",
+      "name": "Histology 2 (for physiotherapy)",
+      "credits": 2,
+      "description": "Prerequisites: BMS124",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-10",
+      "semesterId": "sem-2",
+      "code": "BMS137",
+      "name": "Physiology 2 (for physiotherapy)",
+      "credits": 3,
+      "description": "Prerequisites: BMS136",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-11",
+      "semesterId": "sem-2",
+      "code": "BPT112",
+      "name": "Kinesiology 1",
+      "credits": 3,
+      "description": "Prerequisites: BMS115",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-12",
+      "semesterId": "sem-2",
+      "code": "BPT113",
+      "name": "Tests and Measurements 1",
+      "credits": 3,
+      "description": "Prerequisites: BMS115",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-13",
+      "semesterId": "sem-2",
+      "code": "UC2",
+      "name": "University Requirement (2)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-14",
+      "semesterId": "sem-2",
+      "code": "UC3",
+      "name": "University Requirement (3)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-15",
+      "semesterId": "sem-3",
+      "code": "BMS211",
+      "name": "Neuroanatomy (for physiotherapy)",
+      "credits": 3,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-16",
+      "semesterId": "sem-3",
+      "code": "BMS234",
+      "name": "Neurophysiology 1 (for physiotherapy)",
+      "credits": 3,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-17",
+      "semesterId": "sem-3",
+      "code": "BMS244",
+      "name": "Clinical Biochemistry (for physiotherapy)",
+      "credits": 4,
+      "description": "Prerequisites: BMS149",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-18",
+      "semesterId": "sem-3",
+      "code": "BPT214",
+      "name": "Kinesiology 2",
+      "credits": 3,
+      "description": "Prerequisites: BMS115, BMS116, BPT112",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-19",
+      "semesterId": "sem-3",
+      "code": "BPT215",
+      "name": "Tests and Measurements 2",
+      "credits": 3,
+      "description": "Prerequisites: BPT113, BMS115, BMS116",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-20",
+      "semesterId": "sem-3",
+      "code": "PTH241",
+      "name": "Growth and Development and Human Genetics",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-21",
+      "semesterId": "sem-4",
+      "code": "BMS212",
+      "name": "Anatomy 3 (for physiotherapy)",
+      "credits": 3,
+      "description": "Prerequisites: BMS115, BMS116",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-22",
+      "semesterId": "sem-4",
+      "code": "BMS235",
+      "name": "Neurophysiology 2 (for physiotherapy)",
+      "credits": 3,
+      "description": "Prerequisites: BMS234",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-23",
+      "semesterId": "sem-4",
+      "code": "BPT216",
+      "name": "Biomechanics 1",
+      "credits": 3,
+      "description": "Prerequisites: BMS115, BMS116, BPT112, BPT214",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-24",
+      "semesterId": "sem-4",
+      "code": "BPT217",
+      "name": "Therapeutic Modalities",
+      "credits": 6,
+      "description": "Prerequisites: PHY112, BMS115, BMS116, BPT113, BPT215",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-25",
+      "semesterId": "sem-4",
+      "code": "BPT218",
+      "name": "Exercise Physiology",
+      "credits": 2,
+      "description": "Prerequisites: BMS136, BMS137",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-26",
+      "semesterId": "sem-4",
+      "code": "UC4",
+      "name": "University Requirement (4)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-27",
+      "semesterId": "sem-5",
+      "code": "BMS352",
+      "name": "Pathology 1 (for physiotherapy)",
+      "credits": 3,
+      "description": "Prerequisites: BMS212, BMS124, BMS125, BMS136, BMS137",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-28",
+      "semesterId": "sem-5",
+      "code": "BMS361",
+      "name": "Pharmacology 1 (for physiotherapy)",
+      "credits": 2,
+      "description": "Prerequisites: BMS136, BMS137, BMS234, BMS235",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-29",
+      "semesterId": "sem-5",
+      "code": "BPT319",
+      "name": "Biomechanics 2",
+      "credits": 3,
+      "description": "Prerequisites: BPT216, BMS115, BMS116, BPT112, BPT214",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-30",
+      "semesterId": "sem-5",
+      "code": "CMS313",
+      "name": "Theory of Internal Medicine (for physiotherapy)",
+      "credits": 8,
+      "description": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-31",
+      "semesterId": "sem-5",
+      "code": "CMS321",
+      "name": "Cardiothoracic Surgery (for physiotherapy)",
+      "credits": 1,
+      "description": "Prerequisites: BMS115, BMS116, BMS212, BMS136, BMS137",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-32",
+      "semesterId": "sem-5",
+      "code": "CMS322",
+      "name": "Radiology 1 (for physiotherapy)",
+      "credits": 2,
+      "description": "Prerequisites: BMS115, BMS116, BMS212",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-33",
+      "semesterId": "sem-5",
+      "code": "E1",
+      "name": "Elective Course (1)",
+      "credits": 3,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-34",
+      "semesterId": "sem-6",
+      "code": "BMS353",
+      "name": "Pathology 2 (for physiotherapy)",
+      "credits": 3,
+      "description": "Prerequisites: BMS212, BMS124, BMS125, BMS136, BMS137, BMS352",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-35",
+      "semesterId": "sem-6",
+      "code": "BMS362",
+      "name": "Pharmacology 2 (for physiotherapy)",
+      "credits": 2,
+      "description": "Prerequisites: BMS361",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-36",
+      "semesterId": "sem-6",
+      "code": "CMS323",
+      "name": "General Surgery (for physiotherapy)",
+      "credits": 3,
+      "description": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212, BMS124, BMS125",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-37",
+      "semesterId": "sem-6",
+      "code": "CMS342",
+      "name": "Obstetrics & Gynaecology (for physiotherapy)",
+      "credits": 2,
+      "description": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-38",
+      "semesterId": "sem-6",
+      "code": "CMS383",
+      "name": "Public Health (for physiotherapy)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-39",
+      "semesterId": "sem-6",
+      "code": "E2",
+      "name": "Elective Course (2)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-40",
+      "semesterId": "sem-6",
+      "code": "PTM322",
+      "name": "Cardiopulmonary and Internal Medicine PT and Rehabilitation",
+      "credits": 8,
+      "description": "Prerequisites: CMS322, CMS321, BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, BPT218, BMS136, BMS137, BMS212, BMS124, BMS125, CMS313",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-41",
+      "semesterId": "sem-7",
+      "code": "CMS423",
+      "name": "Radiology 2 (for physiotherapy)",
+      "credits": 2,
+      "description": "Prerequisites: BMS115, BMS116, CMS322",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-42",
+      "semesterId": "sem-7",
+      "code": "CMS424",
+      "name": "Traumatology and Orthopaedic Surgery",
+      "credits": 4,
+      "description": "Prerequisites: BPT216, BMS115, BMS116, BPT112, BPT214, BPT319",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-43",
+      "semesterId": "sem-7",
+      "code": "PTH442",
+      "name": "Woman Health PT and Rehabilitation",
+      "credits": 4,
+      "description": "Prerequisites: BMS136, BMS137, BMS115, BMS116, BMS212, CMS342, BPT217, PHY112, BPT113, BPT215",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-44",
+      "semesterId": "sem-7",
+      "code": "PTM423",
+      "name": "Integumentary PT and Rehabilitation",
+      "credits": 5,
+      "description": "Prerequisites: CMS313, BMS212, BMS124, BMS125, BPT217, BMS136, BMS137, CMS323",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-45",
+      "semesterId": "sem-7",
+      "code": "UC5",
+      "name": "University Requirement (5)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-46",
+      "semesterId": "sem-7",
+      "code": "UC6",
+      "name": "University Requirement (6)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-47",
+      "semesterId": "sem-7",
+      "code": "UE1",
+      "name": "Elective University Requirement (1)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-48",
+      "semesterId": "sem-8",
+      "code": "CMS426",
+      "name": "Paediatric Surgery (for physiotherapy)",
+      "credits": 1,
+      "description": "Prerequisites: BMS115, BMS116, BMS211, PTH241",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-49",
+      "semesterId": "sem-8",
+      "code": "CMS433",
+      "name": "Paediatrics (for physiotherapy)",
+      "credits": 2,
+      "description": "Prerequisites: BMS115, BMS116, BMS211, PTH241",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-50",
+      "semesterId": "sem-8",
+      "code": "E3",
+      "name": "Elective Course (3)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-51",
+      "semesterId": "sem-8",
+      "code": "PTO431",
+      "name": "Sport injuries PT and Rehabilitation",
+      "credits": 7,
+      "description": "Prerequisites: BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, CMS424, BMS212, CMS423, CMS322",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-52",
+      "semesterId": "sem-8",
+      "code": "PTO432",
+      "name": "Orthopaedics PT and Rehabilitation",
+      "credits": 7,
+      "description": "Prerequisites: BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, CMS424, CMS322, CMS423, BMS212",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-53",
+      "semesterId": "sem-8",
+      "code": "PTO433",
+      "name": "Orthoses and Prostheses",
+      "credits": 2,
+      "description": "Prerequisites: CMS424, CMS423, BMS115, BMS116, BMS212",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-54",
+      "semesterId": "sem-9",
+      "code": "BMS431",
+      "name": "Electro-diagnosis (for physiotherapy)",
+      "credits": 2,
+      "description": "Prerequisites: BMS234, BMS235, BMS115, BMS116",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-55",
+      "semesterId": "sem-9",
+      "code": "CMS512",
+      "name": "Neuropsychiatry (for physiotherapy)",
+      "credits": 4,
+      "description": "Prerequisites: BMS211, BMS234, BMS235, BMS361, BMS362",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-56",
+      "semesterId": "sem-9",
+      "code": "CMS522",
+      "name": "Neurosurgery (for physiotherapy)",
+      "credits": 1,
+      "description": "Prerequisites: BMS211, BMS234, BMS235",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-57",
+      "semesterId": "sem-9",
+      "code": "CMS523",
+      "name": "Radiology 3 (for physiotherapy)",
+      "credits": 2,
+      "description": "Prerequisites: BMS211, BMS234, BMS235, CMS423",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-58",
+      "semesterId": "sem-9",
+      "code": "E4",
+      "name": "Elective Course (4)",
+      "credits": 1,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-59",
+      "semesterId": "sem-9",
+      "code": "PTH543",
+      "name": "Paediatrics PT and Rehabilitation",
+      "credits": 8,
+      "description": "Prerequisites: PTH241, BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, CMS433, CMS426",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-60",
+      "semesterId": "sem-9",
+      "code": "UC7",
+      "name": "University Requirement (7)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-61",
+      "semesterId": "sem-9",
+      "code": "UE2",
+      "name": "Elective University (2)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-62",
+      "semesterId": "sem-10",
+      "code": "BPT514",
+      "name": "Graduation Research Project",
+      "credits": 2,
+      "description": "Prerequisites: LIB116 | Missing in source dataset: LIB116",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-63",
+      "semesterId": "sem-10",
+      "code": "CMS502",
+      "name": "Differential Diagnosis 1 (for physiotherapy)",
+      "credits": 2,
+      "description": "Prerequisites: CMS424, CMS512, CMS522, CMS313, CMS323",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-64",
+      "semesterId": "sem-10",
+      "code": "E5",
+      "name": "Elective Course (5)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-65",
+      "semesterId": "sem-10",
+      "code": "PTN552",
+      "name": "Neurology PT and Rehabilitation",
+      "credits": 7,
+      "description": "Prerequisites: BPT217, PHY112, BMS115, BMS116, BPT113, BPT215, BPT218, BMS136, BMS137, BMS211, BMS234, BMS235, BMS361, BMS362, CMS512",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-66",
+      "semesterId": "sem-10",
+      "code": "PTN553",
+      "name": "Neurosurgery PT and Rehabilitation",
+      "credits": 4,
+      "description": "Prerequisites: BMS211, BMS234, BMS235, CMS522, BPT217, PHY112, BMS115, BMS116, BPT113, BPT215",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "course-67",
+      "semesterId": "sem-10",
+      "code": "UE3",
+      "name": "Elective University (3)",
+      "credits": 2,
+      "description": "",
+      "prerequisites": [],
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    }
+  ]
+}

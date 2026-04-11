@@ -1,0 +1,39 @@
+{
+  "years": [
+    {
+      "id": "year-1",
+      "programId": "prog-1",
+      "yearNumber": 1,
+      "description": "Year 1",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "year-2",
+      "programId": "prog-1",
+      "yearNumber": 2,
+      "description": "Year 2",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "year-3",
+      "programId": "prog-1",
+      "yearNumber": 3,
+      "description": "Year 3",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "year-4",
+      "programId": "prog-1",
+      "yearNumber": 4,
+      "description": "Year 4",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "year-5",
+      "programId": "prog-1",
+      "yearNumber": 5,
+      "description": "Year 5",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    }
+  ]
+}

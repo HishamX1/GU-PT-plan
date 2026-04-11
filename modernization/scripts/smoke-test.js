@@ -24,7 +24,7 @@ function request(path, method = 'GET', body = null) {
   });
 }
 
-const checks = ['/api/health', '/api/colleges', '/api/programs?collegeId=1', '/', '/admin'];
+const checks = ['/api/health', '/api/catalog', '/api/colleges', '/api/programs?collegeId=1', '/', '/admin'];
 for (const path of checks) {
   const result = await request(path);
   if (result.status >= 400) {
@@ -33,20 +33,46 @@ for (const path of checks) {
   console.log(`${path} -> ${result.status}`);
 }
 
-const created = await request('/api/colleges', 'POST', { name: `Smoke Faculty ${Date.now()}` });
-if (created.status !== 201 || !created.json?.id) {
-  throw new Error(`Create college failed: ${created.status}`);
-}
-console.log(`/api/colleges POST -> ${created.status}`);
+const faculty = await request('/api/colleges', 'POST', { name: `Smoke Faculty ${Date.now()}` });
+if (faculty.status !== 201 || !faculty.json?.id) throw new Error(`Create faculty failed: ${faculty.status}`);
 
-const updated = await request(`/api/colleges/${created.json.id}`, 'PUT', { name: `${created.json.name} Updated` });
-if (updated.status !== 200) {
-  throw new Error(`Update college failed: ${updated.status}`);
-}
-console.log(`/api/colleges/:id PUT -> ${updated.status}`);
+const program = await request('/api/programs', 'POST', { collegeId: faculty.json.id, name: 'Smoke Program' });
+if (program.status !== 201 || !program.json?.id) throw new Error(`Create program failed: ${program.status}`);
 
-const deleted = await request(`/api/colleges/${created.json.id}`, 'DELETE');
-if (deleted.status !== 200) {
-  throw new Error(`Delete college failed: ${deleted.status}`);
-}
-console.log(`/api/colleges/:id DELETE -> ${deleted.status}`);
+const year = await request('/api/years', 'POST', { programId: program.json.id, yearNumber: 1 });
+if (year.status !== 201 || !year.json?.id) throw new Error(`Create year failed: ${year.status}`);
+
+const semester = await request('/api/semesters', 'POST', { yearId: year.json.id, semesterNumber: 1 });
+if (semester.status !== 201 || !semester.json?.id) throw new Error(`Create semester failed: ${semester.status}`);
+
+const subjectA = await request('/api/subjects', 'POST', {
+  semesterId: semester.json.id,
+  subjectCode: 'SMK101',
+  subjectName: 'Smoke Subject 101',
+  credits: 3,
+  prerequisiteSubjectIds: []
+});
+if (subjectA.status !== 201 || !subjectA.json?.id) throw new Error(`Create subject A failed: ${subjectA.status}`);
+
+const subjectB = await request('/api/subjects', 'POST', {
+  semesterId: semester.json.id,
+  subjectCode: 'SMK102',
+  subjectName: 'Smoke Subject 102',
+  credits: 3,
+  prerequisiteSubjectIds: [subjectA.json.id]
+});
+if (subjectB.status !== 201 || !subjectB.json?.id) throw new Error(`Create subject B failed: ${subjectB.status}`);
+
+const updatedSubject = await request(`/api/subjects/${subjectB.json.id}`, 'PUT', {
+  subjectName: 'Smoke Subject 102 Updated',
+  prerequisiteSubjectIds: [subjectA.json.id]
+});
+if (updatedSubject.status !== 200) throw new Error(`Update subject failed: ${updatedSubject.status}`);
+
+const updatedFaculty = await request(`/api/colleges/${faculty.json.id}`, 'PUT', { name: `${faculty.json.name} Updated` });
+if (updatedFaculty.status !== 200) throw new Error(`Update faculty failed: ${updatedFaculty.status}`);
+
+const deletedFaculty = await request(`/api/colleges/${faculty.json.id}`, 'DELETE');
+if (deletedFaculty.status !== 200) throw new Error(`Delete faculty failed: ${deletedFaculty.status}`);
+
+console.log('CRUD smoke flow passed.');
