@@ -1,0 +1,74 @@
+{
+  "semesters": [
+    {
+      "id": "sem-1",
+      "yearId": "year-1",
+      "semesterNumber": 1,
+      "description": "Semester 1",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "sem-2",
+      "yearId": "year-1",
+      "semesterNumber": 2,
+      "description": "Semester 2",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "sem-3",
+      "yearId": "year-2",
+      "semesterNumber": 1,
+      "description": "Semester 1",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "sem-4",
+      "yearId": "year-2",
+      "semesterNumber": 2,
+      "description": "Semester 2",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "sem-5",
+      "yearId": "year-3",
+      "semesterNumber": 1,
+      "description": "Semester 1",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "sem-6",
+      "yearId": "year-3",
+      "semesterNumber": 2,
+      "description": "Semester 2",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "sem-7",
+      "yearId": "year-4",
+      "semesterNumber": 1,
+      "description": "Semester 1",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "sem-8",
+      "yearId": "year-4",
+      "semesterNumber": 2,
+      "description": "Semester 2",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "sem-9",
+      "yearId": "year-5",
+      "semesterNumber": 1,
+      "description": "Semester 1",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    },
+    {
+      "id": "sem-10",
+      "yearId": "year-5",
+      "semesterNumber": 2,
+      "description": "Semester 2",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    }
+  ]
+}

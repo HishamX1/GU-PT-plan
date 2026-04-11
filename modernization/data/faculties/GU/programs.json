@@ -1,0 +1,13 @@
+{
+  "programs": [
+    {
+      "id": "prog-1",
+      "facultyId": "fac-college-1",
+      "code": "PHYSICALTH",
+      "name": "Physical Therapy Program",
+      "duration": 4,
+      "description": "Physical Therapy Program program",
+      "createdAt": "2026-04-11T14:12:37.472Z"
+    }
+  ]
+}

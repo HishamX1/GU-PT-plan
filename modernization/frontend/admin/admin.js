@@ -1,13 +1,18 @@
+const configuredApiBase =
+  window.__GU_API_BASE__ ||
+  new URLSearchParams(window.location.search).get('apiBase') ||
+  document.querySelector('meta[name="gu-api-base"]')?.content ||
+  '';
+
 const apiCandidates = (() => {
+  if (configuredApiBase) return [configuredApiBase.replace(/\/$/, '')];
   const localApi = 'http://localhost:4000/api';
   const sameOriginApi = `${window.location.origin}/api`;
-  const isVercel = window.location.hostname.includes('vercel.app');
-  
   if (window.location.origin.includes('localhost:4000')) return ['/api'];
-  if (isVercel) return [sameOriginApi, localApi];
   return [sameOriginApi, localApi];
 })();
 let workingApiBase = apiCandidates[0];
+
 const ADMIN_USER = 'Admin';
 const ADMIN_PASS = 'Admin';
 
@@ -17,17 +22,17 @@ const authErrorEl = document.getElementById('authError');
 const loginCard = document.getElementById('adminLoginCard');
 const dashboard = document.getElementById('adminDashboard');
 
-const cache = { colleges: [], programs: [], years: [], semesters: [], subjects: [] };
+const cache = { faculties: [], programs: [], years: [], semesters: [], subjects: [] };
 
 const ids = {
-  programCollege: document.getElementById('programCollege'),
+  programFaculty: document.getElementById('programCollege'),
   yearProgram: document.getElementById('yearProgram'),
   semesterYear: document.getElementById('semesterYear'),
   subjectSemester: document.getElementById('subjectSemester')
 };
 
 const lists = {
-  colleges: document.getElementById('collegeList'),
+  faculties: document.getElementById('collegeList'),
   programs: document.getElementById('programList'),
   years: document.getElementById('yearList'),
   semesters: document.getElementById('semesterList'),
@@ -40,7 +45,7 @@ function setMessage(type, msg) {
 }
 
 function clearEntityInputs() {
-  ['collegeName', 'programName', 'yearNumber', 'subjectCode', 'subjectName', 'subjectCredits', 'subjectNotes']
+  ['collegeName', 'programName', 'yearNumber', 'subjectCode', 'subjectName', 'subjectCredits', 'subjectNotes', 'subjectPrereqs']
     .forEach((id) => {
       const input = document.getElementById(id);
       if (input) input.value = '';
@@ -50,6 +55,27 @@ function clearEntityInputs() {
 function renderOptions(el, items, label = 'name', value = 'id') {
   el.innerHTML = '<option value="">Select...</option>' + items
     .map((i) => `<option value="${i[value]}">${i[label] ?? i.yearNumber ?? i.semesterNumber}</option>`).join('');
+}
+
+function parsePrerequisiteCodes(raw) {
+  return String(raw || '')
+    .split(',')
+    .map((code) => code.trim().toUpperCase())
+    .filter(Boolean);
+}
+
+function mapCodesToIds(codes) {
+  const missing = [];
+  const ids = [];
+  for (const code of codes) {
+    const subject = cache.subjects.find((s) => s.subjectCode.toUpperCase() === code);
+    if (!subject) missing.push(code);
+    else ids.push(subject.id);
+  }
+  if (missing.length) {
+    throw new Error(`Unknown prerequisite subject code(s): ${missing.join(', ')}`);
+  }
+  return [...new Set(ids)];
 }
 
 async function request(path, options = {}) {
@@ -63,7 +89,7 @@ async function request(path, options = {}) {
       });
       const contentType = res.headers.get('content-type') || '';
       if (!contentType.includes('application/json')) {
-        throw new Error('Modernization API is unavailable.');
+        throw new Error('Modernization API is unavailable. Configure gu-api-base to your live backend.');
       }
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Request failed');
@@ -86,9 +112,9 @@ function entityRow(label, id, onRename, onDelete) {
 }
 
 function renderLists() {
-  lists.colleges.innerHTML = cache.colleges.map((c) => entityRow(c.name, c.id, 'college', 'college')).join('') || '<p>No faculties yet.</p>';
+  lists.faculties.innerHTML = cache.faculties.map((c) => entityRow(c.name, c.id, 'faculty', 'faculty')).join('') || '<p>No faculties yet.</p>';
 
-  lists.programs.innerHTML = cache.programs.map((p) => entityRow(`${p.name} (${lookupName(cache.colleges, p.collegeId)})`, p.id, 'program', 'program')).join('') || '<p>No programs yet.</p>';
+  lists.programs.innerHTML = cache.programs.map((p) => entityRow(`${p.name} (${lookupName(cache.faculties, p.collegeId)})`, p.id, 'program', 'program')).join('') || '<p>No programs yet.</p>';
 
   lists.years.innerHTML = cache.years.map((y) => entityRow(`Year ${y.yearNumber} (${lookupName(cache.programs, y.programId)})`, y.id, 'year', 'year')).join('') || '<p>No years yet.</p>';
 
@@ -96,22 +122,43 @@ function renderLists() {
 
   lists.subjects.innerHTML = cache.subjects.map((s) => {
     const semester = lookupName(cache.semesters, s.semesterId, 'semesterNumber');
-    return `<tr><td>${s.subjectCode}</td><td>${s.subjectName}</td><td>${s.credits}</td><td>${semester}</td><td><button data-edit="${s.id}" data-kind="subject">Edit</button> <button class="danger" data-delete="${s.id}" data-kind="subject">Delete</button></td></tr>`;
-  }).join('') || '<tr><td colspan="5">No subjects yet.</td></tr>';
+    const prereqCodes = (s.prerequisiteSubjectIds || [])
+      .map((id) => cache.subjects.find((x) => x.id === id)?.subjectCode)
+      .filter(Boolean)
+      .join(', ');
+    return `<tr><td>${s.subjectCode}</td><td>${s.subjectName}</td><td>${s.credits}</td><td>${semester}</td><td>${prereqCodes || '-'}</td><td><button data-edit="${s.id}" data-kind="subject">Edit</button> <button class="danger" data-delete="${s.id}" data-kind="subject">Delete</button></td></tr>`;
+  }).join('') || '<tr><td colspan="6">No subjects yet.</td></tr>';
 }
 
 async function loadRelations() {
-  cache.colleges = await request('/colleges');
+  cache.faculties = await request('/colleges');
   cache.programs = await request('/programs');
   cache.years = await request('/years');
   cache.semesters = await request('/semesters');
   cache.subjects = await request('/subjects');
 
-  renderOptions(ids.programCollege, cache.colleges);
+  renderOptions(ids.programFaculty, cache.faculties);
   renderOptions(ids.yearProgram, cache.programs);
   renderOptions(ids.semesterYear, cache.years, 'yearNumber');
   renderOptions(ids.subjectSemester, cache.semesters, 'semesterNumber');
   renderLists();
+}
+
+async function promptSubjectPatch(subject) {
+  const subjectCode = prompt('Subject code:', subject.subjectCode);
+  if (!subjectCode) return null;
+  const subjectName = prompt('Subject name:', subject.subjectName);
+  if (!subjectName) return null;
+  const credits = Number(prompt('Credits:', String(subject.credits)));
+  if (!credits) return null;
+  const notes = prompt('Notes:', subject.notes || '') ?? '';
+  const currentCodes = (subject.prerequisiteSubjectIds || [])
+    .map((id) => cache.subjects.find((s) => s.id === id)?.subjectCode)
+    .filter(Boolean)
+    .join(', ');
+  const prereqRaw = prompt('Prerequisite subject codes (comma-separated):', currentCodes) ?? '';
+  const prerequisiteSubjectIds = mapCodesToIds(parsePrerequisiteCodes(prereqRaw));
+  return { subjectCode: subjectCode.trim().toUpperCase(), subjectName: subjectName.trim(), credits, notes: notes.trim() || null, prerequisiteSubjectIds };
 }
 
 function bindCrudDelegates() {
@@ -124,8 +171,8 @@ function bindCrudDelegates() {
         const id = Number(editBtn.dataset.edit);
         const kind = editBtn.dataset.kind;
 
-        if (kind === 'college') {
-          const current = cache.colleges.find((x) => x.id === id);
+        if (kind === 'faculty') {
+          const current = cache.faculties.find((x) => x.id === id);
           const name = prompt('New faculty name:', current?.name || '');
           if (!name) return;
           await request(`/colleges/${id}`, { method: 'PUT', body: JSON.stringify({ name }) });
@@ -146,9 +193,10 @@ function bindCrudDelegates() {
           await request(`/semesters/${id}`, { method: 'PUT', body: JSON.stringify({ semesterNumber }) });
         } else if (kind === 'subject') {
           const current = cache.subjects.find((x) => x.id === id);
-          const subjectName = prompt('Subject name:', current?.subjectName || '');
-          if (!subjectName) return;
-          await request(`/subjects/${id}`, { method: 'PUT', body: JSON.stringify({ subjectName }) });
+          if (!current) return;
+          const patch = await promptSubjectPatch(current);
+          if (!patch) return;
+          await request(`/subjects/${id}`, { method: 'PUT', body: JSON.stringify(patch) });
         }
 
         setMessage('success', `${kind} updated.`);
@@ -160,7 +208,8 @@ function bindCrudDelegates() {
         const kind = deleteBtn.dataset.kind;
         if (!confirm(`Delete this ${kind}? This action may cascade to child records.`)) return;
 
-        await request(`/${kind === 'college' ? 'colleges' : `${kind}s`}/${id}`, { method: 'DELETE' });
+        const endpoint = kind === 'faculty' ? 'colleges' : `${kind}s`;
+        await request(`/${endpoint}/${id}`, { method: 'DELETE' });
         setMessage('success', `${kind} deleted.`);
         await loadRelations();
       }
@@ -184,7 +233,7 @@ function bindAdminActions() {
 
   document.getElementById('addProgram').onclick = async () => {
     try {
-      const collegeId = Number(ids.programCollege.value);
+      const collegeId = Number(ids.programFaculty.value);
       const name = document.getElementById('programName').value.trim();
       if (!collegeId || !name) throw new Error('Program fields are required');
       await request('/programs', { method: 'POST', body: JSON.stringify({ collegeId, name }) });
@@ -220,15 +269,17 @@ function bindAdminActions() {
   document.getElementById('addSubject').onclick = async () => {
     try {
       const semesterId = Number(ids.subjectSemester.value);
-      const subjectCode = document.getElementById('subjectCode').value.trim();
+      const subjectCode = document.getElementById('subjectCode').value.trim().toUpperCase();
       const subjectName = document.getElementById('subjectName').value.trim();
       const credits = Number(document.getElementById('subjectCredits').value);
       const notes = document.getElementById('subjectNotes').value.trim() || null;
+      const prereqCodes = parsePrerequisiteCodes(document.getElementById('subjectPrereqs').value);
       if (!semesterId || !subjectCode || !subjectName || !credits) throw new Error('All subject fields are required');
+      const prerequisiteSubjectIds = mapCodesToIds(prereqCodes);
 
       await request('/subjects', {
         method: 'POST',
-        body: JSON.stringify({ semesterId, subjectCode, subjectName, credits, notes, prerequisiteSubjectIds: [] })
+        body: JSON.stringify({ semesterId, subjectCode, subjectName, credits, notes, prerequisiteSubjectIds })
       });
       setMessage('success', 'Subject added');
       clearEntityInputs();

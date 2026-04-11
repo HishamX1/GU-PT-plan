@@ -1,81 +1,106 @@
-/**
- * README - Physical Therapy Program Study Plan Website
- * 
- * This project creates an interactive hierarchical visualization of the Physical Therapy program
- * study plan at Galala University. It shows course prerequisites in a tree structure with smooth
- * transitions and animations.
- * 
- * Features:
- * - Hierarchical tree visualization showing course prerequisites
- * - "Newest prerequisites" logic that only shows the most recent unlocked prerequisites
- * - Smooth animations and transitions between views with minimal lag time
- * - Comprehensive filtering functionality
- * - Interactive UI with tooltips, modals, and navigation history
- * - Responsive design for all device sizes
- * - Galala University branding and design elements
- * 
- * Project Structure:
- * - index.html: Main HTML file
- * - styles.css: Main CSS file with core styles
- * - data.js: Course data structure with prerequisite relationships
- * - app.js: Main application logic
- * - assets/animations.css: Animation styles
- * - assets/animations.js: Animation functionality
- * - assets/filters.css: Filter component styles
- * - assets/filters.js: Filter functionality
- * - assets/galala-theme.css: Galala University theme styles
- * - assets/tester.css: Testing panel styles
- * - assets/tester.js: Testing utilities
- * - assets/images/: Logo and favicon SVG files
- * 
- * Implementation Notes:
- * - The getRecentPrerequisites function in data.js implements the "newest prerequisites" logic
- * - The hierarchical visualization is created in app.js with the renderCourseHierarchy function
- * - Animations are implemented in animations.js and animations.css
- * - Filtering functionality is implemented in filters.js and filters.css
- * - Testing utilities are available in development mode by adding ?testing=true to the URL
- * 
- * Browser Compatibility: Chrome, Edge
+# Galala University Study Plan Platform (Dynamic Architecture)
 
- * Created for Galala University, 2025 Created By Hisham_Abdelaal
- #H_X
+This repository now uses a **live backend API as the canonical source of truth** for mutable university data.
 
+## Canonical entry points
 
-## Modernization local preview
-To preview the modernized admin/student experience locally (without editing original PT plan source files):
+- **Student portal UI (static, GitHub Pages compatible):** `modernization/frontend/student/index.html`
+- **Admin portal UI (static, GitHub Pages compatible):** `modernization/frontend/admin/index.html`
+- **Backend API + static UI host for local/full-stack deployment:** `modernization/backend/src/server.js`
+- **API routes:** `modernization/backend/src/routes/catalogRoutes.js`
+- **Catalog domain logic:** `modernization/backend/src/services/catalogService.js`
+- **Canonical runtime store (file mode fallback):** `modernization/data/runtime-db.json`
 
-1. `cd modernization`
-2. `npm install`
-3. `npm run preview:local`
-4. Open `http://localhost:4000/` (student) and `http://localhost:4000/admin` (admin).
+## Unified data model (university-wide)
 
-You can also open the root `index.html` and use the new **Modernized Preview** links in the header; they show online/offline status for the modernization server.
+Canonical hierarchy used across admin + student:
 
+`Faculty -> Program -> Year -> Semester -> Course -> CoursePrerequisite`
 
-## Why GitHub Pages still looks the same
-`https://hishamx1.github.io/GU-PT-plan/` is a static host, so it cannot run the modernization backend API (`/api/...`) on port 4000.
-That is why the original view still appears as the primary experience there.
+Internal API/db naming keeps compatibility with existing endpoints (`colleges`, `subjects`) but UI labels and docs use:
 
-## Whole-project local preview (legacy + modernization together)
-Run from repository root:
+- `college` = faculty
+- `subject` = course
+
+## Data flow (single source of truth)
+
+`Admin UI -> Live API -> Canonical store (Postgres preferred, file fallback) -> Derived export artifacts -> Student UI`
+
+- The admin portal only performs writes through the live API.
+- The student portal reads from the same API.
+- Static files are now fallback/bootstrap artifacts only.
+
+## Quick start (free local setup)
 
 ```bash
-./scripts/preview-all.sh
+cd modernization
+npm install
+DATA_MODE=file npm run extract:data
+DATA_MODE=file npm run start
 ```
 
-This launches:
-- Legacy site at `http://localhost:8080`
-- Modernized student full stack at `http://localhost:4000`
-- Modernized admin full stack at `http://localhost:4000/admin`
-- Static modernized UI at `http://localhost:8080/modernization/frontend/student/index.html`
+Open:
+- `http://localhost:4000/` (student)
+- `http://localhost:4000/admin` (admin)
 
-Use this to test the whole project end-to-end before production launch.
+## Environment variables
 
+Backend (`modernization/backend/src/config/env.js`):
 
-## Merge-conflict resolution baseline (v2)
-If conflicts happen during merge, keep the blocks for:
-- `## Why GitHub Pages still looks the same`
-- `## Whole-project local preview (legacy + modernization together)`
-- script `./scripts/preview-all.sh`
-- `index.html` modernization preview block marked `data-merge-baseline="v2"`
-- `modernization/package.json` scripts block (`extract:data`, `db:migrate`, `db:seed`, `smoke`, `preview:local`)
+- `PORT` (default: `4000`)
+- `API_BASE_PATH` (default: `/api`)
+- `CORS_ORIGIN` (default: `*`)
+- `DATA_MODE` (`postgres` or `file`)
+- `DATABASE_URL` (required for postgres mode)
+- `PG_SSL` (`true|false`)
+
+Frontend API configuration (student/admin):
+
+- Query param: `?apiBase=https://your-backend.example.com/api`
+- OR runtime global: `window.__GU_API_BASE__`
+- OR `<meta name="gu-api-base" content="https://your-backend.example.com/api">`
+
+## Deployment (free-friendly)
+
+Recommended:
+
+- **Frontend**: GitHub Pages (student/admin static files)
+- **Backend API**: Render / Railway free tier / any free Node host
+- **Database**: Supabase Postgres free tier (preferred) or file fallback
+
+> GitHub Pages remains static-only; it cannot host the Node API itself.
+
+## Fallback behavior
+
+When the live API is unavailable:
+
+- Student portal enters **read-only fallback mode** and reads from `modernization/data/runtime-db.json`.
+- Admin portal shows an API-unavailable error (no writes are attempted offline).
+
+## Migration status
+
+The existing Physical Therapy hierarchy is migrated into the dynamic model and loaded into:
+
+- `modernization/data/academic-plan.json` (source extraction artifact)
+- `modernization/data/runtime-db.json` (runtime fallback store)
+
+## Validation and integrity rules
+
+Backend enforces:
+
+- Required fields and type checks
+- Hierarchy relation validation (faculty/program/year/semester consistency)
+- Duplicate prevention
+- Prerequisite validation (valid ids only, no self-reference)
+- Cascade-safe deletes
+
+## Smoke checks
+
+From `modernization`:
+
+```bash
+npm run check
+npm run smoke
+```
+
+`smoke` verifies health + CRUD flows.

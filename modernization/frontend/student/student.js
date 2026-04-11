@@ -1,13 +1,29 @@
-const apiCandidates = window.location.origin.includes('localhost:4000') ? ['/api'] : [`${window.location.origin}/api`, 'http://localhost:4000/api'];
+const configuredApiBase =
+  window.__GU_API_BASE__ ||
+  new URLSearchParams(window.location.search).get('apiBase') ||
+  document.querySelector('meta[name="gu-api-base"]')?.content ||
+  '';
+
+const apiCandidates = (() => {
+  if (configuredApiBase) return [configuredApiBase.replace(/\/$/, '')];
+  if (window.location.origin.includes('localhost:4000')) return ['/api'];
+  return [`${window.location.origin}/api`, 'http://localhost:4000/api'];
+})();
+
 let api = apiCandidates[0];
 const staticDataUrl = '../../data/runtime-db.json';
 let staticDbPromise;
 
+const readonlyNoticeEl = document.getElementById('readonlyNotice');
 const collegeEl = document.getElementById('college');
 const programEl = document.getElementById('program');
 const yearEl = document.getElementById('year');
 const semesterEl = document.getElementById('semester');
 const subjectsEl = document.getElementById('subjects');
+
+function setReadonlyMode(enabled) {
+  readonlyNoticeEl.hidden = !enabled;
+}
 
 function options(select, items, labelKey = 'name', valueKey = 'id') {
   select.innerHTML = '<option value="">Select...</option>' + items
@@ -15,29 +31,32 @@ function options(select, items, labelKey = 'name', valueKey = 'id') {
     .join('');
 }
 
-async function fetchJson(url) {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
-  } catch (error) {
-    const fromApi = apiCandidates.some((candidate) => url.startsWith(candidate) || url.startsWith('/api'));
-    if (!fromApi) throw error;
-    const nextApi = apiCandidates.find((candidate) => candidate !== api);
-    if (nextApi) {
-      try {
-        const fallbackUrl = url.startsWith(api) ? url.replace(api, nextApi) : url.replace('/api', nextApi);
-        const res = await fetch(fallbackUrl);
-        if (res.ok) {
-          api = nextApi;
-          return await res.json();
-        }
-      } catch {
-        // ignore and fallback to static store
-      }
+async function fetchApiJson(path) {
+  let lastError = null;
+
+  for (const candidate of [api, ...apiCandidates.filter((x) => x !== api)]) {
+    try {
+      const url = `${candidate}${path}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      api = candidate;
+      setReadonlyMode(false);
+      return await res.json();
+    } catch (error) {
+      lastError = error;
     }
+  }
+
+  throw lastError || new Error('Live API unavailable');
+}
+
+async function fetchJson(path) {
+  try {
+    return await fetchApiJson(path);
+  } catch {
+    setReadonlyMode(true);
     const db = await getStaticDb();
-    return resolveFromStaticDb(url.replace(api, '/api'), db);
+    return resolveFromStaticDb(path, db);
   }
 }
 
@@ -51,29 +70,29 @@ async function getStaticDb() {
   return staticDbPromise;
 }
 
-function resolveFromStaticDb(url, db) {
-  const parsed = new URL(url, 'https://local.test');
+function resolveFromStaticDb(pathAndQuery, db) {
+  const parsed = new URL(pathAndQuery, 'https://local.test');
   const path = parsed.pathname;
   const q = parsed.searchParams;
 
-  if (path === '/api/colleges') return db.colleges ?? [];
-  if (path === '/api/programs') {
+  if (path === '/colleges') return db.colleges ?? [];
+  if (path === '/programs') {
     const collegeId = Number(q.get('collegeId'));
     return (db.programs ?? []).filter((p) => !collegeId || p.collegeId === collegeId);
   }
-  if (path === '/api/years') {
+  if (path === '/years') {
     const programId = Number(q.get('programId'));
     return (db.years ?? []).filter((y) => !programId || y.programId === programId);
   }
-  if (path === '/api/semesters') {
+  if (path === '/semesters') {
     const yearId = Number(q.get('yearId'));
     return (db.semesters ?? []).filter((s) => !yearId || s.yearId === yearId);
   }
-  if (path === '/api/subjects') {
-    const collegeId = Number(q.get('collegeId'));
-    const programId = Number(q.get('programId'));
-    const yearId = Number(q.get('yearId'));
+  if (path === '/subjects') {
     const semesterId = Number(q.get('semesterId'));
+    const yearId = Number(q.get('yearId'));
+    const programId = Number(q.get('programId'));
+    const collegeId = Number(q.get('collegeId'));
 
     const semesterMap = new Map((db.semesters ?? []).map((s) => [s.id, s]));
     const yearMap = new Map((db.years ?? []).map((y) => [y.id, y]));
@@ -84,18 +103,19 @@ function resolveFromStaticDb(url, db) {
       const year = yearMap.get(sem?.yearId);
       const program = programMap.get(year?.programId);
       return (
-        (!collegeId || program?.collegeId === collegeId) &&
-        (!programId || year?.programId === programId) &&
+        (!semesterId || s.semesterId === semesterId) &&
         (!yearId || sem?.yearId === yearId) &&
-        (!semesterId || s.semesterId === semesterId)
+        (!programId || year?.programId === programId) &&
+        (!collegeId || program?.collegeId === collegeId)
       );
     });
   }
+
   return [];
 }
 
 async function init() {
-  const faculties = await fetchJson(`${api}/colleges`);
+  const faculties = await fetchJson('/colleges');
   options(collegeEl, faculties);
 }
 
@@ -106,7 +126,7 @@ collegeEl.addEventListener('change', async () => {
   options(programEl, []); options(yearEl, []); options(semesterEl, []);
   subjectsEl.innerHTML = '';
   if (!collegeEl.value) return;
-  const programs = await fetchJson(`${api}/programs?collegeId=${collegeEl.value}`);
+  const programs = await fetchJson(`/programs?collegeId=${collegeEl.value}`);
   options(programEl, programs);
 });
 
@@ -116,7 +136,7 @@ programEl.addEventListener('change', async () => {
   options(yearEl, []); options(semesterEl, []);
   subjectsEl.innerHTML = '';
   if (!programEl.value) return;
-  const years = await fetchJson(`${api}/years?programId=${programEl.value}`);
+  const years = await fetchJson(`/years?programId=${programEl.value}`);
   options(yearEl, years, 'yearNumber');
 });
 
@@ -125,14 +145,14 @@ yearEl.addEventListener('change', async () => {
   options(semesterEl, []);
   subjectsEl.innerHTML = '';
   if (!yearEl.value) return;
-  const semesters = await fetchJson(`${api}/semesters?yearId=${yearEl.value}`);
+  const semesters = await fetchJson(`/semesters?yearId=${yearEl.value}`);
   options(semesterEl, semesters, 'semesterNumber');
 });
 
 semesterEl.addEventListener('change', async () => {
   subjectsEl.innerHTML = '';
   if (!semesterEl.value) return;
-  const subjects = await fetchJson(`${api}/subjects?collegeId=${collegeEl.value}&programId=${programEl.value}&yearId=${yearEl.value}&semesterId=${semesterEl.value}`);
+  const subjects = await fetchJson(`/subjects?collegeId=${collegeEl.value}&programId=${programEl.value}&yearId=${yearEl.value}&semesterId=${semesterEl.value}`);
   subjectsEl.innerHTML = subjects.map((s) =>
     `<tr><td>${s.subjectCode}</td><td>${s.subjectName}</td><td>${s.credits}</td><td>${s.notes ?? ''}</td></tr>`
   ).join('');

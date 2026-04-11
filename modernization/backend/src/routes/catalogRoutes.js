@@ -91,6 +91,15 @@ export async function handleApi(req, res, url) {
       return json(res, 200, { status: 'ok', mode: env.dataMode === 'postgres' ? 'postgres' : 'offline-file-store' });
     }
 
+    if (req.method === 'GET' && url.pathname === `${env.apiBasePath}/catalog`) {
+      const faculties = await getColleges();
+      const programs = await getPrograms();
+      const years = await getYears();
+      const semesters = await getSemesters();
+      const courses = await getSubjects();
+      return json(res, 200, { faculties, programs, years, semesters, courses });
+    }
+
     if (req.method === 'GET' && url.pathname === `${env.apiBasePath}/colleges`) {
       return json(res, 200, await getColleges());
     }
