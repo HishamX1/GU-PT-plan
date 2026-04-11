@@ -1,6 +1,6 @@
 /**
  * Physical Therapy Program Study Plan Visualization
- * 
+ *
  * This application creates an interactive hierarchical visualization of the
  * Physical Therapy program study plan, showing course prerequisites and relationships
  * in a tree-like structure with smooth animations and transitions.
@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Application state
     const state = {
-        activeFilters: { 
-            prerequisites: true, 
-            requiredFor: true 
+        activeFilters: {
+            prerequisites: true,
+            requiredFor: true
         },
         navigationStack: [],
         currentConnections: [],
@@ -111,7 +111,7 @@ window.handleStatusChange = function(event, selectElement) {
     /**
      * Set up all event listeners
      */
-    
+
     /**
      * Handle clicks in the main visualization container
      */
@@ -139,7 +139,7 @@ window.handleStatusChange = function(event, selectElement) {
 function setupEventListeners() {
         // Main container click delegation
         elements.visualizationContainer.addEventListener('click', handleContainerClick);
-        
+
         // Filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -148,13 +148,13 @@ function setupEventListeners() {
                 btn.classList.toggle('active');
             });
         });
-        
+
         // Search functionality
         elements.searchBtn.addEventListener('click', performSearch);
         elements.courseSearch.addEventListener('keyup', e => {
             if (e.key === 'Enter') performSearch();
         });
-        
+
         // Semester filter
         elements.semesterFilter.addEventListener('change', () => {
             state.selectedSemester = elements.semesterFilter.value;
@@ -164,23 +164,23 @@ function setupEventListeners() {
                 renderCourses(state.navigationStack[state.navigationStack.length - 1].id);
             }
         });
-        
+
         // Credits range sliders
         elements.creditsMinSlider.addEventListener('input', updateCreditsRange);
         elements.creditsMaxSlider.addEventListener('input', updateCreditsRange);
-        
+
         // Modal close button
         document.querySelector('.close-modal').addEventListener('click', () => {
             elements.courseModal.classList.remove('show');
         });
-        
+
         // Close modal when clicking outside
         elements.courseModal.addEventListener('click', e => {
             if (e.target === elements.courseModal) {
                 elements.courseModal.classList.remove('show');
             }
         });
-        
+
         // Breadcrumb navigation
         elements.breadcrumbContainer.addEventListener('click', e => {
             const item = e.target.closest('.breadcrumb-item');
@@ -189,7 +189,7 @@ function setupEventListeners() {
                 navigateToBreadcrumb(index);
             }
         });
-        
+
         // History list navigation
         elements.historyList.addEventListener('click', e => {
             const item = e.target.closest('li');
@@ -208,12 +208,12 @@ function setupEventListeners() {
         const semesters = [...new Set(courses.map(c => c.semester))]
             .filter(s => s !== undefined)
             .sort((a, b) => a - b);
-        
+
         let options = '<option value="all">All Semesters</option>';
         semesters.forEach(sem => {
             options += `<option value="${sem}">Semester ${sem}</option>`;
         });
-        
+
         elements.semesterFilter.innerHTML = options;
     }
 
@@ -223,7 +223,7 @@ function setupEventListeners() {
     function updateCreditsRange() {
         const minValue = parseInt(elements.creditsMinSlider.value);
         const maxValue = parseInt(elements.creditsMaxSlider.value);
-        
+
         // Ensure min doesn't exceed max
         if (minValue > maxValue) {
             if (this === elements.creditsMinSlider) {
@@ -237,10 +237,10 @@ function setupEventListeners() {
             state.creditsRange.min = minValue;
             state.creditsRange.max = maxValue;
         }
-        
+
         elements.creditsMinValue.textContent = state.creditsRange.min;
         elements.creditsMaxValue.textContent = state.creditsRange.max;
-        
+
         // Re-render current view with new filters
         if (state.navigationStack.length === 0) {
             renderSemesters();
@@ -251,31 +251,52 @@ function setupEventListeners() {
 
     /**
      * Perform search based on the search input
-     */
     function performSearch() {
         const query = elements.courseSearch.value.trim().toLowerCase();
-        if (!query) {
-            renderSemesters();
-            return;
-        }
+        if (!query) return;
 
         state.searchResults = courses.filter(course =>
             course.code.toLowerCase().includes(query) ||
             course.name.toLowerCase().includes(query)
         );
 
-        if (state.searchResults.length > 0) {
-            renderSearchResults();
-            addToNavigationStack({ type: 'search', id: query });
-            updateBreadcrumbs();
-            updateHistoryList();
+        // Tag filtering is now handled by filters.js, so we call its search/filter mechanism
+        if (window.ptFilters) {
+            window.ptFilters.performSearch(); // This will internally filter and render
         } else {
-            elements.semesterContainer.innerHTML = `
-                <div class="no-results">
-                    <h3>No courses found matching "${query}"</h3>
-                    <button class="back-btn">← Back</button>
-                </div>
-            `;
+            // Fallback if filters.js is not loaded, though it should be
+            if (state.searchResults.length > 0) {
+                renderSearchResults(); // This is app.js's original search result rendering
+                addToNavigationStack({ type: 'search', id: query });
+                updateBreadcrumbs();
+                updateHistoryList();
+            } else {
+                elements.semesterContainer.innerHTML = `
+                    <div class="no-results">
+                        <h3>No courses found matching "${query}"</h3>
+                        <button class="back-btn">← Back</button>
+                    </div>
+                `;
+            }
+        }
+    }   // Semester card
+        if (target.closest('.semester-card')) {
+            const card = target.closest('.semester-card');
+            handleSemesterNavigation(card);
+            return;
+        }
+
+        // Course card
+        if (target.closest('.course-card')) {
+            const card = target.closest('.course-card');
+            if (card.classList.contains('tree-node')) {
+                // If it's a tree node in the hierarchy view
+                handleCourseNavigation(card);
+            } else {
+                // If it's a course in the course list view
+                handleCourseNavigation(card);
+            }
+            return;
         }
     }
 
@@ -296,27 +317,18 @@ function setupEventListeners() {
     function handleCourseNavigation(card) {
         const courseCode = card.dataset.code;
         if (!courseCode || !courses.some(c => c.code === courseCode)) return;
-        
+
         // If clicked on a course in the hierarchy view, show course details
         if (card.classList.contains('tree-node')) {
             showCourseDetails(courseCode);
             return;
         }
-        
+
         addToNavigationStack({ type: 'course', id: courseCode });
         renderCourseHierarchy(courseCode);
         updateBreadcrumbs();
         updateHistoryList();
     }
-
-    window.quickAccessCourse = function(courseCode) {
-        if (!courseCode || !courses.some(c => c.code === courseCode)) return;
-        addToNavigationStack({ type: 'course', id: courseCode });
-        renderCourseHierarchy(courseCode);
-        updateBreadcrumbs();
-        updateHistoryList();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
 
     /**
      * Show course details in a modal
@@ -324,7 +336,7 @@ function setupEventListeners() {
     function showCourseDetails(courseCode) {
         const course = courses.find(c => c.code === courseCode);
         if (!course) return;
-        
+
         elements.modalContent.innerHTML = `
             <div class="course-details">
                 <div class="course-header">
@@ -343,13 +355,13 @@ function setupEventListeners() {
                     <div class="info-item">
                         <span class="label">Prerequisites:</span>
                         <div class="value prereq-list">
-                            ${course.prerequisites.length > 0 ? 
+                            ${course.prerequisites.length > 0 ?
                                 course.prerequisites.map(code => {
                                     const prereq = courses.find(c => c.code === code);
-                                    return prereq ? 
-                                        `<span class="prereq-tag" data-code="${prereq.code}">${prereq.code}: ${prereq.name}</span>` : 
+                                    return prereq ?
+                                        `<span class="prereq-tag" data-code="${prereq.code}">${prereq.code}: ${prereq.name}</span>` :
                                         `<span class="prereq-tag">${code}</span>`;
-                                }).join('') : 
+                                }).join('') :
                                 '<span class="none-text">None</span>'
                             }
                         </div>
@@ -357,10 +369,10 @@ function setupEventListeners() {
                     <div class="info-item">
                         <span class="label">Required For:</span>
                         <div class="value prereq-list">
-                            ${course.requiredFor.length > 0 ? 
-                                course.requiredFor.map(c => 
+                            ${course.requiredFor.length > 0 ?
+                                course.requiredFor.map(c =>
                                     `<span class="prereq-tag" data-code="${c.code}">${c.code}: ${c.name}</span>`
-                                ).join('') : 
+                                ).join('') :
                                 '<span class="none-text">None</span>'
                             }
                         </div>
@@ -371,7 +383,7 @@ function setupEventListeners() {
                 </div>
             </div>
         `;
-        
+
         // Add event listener to the view hierarchy button
         const viewBtn = elements.modalContent.querySelector('.view-hierarchy-btn');
         if (viewBtn) {
@@ -383,7 +395,7 @@ function setupEventListeners() {
                 updateHistoryList();
             });
         }
-        
+
         // Add event listeners to prerequisite tags
         elements.modalContent.querySelectorAll('.prereq-tag').forEach(tag => {
             const code = tag.dataset.code;
@@ -394,7 +406,7 @@ function setupEventListeners() {
                 });
             }
         });
-        
+
         elements.courseModal.classList.add('show');
     }
 
@@ -411,7 +423,7 @@ function setupEventListeners() {
             state.navigationStack.pop();
             renderPreviousView();
         }
-        
+
         updateBreadcrumbs();
         updateHistoryList();
     }
@@ -421,12 +433,12 @@ function setupEventListeners() {
      */
     function renderPreviousView() {
         const current = state.navigationStack[state.navigationStack.length - 1];
-        
+
         if (!current) {
             renderSemesters();
             return;
         }
-        
+
         switch (current.type) {
             case 'semester':
                 renderCourses(current.id);
@@ -451,7 +463,7 @@ function setupEventListeners() {
         if (current && current.type === item.type && current.id === item.id) {
             return;
         }
-        
+
         state.navigationStack.push(item);
     }
 
@@ -460,10 +472,10 @@ function setupEventListeners() {
      */
     function updateBreadcrumbs() {
         let breadcrumbHTML = `<span class="breadcrumb-item ${state.navigationStack.length === 0 ? 'active' : ''}" data-index="0">Home</span>`;
-        
+
         state.navigationStack.forEach((item, index) => {
             let label = '';
-            
+
             switch (item.type) {
                 case 'semester':
                     label = `Semester ${item.id}`;
@@ -478,10 +490,10 @@ function setupEventListeners() {
                 default:
                     label = item.id;
             }
-            
+
             breadcrumbHTML += `<span class="breadcrumb-item ${index === state.navigationStack.length - 1 ? 'active' : ''}" data-index="${index + 1}">${label}</span>`;
         });
-        
+
         elements.breadcrumbContainer.innerHTML = breadcrumbHTML;
     }
 
@@ -491,11 +503,11 @@ function setupEventListeners() {
     function updateHistoryList() {
         // Create a copy of the navigation stack in reverse order (most recent first)
         const history = [...state.navigationStack].reverse().slice(0, state.historyLimit);
-        
+
         let historyHTML = '';
         history.forEach(item => {
             let label = '';
-            
+
             switch (item.type) {
                 case 'semester':
                     label = `Semester ${item.id}`;
@@ -510,10 +522,10 @@ function setupEventListeners() {
                 default:
                     label = item.id;
             }
-            
+
             historyHTML += `<li data-type="${item.type}" data-id="${item.id}">${label}</li>`;
         });
-        
+
         elements.historyList.innerHTML = historyHTML;
     }
 
@@ -530,7 +542,7 @@ function setupEventListeners() {
             state.navigationStack = state.navigationStack.slice(0, index);
             renderPreviousView();
         }
-        
+
         updateBreadcrumbs();
         updateHistoryList();
     }
@@ -541,7 +553,7 @@ function setupEventListeners() {
     function navigateToHistoryItem(type, id) {
         // Find the item in the navigation stack
         const index = state.navigationStack.findIndex(item => item.type === type && item.id === id);
-        
+
         if (index !== -1) {
             // Item exists in navigation stack, navigate to it
             state.navigationStack = state.navigationStack.slice(0, index + 1);
@@ -549,7 +561,7 @@ function setupEventListeners() {
         } else {
             // Item doesn't exist in navigation stack, add it
             addToNavigationStack({ type, id });
-            
+
             switch (type) {
                 case 'semester':
                     renderCourses(parseInt(id, 10));
@@ -565,7 +577,7 @@ function setupEventListeners() {
                     renderSemesters();
             }
         }
-        
+
         updateBreadcrumbs();
         updateHistoryList();
     }
@@ -575,7 +587,7 @@ function setupEventListeners() {
      */
     function toggleFilter(filterType) {
         state.activeFilters[filterType] = !state.activeFilters[filterType];
-        
+
         // If in course hierarchy view, re-render
         const currentItem = state.navigationStack[state.navigationStack.length - 1];
         if (currentItem && currentItem.type === 'course') {
@@ -592,12 +604,12 @@ function setupEventListeners() {
             if (state.selectedSemester !== 'all' && course.semester !== parseInt(state.selectedSemester, 10)) {
                 return false;
             }
-            
+
             // Filter by credits
             if (course.credits < state.creditsRange.min || course.credits > state.creditsRange.max) {
                 return false;
             }
-            
+
             return true;
         });
     }
@@ -607,21 +619,21 @@ function setupEventListeners() {
      */
     function renderSemesters() {
         const container = elements.semesterContainer;
-        
+
         // Start transition
         container.classList.add('view-exit');
-        
+
         setTimeout(() => {
             const semesters = [...new Set(courses.map(c => c.semester))]
                 .filter(s => s !== undefined)
                 .sort((a, b) => a - b);
-            
+
             container.innerHTML = `
                 <div class="semester-grid">
                     ${semesters.map(sem => {
                         const semesterCourses = filterCourses(courses.filter(c => c.semester === sem));
                         const totalCredits = semesterCourses.reduce((sum, c) => sum + c.credits, 0);
-                        
+
                         return `
                             <div class="semester-card" data-semester="${sem}">
                                 <h3>Semester ${sem}</h3>
@@ -636,17 +648,17 @@ function setupEventListeners() {
                                     ${semesterCourses.slice(0, 4).map(c => `
                                         <div class="course-code-tag">${c.code}</div>
                                     `).join('')}
-                                    ${semesterCourses.length > 4 ? 
+                                    ${semesterCourses.length > 4 ?
                                         `<div class="more-courses">+${semesterCourses.length - 4} more</div>` : ''}
                                 </div>
                             </div>`;
                     }).join('')}
                 </div>`;
-            
+
             // Animate entrance
             container.classList.remove('view-exit');
             container.classList.add('view-enter');
-            
+
             setTimeout(() => container.classList.remove('view-enter'), 300);
         }, 300);
     }
@@ -656,13 +668,13 @@ function setupEventListeners() {
      */
     function renderCourses(semester) {
         const container = elements.semesterContainer;
-        
+
         // Start transition
         container.classList.add('view-exit');
-        
+
         setTimeout(() => {
             const semesterCourses = filterCourses(courses.filter(c => c.semester === semester));
-            
+
             container.innerHTML = `
                 <button class="back-btn">← Back</button>
                 <h2>Semester ${semester} Courses</h2>
@@ -673,18 +685,18 @@ function setupEventListeners() {
                             <h4>${course.name}</h4>
                             <div class="meta">
                                 <span>${course.credits} Credits</span>
-                                <span>${course.prerequisites.length > 0 ? 
-                                    `${course.prerequisites.length} Prereq${course.prerequisites.length > 1 ? 's' : ''}` : 
+                                <span>${course.prerequisites.length > 0 ?
+                                    `${course.prerequisites.length} Prereq${course.prerequisites.length > 1 ? 's' : ''}` :
                                     'No Prereqs'}</span>
                             </div>
                         </div>
                     `).join('')}
                 </div>`;
-            
+
             // Animate entrance
             container.classList.remove('view-exit');
             container.classList.add('view-enter');
-            
+
             setTimeout(() => container.classList.remove('view-enter'), 300);
         }, 300);
     }
@@ -727,12 +739,12 @@ function setupEventListeners() {
     function renderCourseHierarchy(code) {
         const container = elements.semesterContainer;
         const course = courses.find(c => c.code === code);
-        
+
         if (!course) return;
-        
+
         // Start transition
         container.classList.add('view-exit');
-        
+
         setTimeout(() => {
             container.innerHTML = `
                 <button class="back-btn">← Back</button>
@@ -740,22 +752,22 @@ function setupEventListeners() {
                 <div class="hierarchy-view">
                     <div class="tree-container" id="tree-container"></div>
                 </div>`;
-            
+
             const treeContainer = document.getElementById('tree-container');
-            
+
             // Render the core node (selected course)
             renderCoreNode(treeContainer, course);
-            
+
             // Render child nodes (prerequisites and required courses)
             renderChildNodes(treeContainer, course);
-            
+
             // Animate entrance
             container.classList.remove('view-exit');
             container.classList.add('view-enter');
-            
+
             setTimeout(() => {
                 container.classList.remove('view-enter');
-                
+
                 // Animate connections after nodes are rendered
                 animateConnections();
             }, 300);
@@ -776,9 +788,9 @@ function setupEventListeners() {
                 <span>${course.credits} Credits</span>
                 <span>Semester ${course.semester}</span>
             </div>`;
-        
+
         container.appendChild(coreNode);
-        
+
         // Add tooltip
        coreNode.addEventListener('mouseleave', hideTooltip);
     coreNode.addEventListener('mouseenter', () => handleNodeInteraction(coreNode, course, 'enter'));
@@ -791,44 +803,44 @@ function setupEventListeners() {
         // Clear existing connections
         state.currentConnections.forEach(c => c.remove());
         state.currentConnections = [];
-        
+
         const coreNode = container.querySelector('.core-node');
         const coreRect = coreNode.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
-        
+
         // Calculate center position of core node relative to container
         const coreX = coreRect.left - containerRect.left + coreRect.width / 2;
         const coreY = coreRect.top - containerRect.top + coreRect.height / 2;
-        
+
         // Render prerequisites (if filter is active)
         if (state.activeFilters.prerequisites && course.recentPrerequisites.length > 0) {
             const prereqCount = course.recentPrerequisites.length;
             const angleStep = Math.PI / (prereqCount + 1);
             const radius = Math.min(containerRect.width, containerRect.height) * 0.45; // Increased radius for separation
-            
+
             course.recentPrerequisites.forEach((prereq, i) => {
                 // Calculate position in a semi-circle above the core node
                 const angle = Math.PI + angleStep * (i + 1);
                 const x = coreX + radius * Math.cos(angle);
                 const y = coreY + radius * Math.sin(angle);
-                
+
                 renderTreeNode(container, prereq, x, y, 'prerequisite');
                 createConnection(coreX, coreY, x, y, 'prerequisite');
             });
         }
-        
+
         // Render required courses (if filter is active)
         if (state.activeFilters.requiredFor && course.requiredFor.length > 0) {
             const requiredCount = course.requiredFor.length;
             const angleStep = Math.PI / (requiredCount + 1);
             const radius = Math.min(containerRect.width, containerRect.height) * 0.45; // Increased radius for separation
-            
+
             course.requiredFor.forEach((required, i) => {
                 // Calculate position in a semi-circle below the core node
                 const angle = angleStep * (i + 1);
                 const x = coreX + radius * Math.cos(angle);
                 const y = coreY + radius * Math.sin(angle);
-                
+
                 renderTreeNode(container, required, x, y, 'required');
                 createConnection(coreX, coreY, x, y, 'required');
             });
@@ -851,16 +863,16 @@ function setupEventListeners() {
                 <span>${course.credits} Credits</span>
                 <span>Semester ${course.semester}</span>
             </div>`;
-        
+
         container.appendChild(nodeElement);
-        
+
         // Add tooltip
         nodeElement.addEventListener('mouseenter', () => {
             showTooltip(nodeElement, `${course.code}: ${course.name}<br>Semester ${course.semester}, ${course.credits} Credits`);
         });
-        
+
         nodeElement.addEventListener('mouseleave', hideTooltip);
-        
+
         // Add animation delay based on distance from core
         nodeElement.style.animationDelay = `${Math.random() * 0.3}s`;
     }
@@ -872,20 +884,20 @@ function setupEventListeners() {
         const container = document.querySelector('.tree-container');
         const line = document.createElement('div');
         line.className = `node-connection ${type}-connection`;
-        
+
         // Calculate line properties
         const dx = toX - fromX;
         const dy = toY - fromY;
         const length = Math.sqrt(dx*dx + dy*dy);
         const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-        
+
         // Position and rotate the line
         line.style.width = `${length}px`;
         line.style.height = '2px';
         line.style.left = `${fromX}px`;
         line.style.top = `${fromY}px`;
         line.style.transform = `rotate(${angle}deg)`;
-        
+
         container.appendChild(line);
         state.currentConnections.push(line);
     }
@@ -910,24 +922,24 @@ function setupEventListeners() {
         if (state.tooltipTimeout) {
             clearTimeout(state.tooltipTimeout);
         }
-        
+
         // Remove any existing tooltip
         const existingTooltip = document.querySelector('.tooltip');
         if (existingTooltip) {
             existingTooltip.remove();
         }
-        
+
         // Create new tooltip
         const tooltip = document.createElement('div');
         tooltip.className = 'tooltip';
         tooltip.innerHTML = content;
         document.body.appendChild(tooltip);
-        
+
         // Position tooltip
         const rect = element.getBoundingClientRect();
         tooltip.style.left = `${rect.left + rect.width / 2 - tooltip.offsetWidth / 2}px`;
         tooltip.style.top = `${rect.top - tooltip.offsetHeight - 10}px`;
-        
+
         // Show tooltip with a slight delay
         state.tooltipTimeout = setTimeout(() => {
             tooltip.classList.add('show');
@@ -942,12 +954,12 @@ function setupEventListeners() {
         if (state.tooltipTimeout) {
             clearTimeout(state.tooltipTimeout);
         }
-        
+
         // Hide tooltip
         const tooltip = document.querySelector('.tooltip');
         if (tooltip) {
             tooltip.classList.remove('show');
-            
+
             // Remove tooltip after animation
             setTimeout(() => {
                 if (tooltip.parentNode) {
@@ -959,24 +971,52 @@ function setupEventListeners() {
 
     // Initialize the application
     initialize();
+});
+// In app.js, add to initialize():
+function initialize() {
+    // ... existing code ...
+    setupAnimationObservers(); // Add this line
+}
 
-    const suggestionList = document.getElementById('course-search-suggestions');
-    if (suggestionList && elements.courseSearch) {
-        suggestionList.innerHTML = courses
-            .slice()
-            .sort((a, b) => a.code.localeCompare(b.code))
-            .map((course) => `<option value="${course.code} - ${course.name}"></option>`)
-            .join('');
-
-        elements.courseSearch.addEventListener('input', () => {
-            const rawValue = elements.courseSearch.value;
-            if (rawValue.includes(' - ')) {
-                const [courseCode] = rawValue.split(' - ');
-                elements.courseSearch.value = courseCode.trim();
+// Add new method:
+function setupAnimationObservers() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
             }
         });
-    }
-});
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.semester-card, .course-card').forEach(el => {
+        observer.observe(el);
+    });
+}
+// In app.js, after line 450 (original renderCourseHierarchy)
+function renderCourseHierarchy(code) {
+    // ... original code ...
+
+    // Add these lines:
+    setTimeout(() => {
+        enhanceNodeSpacing();
+        addSemesterLabels();
+    }, 200);
+}
+// In app.js, modify performSearch():
+function performSearch() {
+    // ... original code ...
+
+    // Add tag filtering
+    state.searchResults = state.searchResults.filter(course => {
+        return state.activeTagFilters.every(tag =>
+            course.tags.includes(tag)
+        );
+    });
+}
+
+
+
+
 // Enhanced Path Highlighting and Focus Mode Logic
 function getAllPrerequisites(courseCode, allCourses, path = new Set()) {
     const course = allCourses.find(c => c.code === courseCode);

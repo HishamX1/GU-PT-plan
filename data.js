@@ -1,6 +1,6 @@
 /**
  * Physical Therapy Program Course Data
- * 
+ *
  * This file contains the course data structure for the Physical Therapy program
  * at Galala University. Each course includes:
  * - code: Unique course identifier
@@ -8,7 +8,7 @@
  * - semester: Semester number (1-10)
  * - prerequisites: Array of course codes that are prerequisites
  * - credits: Number of credit hours
- * 
+ *
  * The data structure is enhanced with additional properties:
  * - requiredFor: Courses that require this course as a prerequisite
  * - recentPrerequisites: Only the most recent prerequisites in the chain
@@ -524,7 +524,7 @@ function processCourseRelationships() {
     courses.forEach(course => {
         course.requiredFor = [];
     });
-    
+
     courses.forEach(course => {
         if (course.prerequisites && course.prerequisites.length > 0) {
             course.prerequisites.forEach(prereqCode => {
@@ -538,7 +538,7 @@ function processCourseRelationships() {
             });
         }
     });
-    
+
     // Second pass: Calculate recent prerequisites
     courses.forEach(course => {
         course.recentPrerequisites = getRecentPrerequisites(course);
@@ -550,7 +550,7 @@ function processCourseRelationships() {
  * This function implements the logic to show only the newest unlocked prerequisites
  * For example, if course C requires courses A and B, and B requires A,
  * then only B will be shown as a prerequisite for C
- * 
+ *
  * @param {Object} course - The course object
  * @returns {Array} - Array of the most recent prerequisite course objects
  */
@@ -558,16 +558,16 @@ function getRecentPrerequisites(course) {
     if (!course.prerequisites || course.prerequisites.length === 0) {
         return [];
     }
-    
+
     // Get all direct prerequisite course objects
     const allPrereqs = course.prerequisites
         .map(code => courses.find(c => c.code === code))
         .filter(c => c); // Filter out any undefined courses
-    
+
     if (allPrereqs.length === 0) {
         return [];
     }
-    
+
     // Group prerequisites by semester
     const prereqsBySemester = {};
     allPrereqs.forEach(prereq => {
@@ -576,21 +576,21 @@ function getRecentPrerequisites(course) {
         }
         prereqsBySemester[prereq.semester].push(prereq);
     });
-    
+
     // Find the most recent semester(s)
     const semesters = Object.keys(prereqsBySemester).map(Number);
     const maxSemester = Math.max(...semesters);
-    
+
     // Get prerequisites from the most recent semester
     const recentPrereqs = prereqsBySemester[maxSemester];
-    
+
     // Filter out prerequisites that are prerequisites of other prerequisites
     // This is the key logic to implement the "newest unlocked prerequisites" requirement
     return recentPrereqs.filter(prereq => {
         // Check if this prerequisite is required by any other prerequisite in the same semester
         return !recentPrereqs.some(otherPrereq => {
             if (otherPrereq === prereq) return false;
-            return otherPrereq.prerequisites && 
+            return otherPrereq.prerequisites &&
                    otherPrereq.prerequisites.includes(prereq.code);
         });
     });
@@ -603,9 +603,3 @@ courses.forEach(course => {
     course.tags = []; // Initialize tags array
     course.totalSemesters = Math.max(...courses.map(c => c.semester));
 });
-
-if (typeof window !== 'undefined') {
-  window.courses = courses;
-} else {
-  globalThis.courses = courses;
-}
