@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Galala University Study Plan Center - Admin</title>
   <link rel="stylesheet" href="../styles.css" />
+  <meta name="gu-api-base" content="" />
 </head>
 <body>
 <header class="hero">
@@ -18,6 +19,8 @@
   <section class="card" id="adminLoginCard">
     <h2>Admin Login</h2>
     <p class="error" id="authError"></p>
+    <label>Live API Base URL</label>
+    <input id="apiBaseUrl" placeholder="https://your-backend.example.com/api" />
     <div class="grid">
       <div><label>Username</label><input id="adminUsername" autocomplete="username" /></div>
       <div><label>Password</label><input id="adminPassword" type="password" autocomplete="current-password" /></div>
@@ -69,6 +72,7 @@
         <label>Subject Name</label><input id="subjectName" required />
         <label>Credits</label><input id="subjectCredits" type="number" min="1" required />
         <label>Notes</label><textarea id="subjectNotes"></textarea>
+        <label>Prerequisites (subject codes, comma-separated)</label><input id="subjectPrereqs" placeholder="BMS115, BMS124" />
         <button id="addSubject">Add Subject</button>
       </div>
     </div>
@@ -76,12 +80,12 @@
     <section class="card nested-card">
       <h3>Subject Manager</h3>
       <table>
-        <thead><tr><th>Code</th><th>Name</th><th>Credits</th><th>Semester</th><th>Actions</th></tr></thead>
+        <thead><tr><th>Code</th><th>Name</th><th>Credits</th><th>Semester</th><th>Prerequisites</th><th>Actions</th></tr></thead>
         <tbody id="subjectList"></tbody>
       </table>
     </section>
   </section>
 </main>
-<script src="./admin-enhanced.js"></script>
+<script src="./admin.js"></script>
 </body>
 </html>

@@ -1,6 +1,9 @@
 function isPositiveInt(value) {
   return Number.isInteger(value) && value > 0;
 }
+function isPositiveIntArray(values) {
+  return Array.isArray(values) && values.every((value) => isPositiveInt(value));
+}
 
 function validOptionalText(value, min = 2) {
   return value === undefined || (typeof value === 'string' && value.trim().length >= min);
@@ -68,7 +71,7 @@ export function validateSubject(body) {
   if (body.collegeId !== undefined && !isPositiveInt(body.collegeId)) return 'Invalid collegeId';
   if (body.programId !== undefined && !isPositiveInt(body.programId)) return 'Invalid programId';
   if (body.yearId !== undefined && !isPositiveInt(body.yearId)) return 'Invalid yearId';
-  if (!Array.isArray(body?.prerequisiteSubjectIds || [])) return 'Invalid prerequisiteSubjectIds';
+  if (!isPositiveIntArray(body?.prerequisiteSubjectIds || [])) return 'Invalid prerequisiteSubjectIds';
   return null;
 }
 
@@ -82,6 +85,6 @@ export function validateSubjectPatch(body) {
   if (body.collegeId !== undefined && !isPositiveInt(body.collegeId)) return 'Invalid collegeId';
   if (body.programId !== undefined && !isPositiveInt(body.programId)) return 'Invalid programId';
   if (body.yearId !== undefined && !isPositiveInt(body.yearId)) return 'Invalid yearId';
-  if (body.prerequisiteSubjectIds !== undefined && !Array.isArray(body.prerequisiteSubjectIds)) return 'Invalid prerequisiteSubjectIds';
+  if (body.prerequisiteSubjectIds !== undefined && !isPositiveIntArray(body.prerequisiteSubjectIds)) return 'Invalid prerequisiteSubjectIds';
   return null;
 }

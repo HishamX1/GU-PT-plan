@@ -10,6 +10,30 @@ function notFound(result) {
   return !result || !result.rowCount;
 }
 
+async function loadPrerequisiteMap(subjectIds) {
+  if (!subjectIds.length) return new Map();
+  if (env.dataMode === 'postgres') {
+    const { rows } = await query(
+      'SELECT subject_id AS "subjectId", prerequisite_subject_id AS "prerequisiteSubjectId" FROM subject_prerequisites WHERE subject_id = ANY($1::bigint[])',
+      [subjectIds]
+    );
+    const map = new Map();
+    for (const row of rows) {
+      if (!map.has(row.subjectId)) map.set(row.subjectId, []);
+      map.get(row.subjectId).push(row.prerequisiteSubjectId);
+    }
+    return map;
+  }
+  return readFileStore((store) => {
+    const map = new Map();
+    for (const row of store.subjectPrerequisites) {
+      if (!subjectIds.includes(row.subjectId)) continue;
+      if (!map.has(row.subjectId)) map.set(row.subjectId, []);
+      map.get(row.subjectId).push(row.prerequisiteSubjectId);
+    }
+    return map;
+  });
+}
 
 function withFileStoreAndSync(work) {
   return withFileStore((store, nextId) => {
@@ -420,10 +444,22 @@ export async function getSubjects(filters = {}) {
        ORDER BY s.subject_code`,
       [filters.semesterId || null, filters.yearId || null, filters.programId || null, filters.collegeId || null]
     );
-    return rows;
+    const ids = rows.map((row) => row.id);
+    const prereqMap = await loadPrerequisiteMap(ids);
+    return rows.map((row) => ({ ...row, prerequisiteSubjectIds: prereqMap.get(row.id) || [] }));
   }
 
-  return readFileStore((store) => fileSubjectFilter(store, filters));
+  return readFileStore((store) => {
+    const prereqMap = new Map();
+    for (const row of store.subjectPrerequisites) {
+      if (!prereqMap.has(row.subjectId)) prereqMap.set(row.subjectId, []);
+      prereqMap.get(row.subjectId).push(row.prerequisiteSubjectId);
+    }
+    return fileSubjectFilter(store, filters).map((subject) => ({
+      ...subject,
+      prerequisiteSubjectIds: prereqMap.get(subject.id) || []
+    }));
+  });
 }
 
 async function assertHierarchy(filters) {
@@ -464,7 +500,7 @@ export async function createSubject(data) {
         );
       }
 
-      return subject;
+      return { ...subject, prerequisiteSubjectIds: data.prerequisiteSubjectIds || [] };
     } catch (error) {
       if (duplicate(error)) return null;
       throw error;
@@ -502,7 +538,7 @@ export async function createSubject(data) {
       }
     }
 
-    return row;
+    return { ...row, prerequisiteSubjectIds: data.prerequisiteSubjectIds || [] };
   });
 }
 
@@ -527,7 +563,22 @@ export async function updateSubject(id, data) {
       );
 
       if (!rowCount) return false;
-      return rows[0];
+      const updated = rows[0];
+      const nextPrereqs = data.prerequisiteSubjectIds;
+      if (Array.isArray(nextPrereqs)) {
+        await query('DELETE FROM subject_prerequisites WHERE subject_id = $1', [id]);
+        for (const prereqId of nextPrereqs) {
+          const exists = await query('SELECT 1 FROM subjects WHERE id = $1', [prereqId]);
+          if (!exists.rowCount) throw new Error('FK_SUBJECT');
+          if (prereqId === id) continue;
+          await query(
+            'INSERT INTO subject_prerequisites (subject_id, prerequisite_subject_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+            [id, prereqId]
+          );
+        }
+      }
+      const prereqMap = await loadPrerequisiteMap([id]);
+      return { ...updated, prerequisiteSubjectIds: prereqMap.get(id) || [] };
     } catch (error) {
       if (duplicate(error)) return null;
       throw error;
@@ -553,8 +604,21 @@ export async function updateSubject(id, data) {
     subject.subjectCode = nextCode;
     subject.credits = nextCredits;
     subject.notes = data.notes === undefined ? subject.notes : data.notes;
+    if (Array.isArray(data.prerequisiteSubjectIds)) {
+      for (const prereqId of data.prerequisiteSubjectIds) {
+        if (!store.subjects.some((s) => s.id === prereqId)) throw new Error('FK_SUBJECT');
+        if (prereqId === id) throw new Error('FK_SUBJECT');
+      }
+      store.subjectPrerequisites = store.subjectPrerequisites.filter((p) => p.subjectId !== id);
+      for (const prereqId of data.prerequisiteSubjectIds) {
+        store.subjectPrerequisites.push({ subjectId: id, prerequisiteSubjectId: prereqId });
+      }
+    }
 
-    return subject;
+    const prerequisiteSubjectIds = store.subjectPrerequisites
+      .filter((p) => p.subjectId === id)
+      .map((p) => p.prerequisiteSubjectId);
+    return { ...subject, prerequisiteSubjectIds };
   });
 }
 
