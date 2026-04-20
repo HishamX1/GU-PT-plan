@@ -5,6 +5,8 @@
 - Set `PORT`, `API_BASE_PATH`, `CORS_ORIGIN`, `DATABASE_URL`, and `DATA_MODE` appropriately.
 
 ## Supabase (PostgreSQL)
+Detailed walk-through: [`supabase-setup.md`](./supabase-setup.md).
+
 1. Create a Supabase project.
 2. Copy connection string into `DATABASE_URL`.
 3. Ensure the Node runtime has the `pg` driver available (`npm install pg`).
