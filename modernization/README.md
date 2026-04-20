@@ -38,6 +38,7 @@ Set one of:
 - `GET /api/health`
 - `GET /api/catalog`
 - CRUD: `/api/colleges`, `/api/programs`, `/api/years`, `/api/semesters`, `/api/subjects`
+- `POST /api/programs` accepts optional `autoScaffold` (default `true`) to create the standard `4 years × 2 semesters` hierarchy automatically.
 
 `GET /api/subjects` returns `prerequisiteSubjectIds` so student/admin share the same canonical graph.
 

@@ -27,6 +27,7 @@ export function validateCollegePatch(body) {
 export function validateProgram(body) {
   if (!isPositiveInt(body?.collegeId)) return 'Invalid collegeId';
   if (typeof body?.name !== 'string' || body.name.trim().length < 2) return 'Invalid program name';
+  if (body?.autoScaffold !== undefined && typeof body.autoScaffold !== 'boolean') return 'Invalid autoScaffold';
   return null;
 }
 

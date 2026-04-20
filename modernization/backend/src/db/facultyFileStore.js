@@ -100,6 +100,11 @@ function buildFacultyHierarchy(store, entry) {
     }));
 
   const semesterIds = new Map(semesters.map((s) => [Number(s.id.replace('sem-', '')), s.id]));
+  const prerequisiteMap = new Map();
+  for (const edge of store.subjectPrerequisites || []) {
+    if (!prerequisiteMap.has(edge.subjectId)) prerequisiteMap.set(edge.subjectId, []);
+    prerequisiteMap.get(edge.subjectId).push(edge.prerequisiteSubjectId);
+  }
 
   const courses = store.subjects
     .filter((subject) => semesterIds.has(subject.semesterId))
@@ -110,7 +115,7 @@ function buildFacultyHierarchy(store, entry) {
       name: subject.subjectName,
       credits: subject.credits,
       description: subject.notes || '',
-      prerequisites: [],
+      prerequisites: (prerequisiteMap.get(subject.id) || []).map((id) => `course-${id}`),
       createdAt
     }));
 

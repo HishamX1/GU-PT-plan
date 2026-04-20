@@ -36,7 +36,11 @@ for (const path of checks) {
 const faculty = await request('/api/colleges', 'POST', { name: `Smoke Faculty ${Date.now()}` });
 if (faculty.status !== 201 || !faculty.json?.id) throw new Error(`Create faculty failed: ${faculty.status}`);
 
-const program = await request('/api/programs', 'POST', { collegeId: faculty.json.id, name: 'Smoke Program' });
+const program = await request('/api/programs', 'POST', {
+  collegeId: faculty.json.id,
+  name: 'Smoke Program',
+  autoScaffold: false
+});
 if (program.status !== 201 || !program.json?.id) throw new Error(`Create program failed: ${program.status}`);
 
 const year = await request('/api/years', 'POST', { programId: program.json.id, yearNumber: 1 });
