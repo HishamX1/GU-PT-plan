@@ -43,6 +43,42 @@ function withFileStoreAndSync(work) {
   });
 }
 
+async function scaffoldProgramStructurePostgres(programId, yearsCount = 4) {
+  for (let yearNumber = 1; yearNumber <= yearsCount; yearNumber += 1) {
+    const {
+      rows: [year]
+    } = await query(
+      'INSERT INTO years (program_id, year_number) VALUES ($1, $2) ON CONFLICT (program_id, year_number) DO UPDATE SET year_number = EXCLUDED.year_number RETURNING id',
+      [programId, yearNumber]
+    );
+    await query(
+      'INSERT INTO semesters (year_id, semester_number) VALUES ($1, 1), ($1, 2) ON CONFLICT (year_id, semester_number) DO NOTHING',
+      [year.id]
+    );
+  }
+}
+
+function scaffoldProgramStructureFile(store, nextId, programId, yearsCount = 4) {
+  for (let yearNumber = 1; yearNumber <= yearsCount; yearNumber += 1) {
+    let year = store.years.find((y) => y.programId === programId && y.yearNumber === yearNumber);
+    if (!year) {
+      year = { id: nextId(store, 'years'), programId, yearNumber };
+      store.years.push(year);
+    }
+
+    for (const semesterNumber of [1, 2]) {
+      const semesterExists = store.semesters.some((s) => s.yearId === year.id && s.semesterNumber === semesterNumber);
+      if (!semesterExists) {
+        store.semesters.push({
+          id: nextId(store, 'semesters'),
+          yearId: year.id,
+          semesterNumber
+        });
+      }
+    }
+  }
+}
+
 export async function getColleges() {
   if (env.dataMode === 'postgres') {
     const { rows } = await query('SELECT id, name FROM colleges ORDER BY name');
@@ -136,6 +172,8 @@ export async function getPrograms(collegeId) {
 }
 
 export async function createProgram(data) {
+  const shouldScaffold = data.autoScaffold !== false;
+
   if (env.dataMode === 'postgres') {
     try {
       const { rowCount: c } = await query('SELECT 1 FROM colleges WHERE id = $1', [data.collegeId]);
@@ -144,6 +182,7 @@ export async function createProgram(data) {
         'INSERT INTO programs (college_id, name) VALUES ($1, $2) RETURNING id, college_id AS "collegeId", name',
         [data.collegeId, data.name.trim()]
       );
+      if (shouldScaffold) await scaffoldProgramStructurePostgres(rows[0].id);
       return rows[0];
     } catch (error) {
       if (duplicate(error)) return null;
@@ -156,6 +195,7 @@ export async function createProgram(data) {
     if (store.programs.some((p) => p.collegeId === data.collegeId && p.name.toLowerCase() === data.name.toLowerCase())) return null;
     const row = { id: nextId(store, 'programs'), collegeId: data.collegeId, name: data.name.trim() };
     store.programs.push(row);
+    if (shouldScaffold) scaffoldProgramStructureFile(store, nextId, row.id);
     return row;
   });
 }

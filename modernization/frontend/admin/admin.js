@@ -252,8 +252,9 @@ function bindAdminActions() {
     try {
       const collegeId = Number(ids.programFaculty.value);
       const name = document.getElementById('programName').value.trim();
+      const autoScaffold = document.getElementById('programAutoScaffold').checked;
       if (!collegeId || !name) throw new Error('Program fields are required');
-      await request('/programs', { method: 'POST', body: JSON.stringify({ collegeId, name }) });
+      await request('/programs', { method: 'POST', body: JSON.stringify({ collegeId, name, autoScaffold }) });
       setMessage('success', 'Program added');
       clearEntityInputs();
       await loadRelations();
