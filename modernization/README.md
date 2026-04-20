@@ -45,3 +45,23 @@ Set one of:
 ## Fallback
 
 If the API is down, student UI switches to read-only mode and loads from `data/runtime-db.json`.
+
+## Supabase quick start
+
+Use Supabase Postgres as the live production database:
+
+```bash
+cp .env.example .env
+npm install
+npm run db:migrate
+npm run db:seed
+npm run start
+```
+
+Set at minimum:
+
+- `DATA_MODE=postgres`
+- `DATABASE_URL=<supabase-postgres-url-with-sslmode=require>`
+- `PG_SSL=true`
+
+Full guide: [`docs/supabase-setup.md`](./docs/supabase-setup.md).
